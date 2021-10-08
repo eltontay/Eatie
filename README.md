@@ -5,3 +5,11 @@
 ## Backend - Firebase
 
 ## Frontend - HTML + CSS + Vue JS
+
+### Step 1 : Clone/Pull Repo
+
+### Step 2 : run "npm install"
+
+### Step 3 : run "npm run serve"
+
+### Step 4 : get A+

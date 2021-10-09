@@ -1,45 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <v-app>
-    <navigation :color="color" :flat="flat" />
-    <v-main class="pt-0">
-      <SignUp />
-      <SignIn />
-      <Home />
-    </v-main>
-    <v-scale-transition>
-      <v-btn
-        fab
-        v-show="fab"
-        v-scroll="onScroll"
-        dark
-        fixed
-        bottom
-        right
-        color="secondary"
-        @click="toTop"
-      >
-        <v-icon>mdi-arrow-up</v-icon>
-      </v-btn>
-    </v-scale-transition>
-    <foote />
-  </v-app>
-</template>
-
-<script>
-import SignUp from "./components/SignUp.vue";
-import SignIn from "./components/SignIn.vue";
-import Home from "./components/Home.vue";
-
-export default {
-  name: "App",
-  components: {
-    SignUp,
-    SignIn,
-    Home,
-  },
-};
-=======
 <div class="header">
   <div style="width: 50%">
     <img id="logo" src="@/assets/Eatie_logo.png" alt="">
@@ -48,7 +7,8 @@ export default {
     <router-link to="/">Home</router-link> |
     <router-link to="/foodCalculator">Food Calculator</router-link> |
     <router-link to="/about">About</router-link> |
-    <router-link to="/signUpPage">Sign Up</router-link>
+    <router-link to="/signUpPage">Sign Up</router-link> | 
+    <router-link to="/mygoals">My Goals</router-link>
   </div>
 </div>
 <hr>
@@ -59,7 +19,6 @@ export default {
 export default {
   name: 'App'
   }
->>>>>>> refs/remotes/origin/main
 </script>
 
 <style>
@@ -86,8 +45,17 @@ hr {
     background-color: black;
 }
 
-h2 {
+.h2 {
     font-size: 30px;
+}
+
+.h3 {
+  font-size : 24px;
+}
+
+button {
+  width: 30%;
+  border-radius : 10px; 
 }
 
 #logo {

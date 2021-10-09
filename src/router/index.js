@@ -3,6 +3,7 @@ import Home from '@/views/Home.vue'
 import FoodCalculator from '@/views/FoodCalculator.vue'
 import About from '@/views/About.vue'
 import SignUpPage from '@/views/SignUpPage.vue'
+import MyGoals from '@/views/MyGoals.vue'
 const routes = [
 {
 path: '/',
@@ -23,6 +24,11 @@ component: About
 path: '/signUpPage',
 name: 'SignUpPage',
 component: SignUpPage
+},
+{
+path: '/myGoals',
+name: 'MyGoals',
+component: MyGoals   
 }
 ]
 const router = createRouter({

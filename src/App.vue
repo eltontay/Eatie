@@ -63,6 +63,27 @@ button {
   height: 100px;
 }
 
+#flex-container {
+ display: flex;
+ flex-wrap : wrap;
+}
+
+#flex-child {
+  flex : 1;
+  align-content: center;
+  align-items: center;
+}
+
+#image-container {
+  justify-content: center;
+}
+
+#flex-child:first-child {
+  margin-right: 20px;
+  align-content: center;
+  align-items: center;
+}
+
 #nav {
   width: 50%;
   text-align: right;

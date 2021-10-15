@@ -5,8 +5,10 @@
         <h2>Temporary Food Input</h2>
         This page is a temporary page for you guys to add food into your database so you can test the food calculator. <br>
         Just input the name and the rest of the info will autofill with random integers. <br><br>
-        <input type="text" id="tempAddFood" required="" placeholder="Add food name"> <br><br>
-        <button id = "tempButton" type="button" v-on:click="(addFoodToFirebase)">Add Food</button>
+        <form>
+            <input type="text" id="tempAddFood" required="" placeholder="Add food name"> <br><br>
+            <button id = "tempButton" type="button" v-on:click="(addFoodToFirebase)">Add Food</button>
+        </form>
     </div>
 </template>
 

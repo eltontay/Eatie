@@ -8,6 +8,7 @@ import CreateGoal1 from "@/views/CreateGoal1.vue";
 import CreateGoal2 from "@/views/CreateGoal2.vue";
 import CreateGoal3 from "@/views/CreateGoal3.vue";
 import CreateGoal4 from "@/views/CreateGoal4.vue";
+import TempAddFood from "@/views/TempAddFood.vue"; //temporary, removed when done
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: "/createGoal4",
     name: "CreateGoal4",
     component: CreateGoal4,
+  },
+  {
+    path: "/tempAddFood", //temporary, remove once done
+    name: "TempAddFood",
+    component: TempAddFood,
   },
 ];
 const router = createRouter({

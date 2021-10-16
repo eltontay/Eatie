@@ -13,7 +13,7 @@
       <hr>
       <div id="searchBar">
           <h3>Search Food</h3>
-          <input type="text" id="foodSearch" required="" placeholder="e.g. durian, french fries"> <br><br>
+          <input type="text" id="foodSearch" required="" v-on:keyup.enter="searchFood" placeholder="e.g. durian, french fries"> <br><br>
       </div>
       <table id="table">
           <tr>
@@ -30,13 +30,32 @@
 <script>
 import firebaseApp from '../firebase.js';
 import {getFirestore} from "firebase/firestore"
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
 const db = getFirestore(firebaseApp);
 
 export default {
-    mounted() {
-        async function display() {
+    methods: {
+        async searchFood(){
+            for (var i = document.getElementById("table").rows.length;i>1;i--) {
+                document.getElementById("table").deleteRow(i-1);
+            }
+            var foodName = String(document.getElementById("foodSearch").value);
+            if (foodName == "") {
+                this.display()
+            } else {
+                let z = await getDoc(doc(db, "food_nutrient", foodName))
+                if (z.exists()) {
+                    var row = document.getElementById("table").insertRow(1);
+                    row.insertCell(0).innerHTML = foodName
+                    row.insertCell(1).innerHTML = z.data().calorie
+                    row.insertCell(2).innerHTML = z.data().carbohydrates
+                    row.insertCell(3).innerHTML = z.data().fat
+                    row.insertCell(4).innerHTML = z.data().protein
+                }
+            }
+        },        
+        async display() {
             let z = await getDocs(collection(db, "food_nutrient")) 
             let ind = 1; // index
             z.forEach((docs) => {
@@ -62,7 +81,9 @@ export default {
                 });
                 ind++;
             }
-            display()
+    },
+    mounted() {
+        this.display()
     }
 }
 </script>

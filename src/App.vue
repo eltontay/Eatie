@@ -8,7 +8,8 @@
     <router-link to="/foodCalculator">Food Calculator</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/signUpPage">Sign Up</router-link> | 
-    <router-link to="/mygoals">My Goals</router-link>
+    <router-link to="/mygoals">My Goals</router-link> | 
+    <router-link to="/tempAddFood">Add Food</router-link> <!-- temporary -->
   </div>
 </div>
 <hr>

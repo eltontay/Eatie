@@ -5,7 +5,7 @@
           <img class = "foodIcon" src="@/assets/salad.png" alt="">
           <div>
             <h2>Food Calculator</h2>
-            Plan your next meal with our food calculator! <br><br>
+            <h3>Plan your next meal with our food calculator!</h3>
           </div>
           <img class = "foodIcon" src="@/assets/noodle.png" alt="">  &nbsp;
           <img class = "foodIcon" src="@/assets/tomato.png" alt="">

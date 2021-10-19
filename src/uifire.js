@@ -1,6 +1,6 @@
-import { initializeApp} from 'firebase/app'
+import firebase from 'firebase/compat/app'
 
-//leaving my own firebase here for testing
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 let auth = require('./dbconfig.json');
 const firebaseConfig = {
   apiKey: auth['apiKey'],
@@ -12,6 +12,6 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
-export default firebaseApp;
+export default firebase;

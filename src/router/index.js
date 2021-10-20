@@ -1,70 +1,70 @@
-import { createRouter, createWebHistory } from "vue-router";
-import Home from "@/views/Home.vue";
-import FoodCalculator from "@/views/FoodCalculator.vue";
-import About from "@/views/About.vue";
-import SignUpPage from "@/views/SignUpPage.vue";
-import MyGoals from "@/views/MyGoals.vue";
-import CreateGoal1 from "@/views/CreateGoal1.vue";
-import CreateGoal2 from "@/views/CreateGoal2.vue";
-import CreateGoal3 from "@/views/CreateGoal3.vue";
-import CreateGoal4 from "@/views/CreateGoal4.vue";
-import Myprogress from "@/views/MyProgress.vue";
-import TempAddFood from "@/views/TempAddFood.vue"; //temporary, removed when done
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '@/views/Home.vue';
+import FoodCalculator from '@/views/FoodCalculator.vue';
+import About from '@/views/About.vue';
+import SignUpPage from '@/views/SignUpPage.vue';
+import MyGoals from '@/views/MyGoals.vue';
+import Goal1 from '@/views/GoalStep1.vue';
+import Goal2 from '@/views/GoalStep2.vue';
+import Goal3 from '@/views/GoalStep3.vue';
+import Goal4 from '@/views/GoalStep4.vue';
+import Myprogress from '@/views/MyProgress.vue';
+import TempAddFood from '@/views/TempAddFood.vue'; //temporary, removed when done
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
+    path: '/',
+    name: 'Home',
     component: Home,
   },
   {
-    path: "/foodCalculator",
-    name: "FoodCalculator",
+    path: '/foodCalculator',
+    name: 'FoodCalculator',
     component: FoodCalculator,
   },
   {
-    path: "/about",
-    name: "About",
+    path: '/about',
+    name: 'About',
     component: About,
   },
   {
-    path: "/signUpPage",
-    name: "SignUpPage",
+    path: '/signUpPage',
+    name: 'SignUpPage',
     component: SignUpPage,
   },
   {
-    path: "/myGoals",
-    name: "MyGoals",
+    path: '/myGoals',
+    name: 'MyGoals',
     component: MyGoals,
   },
   {
-    path: "/createGoal1",
-    name: "CreateGoal1",
-    component: CreateGoal1,
+    path: '/goalStep1',
+    name: 'GoalStep1',
+    component: Goal1,
   },
   {
-    path: "/createGoal2",
-    name: "CreateGoal2",
-    component: CreateGoal2,
+    path: '/goalStep2',
+    name: 'GoalStep2',
+    component: Goal2,
   },
   {
-    path: "/createGoal3",
-    name: "CreateGoal3",
-    component: CreateGoal3,
+    path: '/goalStep3',
+    name: 'GoalStep3',
+    component: Goal3,
   },
   {
-    path: "/createGoal4",
-    name: "CreateGoal4",
-    component: CreateGoal4,
-  },  
+    path: '/goalStep4',
+    name: 'GoalStep4',
+    component: Goal4,
+  },
   {
-    path: "/myProgress",
-    name: "MyProgress",
+    path: '/myProgress',
+    name: 'MyProgress',
     component: Myprogress,
-  }, 
+  },
   {
-    path: "/tempAddFood", //temporary, remove once done
-    name: "TempAddFood",
+    path: '/tempAddFood', //temporary, remove once done
+    name: 'TempAddFood',
     component: TempAddFood,
   },
 ];

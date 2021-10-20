@@ -15,22 +15,16 @@
   </div>
 </template>
 
-
 <script>
-
 export default {
   name: 'App',
-  components: {
-
+  components: {},
+  methods: {
+    Step3() {
+      this.$router.push('./goalStep4');
+    },
   },
-    methods:{
-        Step3(){
-            this.$router.push('./CreateGoal4');
-        }
-    }
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

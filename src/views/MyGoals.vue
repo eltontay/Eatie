@@ -1,23 +1,13 @@
 <template>
-  <div class="container">
-    <h2>My Goals</h2>
-    <h3>You have not created a goal yet.</h3>
-
-    <button @click="Create()">
-      <h3>Create Goal</h3>
-    </button>
-  </div>
+  <Goals />
 </template>
 
 <script>
+import Goals from '@/components/Goals.vue';
 export default {
-  name: "App",
+  name: 'MyGoals',
   components: {
-  },
-  methods: {
-    Create() {
-      this.$router.push("./CreateGoal1");
-    },
+    Goals,
   },
 };
 </script>

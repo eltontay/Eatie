@@ -17,11 +17,11 @@
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
   components: {},
   methods: {
     Step2() {
-      this.$router.push("./CreateGoal3");
+      this.$router.push('./goalStep3');
     },
   },
 };

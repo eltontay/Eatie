@@ -3,27 +3,60 @@
     <h2>Step (1/4)</h2>
     <div>
       <h3>What is your gender?</h3>
-      <v-form id="gender">
-        <button @click="Step1()" value="boy" id="image-container">
+      <div>
+        <button @click="Gender1()" id="boy" value="boy">
           <img src="@/assets/boy.png" alt="" />
         </button>
-        <button @click="Step1()" value="girl" id="image-container">
+        <br />
+        <button @click="Gender2()" id="girl" value="girl">
           <img src="@/assets/girl.png" alt="" />
         </button>
-      </v-form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App',
-  components: {},
+import firebaseApp from '../firebase.js';
+import { getFirestore, setDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
 
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+
+const db = getFirestore(firebaseApp);
+
+export default {
+  components: {},
+  mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+  },
   methods: {
-    async Step1() {
-      // var gender = document.getElementById("id").value;
-      this.$router.push('./goalStep2');
+    async Gender1() {
+      try {
+        console.log('its a boy!');
+        await setDoc(doc(db, 'profile', 'gender'), {
+          gender: 'Boy',
+        });
+        this.$router.push('./goalStep2');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async Gender2() {
+      try {
+        console.log('its a girl!');
+        await setDoc(doc(db, 'profile', 'gender'), {
+          gender: 'Girl',
+        });
+        this.$router.push('./goalStep2');
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

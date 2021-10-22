@@ -8,20 +8,44 @@
       </div>
       <form id="flex-child">
         <label for="height">My weight (kg) is</label>
-        <input type="text" id="height" />
-        <button @click="Step3()">Next</button>
+        <input type="text" id="weight" />
       </form>
+      <button @click="Step3()">Next</button>
     </div>
   </div>
 </template>
 
 <script>
+import firebaseApp from '../firebase.js';
+import { getFirestore, setDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
+
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+const db = getFirestore(firebaseApp);
+
 export default {
-  name: 'App',
   components: {},
+  mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+  },
   methods: {
-    Step3() {
-      this.$router.push('./goalStep4');
+    async Step3() {
+      try {
+        var weight = document.getElementById('weight').value;
+        await setDoc(doc(db, 'profile', 'weight'), {
+          weight: weight,
+        });
+        console.log('pushing?');
+        this.$router.push('./goalStep4');
+        console.log('pushed');
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

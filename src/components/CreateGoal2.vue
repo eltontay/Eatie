@@ -9,19 +9,43 @@
       <form id="flex-child">
         <label for="height">My height (cm) is</label>
         <input type="text" id="height" />
-        <button @click="Step2()">Next</button>
       </form>
+      <button @click="Step2()">Next</button>
     </div>
   </div>
 </template>
 
 <script>
+import firebaseApp from '../firebase.js';
+import { getFirestore, setDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
+
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+const db = getFirestore(firebaseApp);
+
 export default {
-  name: 'App',
   components: {},
+  mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.user = user;
+      }
+    });
+  },
   methods: {
-    Step2() {
-      this.$router.push('./goalStep3');
+    async Step2() {
+      try {
+        var height = document.getElementById('height').value;
+        await setDoc(doc(db, 'profile', 'height'), {
+          height: height,
+        });
+        console.log('pushing?');
+        this.$router.push('./goalStep3');
+        console.log('pushed');
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 };

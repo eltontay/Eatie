@@ -10,7 +10,7 @@
         <label for="height">My height (cm) is</label>
         <input type="text" id="height" />
       </form>
-      <button @click="Step2()">Next</button>
+      <button @click="step2()">Next</button>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
     });
   },
   methods: {
-    async Step2() {
+    async step2() {
       try {
         var height = document.getElementById('height').value;
         await setDoc(doc(db, 'profile', 'height'), {

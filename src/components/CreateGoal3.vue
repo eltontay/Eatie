@@ -10,7 +10,7 @@
         <label for="height">My weight (kg) is</label>
         <input type="text" id="weight" />
       </form>
-      <button @click="Step3()">Next</button>
+      <button @click="step3()">Next</button>
     </div>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
     });
   },
   methods: {
-    async Step3() {
+    async step3() {
       try {
         var weight = document.getElementById('weight').value;
         await setDoc(doc(db, 'profile', 'weight'), {

@@ -4,11 +4,11 @@
     <div>
       <h3>What is your gender?</h3>
       <div>
-        <button @click="Gender1()" id="boy" value="boy">
+        <button @click="gender1()" id="boy" value="boy">
           <img src="@/assets/boy.png" alt="" />
         </button>
         <br />
-        <button @click="Gender2()" id="girl" value="girl">
+        <button @click="gender2()" id="girl" value="girl">
           <img src="@/assets/girl.png" alt="" />
         </button>
       </div>
@@ -36,7 +36,7 @@ export default {
     });
   },
   methods: {
-    async Gender1() {
+    async gender1() {
       try {
         console.log('its a boy!');
         await setDoc(doc(db, 'profile', 'gender'), {
@@ -47,7 +47,7 @@ export default {
         console.log(error);
       }
     },
-    async Gender2() {
+    async gender2() {
       try {
         console.log('its a girl!');
         await setDoc(doc(db, 'profile', 'gender'), {

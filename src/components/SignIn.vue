@@ -25,7 +25,7 @@
       Sign In
     </button>
   </form> -->
-    <div id="firebaseui-auth-container"></div>
+  <div id="firebaseui-auth-container"></div>
 </template>
 
 <script>
@@ -39,7 +39,6 @@ import { getFirestore } from 'firebase/firestore';
 import { getDoc, doc } from 'firebase/firestore';
 
 const db = getFirestore(firebaseApp);
-
 
 export default {
   mounted() {
@@ -83,7 +82,6 @@ export default {
       }
     },
   },
-  }
 };
 </script>
 

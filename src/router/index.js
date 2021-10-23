@@ -10,6 +10,7 @@ import Goal4 from '@/views/GoalStep4.vue';
 import SignIn from '@/views/SignUpPage.vue';
 import Myprogress from '@/views/MyProgress.vue';
 import AccountProfile from '@/views/AccountProfile.vue';
+import NotFound from '@/views/NotFound.vue';
 import TempAddFood from '@/views/TempAddFood.vue'; //temporary, removed when done
 
 const routes = [
@@ -73,6 +74,11 @@ const routes = [
     name: 'AccountProfile',
     component: AccountProfile,
   },
+  {
+    path:'/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound
+  }
 ];
 const router = createRouter({
   history: createWebHistory(),

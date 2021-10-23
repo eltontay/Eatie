@@ -24,12 +24,13 @@ export default {
   },
 
   methods: {
-      signOut() {
+      async signOut() {
           const auth = getAuth();
           const user = auth.currentUser;
           signOut(auth, user)
+          await this.$router.push({name:'Home'})
           window.location.reload();
-        //   this.$router.push({name:'SignIn'})
+
       }
   }
 };

@@ -1,16 +1,14 @@
 <template>
-  <h2>Sign In</h2>
-  <SignIn /> <br /><br />
+  <div>
+    <h2>Welcome to Eatie</h2>
+    <p>There should be a component of a calendar with the food the user ate. </p>
+  </div>
 </template>
 
 <script>
-import SignIn from '@/components/SignIn.vue';
 
 export default {
   name: 'App',
-  components: {
-    SignIn,
-  },
 };
 </script>
 

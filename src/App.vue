@@ -3,23 +3,20 @@
   <div style="width: 50%">
     <img id="logo" src="@/assets/Eatie_logo.png" alt="">
   </div>
-  <div id = 'nav'>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/foodCalculator">Food Calculator</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/signUpPage">Sign Up</router-link> | 
-    <router-link to="/mygoals">My Goals</router-link> | 
-    <router-link to="/myProgress">My Progress</router-link> | 
-    <router-link to="/tempAddFood">Add Food</router-link> <!-- temporary -->
-  </div>
+  <NavBar/>
 </div>
 <hr>
 <router-view/>
 </template>
 
 <script>
+import NavBar from './components/NavBar.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    NavBar
+  }
   }
 </script>
 
@@ -37,6 +34,7 @@ export default {
   height: 100px;
   margin-left: 10%;
   margin-right: 10%;
+  text-align: right;
   display: flex;
 }
 
@@ -84,20 +82,6 @@ button {
   margin-right: 20px;
   align-content: center;
   align-items: center;
-}
-
-#nav {
-  width: 50%;
-  text-align: right;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50
-}
-
-#nav a.router-link-exact-active {
-    color: #42b983
 }
 
 .container {

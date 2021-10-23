@@ -13,7 +13,7 @@
             and understand which nutrition they are lacking. Eatie adopts a pictorial food journal to make journaling fun and easy. 
         <br> <br>
     </h3>
-    <SighOut /> <br><br>    
+    <SignOut /> <br><br>    
 
 </div>
   
@@ -21,7 +21,7 @@
 
 <script>
 import NavBar from '@/components/NavBar.vue'
-import SighOut from '@/components/SighOut.vue'
+import SignOut from '@/components/SignOut.vue'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
@@ -30,7 +30,7 @@ export default {
 
     components:{
     NavBar,
-    SighOut
+    SignOut
 
     },
 

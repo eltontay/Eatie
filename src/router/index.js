@@ -2,13 +2,15 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import FoodCalculator from '@/views/FoodCalculator.vue';
 import About from '@/views/About.vue';
-import SignUpPage from '@/views/SignUpPage.vue';
 import MyGoals from '@/views/MyGoals.vue';
 import Goal1 from '@/views/GoalStep1.vue';
 import Goal2 from '@/views/GoalStep2.vue';
 import Goal3 from '@/views/GoalStep3.vue';
 import Goal4 from '@/views/GoalStep4.vue';
+import SignIn from '@/views/SignUpPage.vue';
 import Myprogress from '@/views/MyProgress.vue';
+import AccountProfile from '@/views/AccountProfile.vue';
+import NotFound from '@/views/NotFound.vue';
 import TempAddFood from '@/views/TempAddFood.vue'; //temporary, removed when done
 
 const routes = [
@@ -26,11 +28,6 @@ const routes = [
     path: '/about',
     name: 'About',
     component: About,
-  },
-  {
-    path: '/signUpPage',
-    name: 'SignUpPage',
-    component: SignUpPage,
   },
   {
     path: '/myGoals',
@@ -67,6 +64,21 @@ const routes = [
     name: 'TempAddFood',
     component: TempAddFood,
   },
+  {
+    path: '/SignIn', //temporary, remove once done
+    name: 'SignIn',
+    component: SignIn,
+  },
+  {
+    path: '/Profile', //temporary, remove once done
+    name: 'AccountProfile',
+    component: AccountProfile,
+  },
+  {
+    path:'/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound
+  }
 ];
 const router = createRouter({
   history: createWebHistory(),

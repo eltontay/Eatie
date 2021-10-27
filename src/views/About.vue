@@ -1,9 +1,6 @@
 <template>
 
 <div style="text-align:center;" v-if="user">
-
-    <NavBar/>
-
     <h3>About</h3>
     <h2>Welcome to Eatie!</h2>
     <h3>How does it work? 
@@ -20,7 +17,6 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue'
 import SignOut from '@/components/SignOut.vue'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -29,7 +25,6 @@ export default {
     name:"About" ,
 
     components:{
-    NavBar,
     SignOut
 
     },

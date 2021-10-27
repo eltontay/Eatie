@@ -35,129 +35,122 @@
 </template>
 
 <script>
-import firebaseApp from '../firebase.js';
-import { getFirestore } from 'firebase/firestore';
-import { collection, getDocs, getDoc, doc } from 'firebase/firestore';
+  // import firebaseApp from "../firebase.js";
+  // import { getFirestore } from "firebase/firestore";
+  // import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-const db = getFirestore(firebaseApp);
+  // const db = getFirestore(firebaseApp);
 
-export default {
-  mounted() {
-    this.display();
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.user = user;
-      }
-    });
-  },
-  methods: {
-    async searchFood() {
-      for (var i = document.getElementById('table').rows.length; i > 1; i--) {
-        document.getElementById('table').deleteRow(i - 1);
-      }
-      var foodName = String(document.getElementById('foodSearch').value);
-      if (foodName == '') {
-        this.display();
-      } else {
-        let z = await getDoc(doc(db, 'food_nutrient', foodName));
-        if (z.exists()) {
-          var row = document.getElementById('table').insertRow(1);
-          row.insertCell(0).innerHTML = foodName;
-          row.insertCell(1).innerHTML = z.data().calorie;
-          row.insertCell(2).innerHTML = z.data().carbohydrates;
-          row.insertCell(3).innerHTML = z.data().fat;
-          row.insertCell(4).innerHTML = z.data().protein;
+  export default {
+    mounted() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.user = user;
         }
-      }
-    },
-    async display() {
-      let z = await getDocs(collection(db, 'food_nutrient'));
-      let ind = 1; // index
-      z.forEach((docs) => {
-        let yy = docs.data();
-        var row = document.getElementById('table').insertRow(ind);
-        let cells = new Array();
-
-        var food = docs.id;
-        var calorie = yy.calorie;
-        var carbohydrates = yy.carbohydrates;
-        var fat = yy.fat;
-        var protein = yy.protein;
-
-        for (let i = 0; i < 5; i++) {
-          cells[i] = row.insertCell(i);
-        }
-
-        cells[0].innerHTML = food;
-        cells[1].innerHTML = calorie;
-        cells[2].innerHTML = carbohydrates;
-        cells[3].innerHTML = fat;
-        cells[4].innerHTML = protein;
       });
-      ind++;
     },
-  },
-};
+    methods: {
+      async searchFood() {
+        var foodName = String(document.getElementById("foodSearch").value);
+        if (foodName == "") {
+          alert("Fill in something!");
+        } else {
+          for (
+            var i = document.getElementById("table").rows.length;
+            i > 1;
+            i--
+          ) {
+            document.getElementById("table").deleteRow(i - 1);
+          }
+          var axios = require("axios").default;
+
+          var options = {
+            method: "GET",
+            url: "https://edamam-recipe-search.p.rapidapi.com/search",
+            params: { q: foodName },
+            headers: {
+              "x-rapidapi-host": "edamam-recipe-search.p.rapidapi.com",
+              "x-rapidapi-key":
+                "7dec6e7bd5mshf7509e10686593cp1d65d3jsn77e86bb54eb0",
+            },
+          };
+
+          var req = await axios.request(options)
+          var results = req.data['hits']
+          var ind = 1
+          results.forEach((doc) => {
+            var recipe = doc["recipe"];
+            var row = document.getElementById("table").insertRow(ind);
+            row.insertCell(0).innerHTML = recipe["label"];
+            row.insertCell(1).innerHTML = Math.round(recipe["calories"]);
+            row.insertCell(2).innerHTML = Math.round(recipe["totalNutrients"]["FAT"]["quantity"]);
+            row.insertCell(3).innerHTML = Math.round(recipe["totalNutrients"]["PROCNT"]["quantity"]);
+            row.insertCell(4).innerHTML = Math.round(recipe["totalNutrients"]["CHOCDF"]["quantity"]);
+          });
+        }
+      },
+    },
+  };
 </script>
 
 <style>
-#foodCalcHeader {
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  display: flex;
-  justify-content: center;
-}
+  #foodCalcHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    justify-content: center;
+  }
 
-.foodIcon {
-  height: 70px;
-}
+  .foodIcon {
+    height: 70px;
+  }
 
-#searchBar {
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
-  text-align: left;
-}
+  #searchBar {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: left;
+  }
 
-#foodSearch {
-  width: 100%;
-  height: 25px;
-  font-size: 100%;
-}
+  #foodSearch {
+    width: 100%;
+    height: 25px;
+    font-size: 100%;
+  }
 
-table {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 80%;
-  align-self: center;
-  border: 3px solid black;
-  margin-left: 10%;
-  margin-right: 10%;
-}
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    align-self: center;
+    border: 3px solid black;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
 
-tr:nth-child(even) {
-  background-color: #dadada;
-}
+  tr:nth-child(even) {
+    background-color: #dadada;
+  }
 
-tr:nth-child(odd) {
-  background-color: #bebaba;
-}
+  tr:nth-child(odd) {
+    background-color: #bebaba;
+  }
 
-th,
-td {
-  border: 1px solid #dddddd;
-  text-align: center;
-  padding: 8px;
-}
+  th,
+  td {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
 
-#table th {
-  border: 3px solid black;
-  text-align: center;
-  background-color: #575454;
-  color: white;
-}
+  #table th {
+    border: 3px solid black;
+    text-align: center;
+    background-color: #575454;
+    color: white;
+  }
 </style>

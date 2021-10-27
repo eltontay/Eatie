@@ -11,7 +11,6 @@ import SignIn from '@/views/SignUpPage.vue';
 import Myprogress from '@/views/MyProgress.vue';
 import AccountProfile from '@/views/AccountProfile.vue';
 import NotFound from '@/views/NotFound.vue';
-import TempAddFood from '@/views/TempAddFood.vue'; //temporary, removed when done
 
 const routes = [
   {
@@ -58,11 +57,6 @@ const routes = [
     path: '/myProgress',
     name: 'MyProgress',
     component: Myprogress,
-  },
-  {
-    path: '/tempAddFood', //temporary, remove once done
-    name: 'TempAddFood',
-    component: TempAddFood,
   },
   {
     path: '/SignIn', //temporary, remove once done

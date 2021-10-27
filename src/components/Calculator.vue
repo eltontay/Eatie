@@ -66,15 +66,15 @@
             document.getElementById("table").deleteRow(i - 1);
           }
           var axios = require("axios").default;
+          let auth = require('../dbconfig.json');
 
           var options = {
             method: "GET",
             url: "https://edamam-recipe-search.p.rapidapi.com/search",
             params: { q: foodName },
             headers: {
-              "x-rapidapi-host": "edamam-recipe-search.p.rapidapi.com",
-              "x-rapidapi-key":
-                "7dec6e7bd5mshf7509e10686593cp1d65d3jsn77e86bb54eb0",
+              "x-rapidapi-host": auth["x-rapidapi-host"],
+              "x-rapidapi-key": auth["x-rapidapi-key"],
             },
           };
 

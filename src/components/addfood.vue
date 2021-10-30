@@ -9,8 +9,8 @@
                     <label for="Date">Date: </label>
                     <input type="text" id = "Date" required="" placeholder="Enter Date"> <br><br>
 
-                    <div class = "save">
-                    <button id = "savebutton"  type="button" v-on:click="savetofs()"> Save </button><br><br>
+                    <div class = "search">
+                    <button id = "searchbutton"  type="button" v-on:click="searchFood()"> search </button><br><br>
                     </div>
                 </div>
             </form>     
@@ -24,29 +24,57 @@ import { doc, setDoc } from "firebase/firestore";
 const db = getFirestore(firebaseApp);
 
 
-export default {
-    methods: {    
-        async saveFoodtoFs(){
-            var a  = searchFood("Meal")
+  export default {
+    mounted() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.user = user;
+        }
+      });
+    },
+    methods: {
+      async searchFood() {
+        var foodName = String(document.getElementById("foodSearch").value);
+        if (foodName == "") {
+          alert("Fill in something!");
+        } else {
+          for (
+            var i = document.getElementById("table").rows.length;
+            i > 1;
+            i--
+          ) {
+            document.getElementById("table").deleteRow(i - 1);
+          }
+          var axios = require("axios").default;
 
-            alert(" Saving your data for Meal : " + a) 
+          var options = {
+            method: "GET",
+            url: "https://edamam-recipe-search.p.rapidapi.com/search",
+            params: { q: foodName },
+            headers: {
+              "x-rapidapi-host": "edamam-recipe-search.p.rapidapi.com",
+              "x-rapidapi-key":
+                "7dec6e7bd5mshf7509e10686593cp1d65d3jsn77e86bb54eb0",
+            },
+          };
 
-            try{
-                const docRef = await setDoc(doc(db, "Portfolio", a),{
-                    Meal: a,
-                    Date :b,
-                })
-                console.log(docRef)
-                document.getElementById('myform').reset();
-                this.$emit("added")
-                }
-            catch(error){
-                console.error("Error adding document: ",error);
-            }
-            }      
-        }   
-      }
-
+          var req = await axios.request(options)
+          var results = req.data['hits']
+          var ind = 1
+          results.forEach((doc) => {
+            var recipe = doc["recipe"];
+            var row = document.getElementById("table").insertRow(ind);
+            row.insertCell(0).innerHTML = recipe["label"];
+            row.insertCell(1).innerHTML = Math.round(recipe["calories"]);
+            row.insertCell(2).innerHTML = Math.round(recipe["totalNutrients"]["FAT"]["quantity"]);
+            row.insertCell(3).innerHTML = Math.round(recipe["totalNutrients"]["PROCNT"]["quantity"]);
+            row.insertCell(4).innerHTML = Math.round(recipe["totalNutrients"]["CHOCDF"]["quantity"]);
+          });
+        }
+      },
+    },
+  };
 </script>
 
 <style>

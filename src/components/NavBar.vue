@@ -2,6 +2,7 @@
   <div id = 'nav' v-if="user">
     <router-link to="/">Home</router-link> |
     <router-link to="/foodCalculator">Food Calculator</router-link> |
+    <router-link to="/MyJournal">My Journal</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/mygoals">My Goals</router-link> | 
     <router-link to="/myProgress">My Progress</router-link> | 

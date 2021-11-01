@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import FoodCalculator from '@/views/FoodCalculator.vue';
+import MyJournal from '@/views/MyJournal.vue';
 import About from '@/views/About.vue';
 import MyGoals from '@/views/MyGoals.vue';
 import Goal1 from '@/views/GoalStep1.vue';
@@ -12,6 +13,7 @@ import Myprogress from '@/views/MyProgress.vue';
 import AccountProfile from '@/views/AccountProfile.vue';
 import NotFound from '@/views/NotFound.vue';
 
+
 const routes = [
   {
     path: '/',
@@ -22,6 +24,11 @@ const routes = [
     path: '/foodCalculator',
     name: 'FoodCalculator',
     component: FoodCalculator,
+  },
+  {
+    path: '/MyJournal',
+    name: 'MyJournal',
+    component: MyJournal,
   },
   {
     path: '/about',

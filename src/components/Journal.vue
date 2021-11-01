@@ -3,6 +3,9 @@
             <form id = "myform" >
                 <h2>Add Meal</h2>    
                 <div class = "formli">
+                    <label for="Date">Date: </label>
+                    <input type="number" id = "Date" required="" placeholder="Enter Date (ddmmyy)"> <br><br>
+
                     <label for="Meal">Meal Name: </label>
                     <input type="text" id = "Meal" required="" placeholder="Enter Meal"> <br><br>
 
@@ -18,15 +21,25 @@
                     <label for="Carbohydrates">Carbohydrates: </label>
                     <input type="number" id = "Carbohydrates" required="" placeholder="Enter Carbohydrates"> <br><br>
 
-                    <label for="Date">Date: </label>
-                    <input type="number" id = "Date" required="" placeholder="Enter Date"> <br><br>
-
                     <div class = "save">
                     <button id = "savebutton"  type="button" v-on:click="savetofs()"> Save </button><br><br>
                     </div>
                 </div>
             </form>     
     </div>
+
+        <h1 id = "Current">Journal history</h1>
+    <table id = "table">
+        <tr>        
+            <th>Date</th>   
+            <th>Meal</th>
+            <th>Calories</th>
+            <th>Protein</th>
+            <th>Fat</th>
+            <th>Carbohydrates</th>
+            </tr>
+    </table><br><br>
+
 </template>
 
 <script>
@@ -48,6 +61,7 @@ export default {
             this.user = user;
         }
         });
+        
     },
     methods: {    
         async savetofs(){
@@ -59,7 +73,7 @@ export default {
             var f =  document.getElementById("Date").value
 
 
-            alert(" Saving Coin : " + a) 
+            alert(" Saving Meal : " + a) 
 
             try{
                 const docRef = await setDoc(doc(db, String(this.fbuser), a),{

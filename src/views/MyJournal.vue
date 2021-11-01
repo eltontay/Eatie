@@ -1,5 +1,5 @@
 <template>
-  <Journal />
+  <Journal/>
 </template>
 
 <script>

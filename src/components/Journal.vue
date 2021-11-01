@@ -124,6 +124,7 @@
               fat: Math.round(recipe["totalNutrients"]["FAT"]["quantity"]),
               protein: Math.round(recipe["totalNutrients"]["PROCNT"]["quantity"]),
               carbohydrates: Math.round(recipe["totalNutrients"]["CHOCDF"]["quantity"]),
+
             }
           );
         } catch (error) {

@@ -1,11 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <Firebase />
-</template>
-
-<script>
-import Firebase from './firebase.js';
-=======
 <div class="header">
   <div style="width: 50%">
     <img id="logo" src="@/assets/Eatie_logo.png" alt="">
@@ -18,20 +11,13 @@ import Firebase from './firebase.js';
 
 <script>
 import NavBar from './components/NavBar.vue'
->>>>>>> 1b06f6d79566aabebb10d9a0051a73ee6827f231
 
 export default {
   name: 'App',
   components: {
-<<<<<<< HEAD
-    HelloWorld,
-  },
-};
-=======
     NavBar
   }
   }
->>>>>>> 1b06f6d79566aabebb10d9a0051a73ee6827f231
 </script>
 
 <style>

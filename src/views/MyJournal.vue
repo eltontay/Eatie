@@ -1,13 +1,13 @@
 <template>
-  <MyJournal />
+  <Journal />
 </template>
 
 <script>
-import MyJournal from '@/components/MyJournal.vue';
+import Journal from '@/components/Journal.vue';
 export default {
   name: 'MyJournal',
   components: {
-    MyJournal,
+    Journal,
   },
 };
 </script>

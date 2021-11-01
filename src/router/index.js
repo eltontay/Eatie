@@ -26,7 +26,7 @@ const routes = [
     component: FoodCalculator,
   },
   {
-    path: '/MyJournal',
+    path: '/myJournal',
     name: 'MyJournal',
     component: MyJournal,
   },

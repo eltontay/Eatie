@@ -1,32 +1,39 @@
 <template>
   <div id="addFood">
-    <div></div>
-    <div id="addFoodMeal">
-      <h3>{{mealType}}</h3>
-      <!-- <img id="lalala" :src="previewImage" /> -->
-      <button
-        type="button"
-        id="addFoodButton"
-        v-on:click="displayCalc()"
-      >
-        Add Food</button
-      ><br /><br />
-      <input type="file" accept="image/*" @change="uploadImage" />
-      <div v-if="displayTable">
-        <APIQuery @chosenFood="foodChosen($event)" />
+    <h3>{{ mealType }}</h3>
+    <div id="mealInfo">
+      <div>
+        <div>Meal: {{ mealName }}</div>
+        <div>Calorie: {{ mealCal }}</div>
+        <div>Fat: {{ mealFat }}</div>
+        <div>Protein: {{ mealProtein }}</div>
+        <div>Carbohydrates: {{ mealCarb }}</div>
       </div>
+      <img id="mealImage" :src="previewImage" />
+    </div>
+    <button type="button" id="addFoodButton" v-on:click="displayCalc()">
+      Add Food</button
+    ><br /><br />
+    <input type="file" accept="image/*" @change="uploadImage" />
+    <div v-if="displayTable">
+      <APIQuery @chosenFood="foodChosen($event)" />
     </div>
   </div>
 </template>
 
 <script>
   import firebaseApp from "../firebase.js";
-  import { getFirestore, setDoc } from "firebase/firestore";
+  import { getDoc, getFirestore, setDoc } from "firebase/firestore";
   import { doc } from "firebase/firestore";
 
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import APIQuery from "./APIQuery.vue";
-  import { getStorage, ref, uploadBytes } from "firebase/storage";
+  import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL,
+  } from "firebase/storage";
   const db = getFirestore(firebaseApp);
 
   export default {
@@ -34,30 +41,44 @@
       return {
         displayTable: false,
         previewImage: null,
+        mealName: "",
+        mealProtein: "",
+        mealCarb: "",
+        mealFat: "",
+        mealCal: "",
       };
+    },
+    computed: {
+      storageRef() {
+        return ref(
+          getStorage(),
+          this.fbuser + "/" + this.mealDate + "/" + this.mealType
+        );
+      },
     },
     mounted() {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
         if (user) {
           this.user = user;
+          this.fbuser = auth.currentUser.email;
+          this.getFoodData();
+          this.loadImage();
         }
       });
     },
     components: {
       APIQuery,
     },
-    props:{
-        mealType:String,
-        mealDate:String
+    props: {
+      mealType: String,
+      mealDate: String,
     },
     methods: {
       async displayCalc() {
-        this.displayTable = true
+        this.displayTable = true;
       },
       async foodChosen(recipe) {
-        const auth = getAuth();
-        this.fbuser = auth.currentUser.email;
         // var date = document.getElementById("dateInput").value;
         try {
           setDoc(
@@ -82,29 +103,33 @@
           console.error("Error adding document: ", error);
         }
       },
-
       uploadImage(e) {
-        const image = e.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(image);
-        reader.onload = (e) => {
-          this.previewImage = e.target.result;
-          console.log(this.previewImage);
-        };
-
-        const auth = getAuth();
-        this.fbuser = auth.currentUser.email;
-        const storage = getStorage();
-        const storageRef = ref(
-          storage,
-          this.fbuser + "/" + this.mealDate + "/" + this.mealType
+        uploadBytes(this.storageRef, e.target.files[0]);
+        this.loadImage();
+      },
+      loadImage() {
+        getDownloadURL(this.storageRef)
+          .then((url) => {
+            const img = document.getElementById("mealImage");
+            img.setAttribute("src", url);
+          })
+          .catch((e) => e);
+      },
+      async getFoodData() {
+        let a = doc(
+          doc(db, String(this.fbuser), "daily_nutrient"),
+          this.mealDate,
+          this.mealType
         );
-
-        // 'file' comes from the Blob or File API
-        uploadBytes(storageRef, e.target.files[0]).then((snapshot) => {
-          console.log("Uploaded a blob or file!");
-          console.log(snapshot);
-        });
+        let b = await getDoc(a);
+        let c = b.data();
+        if (c == undefined) return;
+        this.mealName = c.food;
+        this.mealProtein = c.protein;
+        this.mealCarb = c.carbohydrates;
+        this.mealFat = c.fat;
+        this.mealCal = c.calorie;
+        console.log(this.storageRef);
       },
     },
   };
@@ -118,8 +143,15 @@
     text-align: left;
   }
 
-  #addFoodMeal {
-    width: 100%;
+  #mealInfo {
+    display: flex;
+    height: 110px;
+    margin: 20px 20px 20px 20px;
+  }
+
+  #mealImage {
+    height: 100%;
+    margin-left: 20%;
   }
 
   #addFoodButton {

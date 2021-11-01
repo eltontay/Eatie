@@ -1,46 +1,69 @@
 <template>
   <div class="container">
+    <h2>My Journal</h2>
     <form id="myform">
-      <h2>My Journal</h2>
+      <input id="dateInput" type="date" />
       <div id="addFood">
         <div id="addFoodMeal">
           <h3>Breakfast</h3>
-          <button id="addFoodButton" v-on:click="displayCalc('breakfast')">
+          <button
+            type="button"
+            id="addFoodButton"
+            v-on:click="displayCalc('breakfast')"
+          >
             Add Food</button
           ><br /><br />
-          <button id="addFoodButton">Upload Image</button>
+          <button type="button" id="addFoodButton">Upload Image</button>
           <div v-if="displayBreakfast">
-            <APIQuery />
+            <APIQuery @chosenFood="foodChosen($event, 'breakfast')" />
           </div>
         </div>
+      </div>
+      <div id="addFood">
         <div id="addFoodMeal">
           <h3>Lunch</h3>
-          <button id="addFoodButton" v-on:click="displayCalc('lunch')">
+          <button
+            type="button"
+            id="addFoodButton"
+            v-on:click="displayCalc('lunch')"
+          >
             Add Food</button
           ><br /><br />
-          <button id="addFoodButton">Upload Image</button>
+          <button type="button" id="addFoodButton">Upload Image</button>
           <div v-if="displayLunch">
-            <APIQuery />
+            <APIQuery @chosenFood="foodChosen($event, 'lunch')" />
           </div>
         </div>
+      </div>
+      <div id="addFood">
         <div id="addFoodMeal">
           <h3>Dinner</h3>
-          <button id="addFoodButton" v-on:click="displayCalc('dinner')">
+          <button
+            type="button"
+            id="addFoodButton"
+            v-on:click="displayCalc('dinner')"
+          >
             Add Food</button
           ><br /><br />
-          <button id="addFoodButton">Upload Image</button>
+          <button type="button" id="addFoodButton">Upload Image</button>
           <div v-if="displayDinner">
-            <APIQuery />
+            <APIQuery @chosenFood="foodChosen($event, 'dinner')" />
           </div>
         </div>
+      </div>
+      <div id="addFood">
         <div id="addFoodMeal">
           <h3>Snack</h3>
-          <button id="addFoodButton" v-on:click="displayCalc('snack')">
+          <button
+            type="button"
+            id="addFoodButton"
+            v-on:click="displayCalc('snack')"
+          >
             Add Food</button
           ><br /><br />
-          <button id="addFoodButton">Upload Image</button>
+          <button type="button" id="addFoodButton">Upload Image</button>
           <div v-if="displaySnack">
-            <APIQuery />
+            <APIQuery @chosenFood="foodChosen($event, 'snack')" />
           </div>
         </div>
       </div>
@@ -49,13 +72,13 @@
 </template>
 
 <script>
-  // import firebaseApp from "../firebase.js";
-  // import { getFirestore, setDoc } from "firebase/firestore";
-  // import { doc } from "firebase/firestore";
+  import firebaseApp from "../firebase.js";
+  import { getFirestore, setDoc } from "firebase/firestore";
+  import { doc } from "firebase/firestore";
 
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import APIQuery from "./APIQuery.vue";
-  // const db = getFirestore(firebaseApp);
+  const db = getFirestore(firebaseApp);
 
   export default {
     data() {
@@ -87,6 +110,25 @@
         if (mealName == "lunch") this.displayLunch = true;
         if (mealName == "dinner") this.displayDinner = true;
         if (mealName == "snack") this.displaySnack = true;
+      },
+      async foodChosen(recipe, meal) {
+        const auth = getAuth();
+        this.fbuser = auth.currentUser.email;
+        var date = document.getElementById("dateInput").value;
+        try {
+          setDoc(
+            doc(doc(db, String(this.fbuser), "daily_nutrient"), date, meal),
+            {
+              food: recipe["label"],
+              calorie: Math.round(recipe["calories"]),
+              fat: Math.round(recipe["totalNutrients"]["FAT"]["quantity"]),
+              protein: Math.round(recipe["totalNutrients"]["PROCNT"]["quantity"]),
+              carbohydrates: Math.round(recipe["totalNutrients"]["CHOCDF"]["quantity"]),
+            }
+          );
+        } catch (error) {
+          console.error("Error adding document: ", error);
+        }
       },
     },
   };

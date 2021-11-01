@@ -2,13 +2,15 @@
   <div>
     <div id="searchBar">
       <h3>Search Food</h3>
-      <input
-        type="text"
-        id="foodSearch"
-        required=""
-        v-on:keyup.enter="searchFood"
-        placeholder="e.g. durian, french fries"
-      />
+      <form v-on:submit.prevent="onSubmit">
+        <input
+          type="text"
+          id="foodSearch"
+          required=""
+          v-on:keyup.enter="searchFood"
+          placeholder="e.g. durian, french fries"
+        />
+      </form>
       <br /><br />
     </div>
     <table id="table">
@@ -67,7 +69,12 @@
           results.forEach((doc) => {
             var recipe = doc["recipe"];
             var row = document.getElementById("table").insertRow(ind);
-            row.insertCell(0).innerHTML = recipe["label"];
+            let bu = document.createElement("button");
+            bu.id = "foodNameButton";
+            bu.type = "button";
+            bu.innerHTML = recipe["label"];
+            bu.onclick = () => this.$emit("chosenFood", recipe);
+            row.insertCell(0).appendChild(bu);
             row.insertCell(1).innerHTML = Math.round(recipe["calories"]);
             row.insertCell(2).innerHTML = Math.round(
               recipe["totalNutrients"]["FAT"]["quantity"]
@@ -79,7 +86,6 @@
               recipe["totalNutrients"]["CHOCDF"]["quantity"]
             );
           });
-          this.$emit;
         }
       },
     },
@@ -87,6 +93,11 @@
 </script>
 
 <style>
+  #foodNameButton {
+    /* background: none;
+    border: none; */
+    width: 100%;
+  }
   #searchBar {
     width: 80%;
     margin-left: 10%;

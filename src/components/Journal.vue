@@ -123,9 +123,6 @@ export default {
 </script>
 
 <style>
-h2{
-    background-color: rgb(129,184,99);
-}
 .formli{
     display: inline-block;
     text-align: center;

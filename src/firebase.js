@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
 // TODO: Add SDKs for Firebase products that you want to use
@@ -15,3 +16,24 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+=======
+import { initializeApp} from 'firebase/app'
+
+//leaving my own firebase here for testing
+let auth = require('./dbconfig.json');
+const firebaseConfig = {
+  apiKey: auth['apiKey'],
+  authDomain: auth['authDomain'],
+  projectId: auth['projectId'],
+  storageBucket: auth['storageBucket'],
+  messagingSenderId: auth['messagingSenderId'],
+  appId: auth['appId'],
+};
+
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+
+
+
+export default firebaseApp;
+>>>>>>> 1b06f6d79566aabebb10d9a0051a73ee6827f231

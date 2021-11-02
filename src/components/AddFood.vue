@@ -19,7 +19,9 @@
     ><br /><br />
     <input type="file" accept="image/*" @change="imageChange" />
     <div v-if="displayTable">
-      <APIQuery @chosenFood="foodChosen($event)" />
+      <APIQuery @chosenFood="foodChosen($event)" /><br><br>
+      <div v-if="recipe">Current food selected: {{recipe["label"]}}</div>
+      <div v-else>Select a food!</div>
       <button type="button" id="addFoodButton" v-on:click="submitToFS()">
         Submit
       </button>
@@ -75,7 +77,6 @@
           this.user = user;
           this.fbuser = auth.currentUser.email;
           this.getFoodData();
-          this.loadImage();
         }
       });
     },
@@ -110,7 +111,10 @@
           .catch((e) => e); // generates an error, try to remove
       },
       async submitToFS() {
-        if (this.recipe == null) alert("Select a meal!");
+        if (this.recipe == null) {
+            alert("Select a meal!");
+            return
+        }
         try {
           setDoc(
             doc(
@@ -133,6 +137,10 @@
         } catch (error) {
           console.error("Error adding document: ", error);
         }
+        this.uploadImage();
+        this.displayTable=false;
+        this.displayFoodInfo=true;
+        this.getFoodData();
       },
       async getFoodData() {
         let a = doc(
@@ -168,6 +176,7 @@
             error;
             // Uh-oh, an error occurred!
           });
+          this.displayFoodInfo=false;
       },
     },
   };

@@ -56,4 +56,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+h1, h2, h3{
+ color:#006d77;
+}</style>

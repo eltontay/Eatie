@@ -43,6 +43,7 @@
       onAuthStateChanged(auth, (user) => {
         if (user) {
           this.user = user;
+          this.fbuser = auth.currentUser.email;
         }
       });
       this.date = this.currentDate

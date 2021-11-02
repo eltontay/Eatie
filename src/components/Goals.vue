@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div v-if="displayGoal() === false">
+    <div v-if="!displayGoal()">
       <h2>My Goals</h2>
       <h3>You have not created a goal yet.</h3>
 
@@ -38,8 +38,8 @@ export default {
   methods: {
     async displayGoal() {
       let goal = await getDoc(doc(db, 'profile', 'gender'));
-      if (!goal.exists()) {
-        console.log(goals.exists());
+      if (!goal.data() == undefined) {
+        console.log('No goals set')
         return false;
       }
       let goals = await getDocs(collection(db, 'profile'));
@@ -48,6 +48,7 @@ export default {
         let yy = docs.data();
         console.log(yy);
       });
+      return true;
     },
     Create() {
       this.$router.push('./goalStep1');

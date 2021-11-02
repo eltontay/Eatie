@@ -1,5 +1,5 @@
 <template>
-    <div v-if = "!checkWeight()">
+    <div v-if = "!flag">
         <h3>You have not updated your weight this week! Go to <router-link to="/WeightUpdate">Weight Update</router-link> now!</h3>
     </div>
     <div v-else>
@@ -17,16 +17,18 @@ const db = getFirestore(firebaseApp);
 
 export default {
     data() {
-        return {    
-        fbuser: ""
+        return {
+            fbuser: "",
+            flag: false
         }
     },
-    mounted() {
+    beforeMount() {
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
                 this.fbuser = auth.currentUser.email;
+                this.checkWeight()
             }
         });
     },
@@ -47,11 +49,18 @@ export default {
                     let cur_date = this.currentDate(i);
                     console.log(cur_date)
                     if (cur_weight.data()[cur_date] != undefined) {
-                        return false;
+                        console.log("updated liao")
+                        this.flag = true;
+                        return ;
                     }
                 }
+                console.log("updated not")
+                this.flag = false;
+                return ;
             }
-            return true;
+            console.log("fbuser not loaded")
+            this.flag = false;
+            return; 
         },
   },
 

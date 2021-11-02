@@ -155,9 +155,10 @@
         "-" +
         String(today.getDate()).padStart(2, "0"))
       },
+
       lastestWeight(lst_dates, curr){
-        let flag = 0
-        for (var i = lst_dates.length - 1; i >= 0; i--) {
+        let flag = -1000
+        for (var i = lst_dates.length - 1; i > -1; i--) {
           if (lst_dates[i] > curr) {
             continue
           } else {
@@ -165,15 +166,17 @@
             break
           }
         }
-        if (flag == 0) {return 0}
+        if (flag == -1000) {return 0}
         return lst_dates[flag];
       },
+
       async findWeeklyWeight() {
         let cur_weight = await getDoc(doc(db, this.fbuser , "weight_progress"));
         let availdate = 0;
         
         if (cur_weight.data() != undefined) {
           let availkeys = Object.keys(cur_weight.data()).sort();
+          console.log(availkeys)
           
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);

@@ -109,7 +109,7 @@
     },
     methods: {
       async displayCalc() {
-        this.displayTable = true;
+        this.displayTable = !this.displayTable;
       },
       async foodChosen(recipe) {
         this.recipe = recipe;

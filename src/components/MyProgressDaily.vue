@@ -30,8 +30,7 @@
             <h3>{{ percentageCalorie }}%</h3>
           </div>
         </div>
-        <h3>Just had a meal? Add it to My Journal now!</h3>
-        <!-- add link here -->
+        <h3>Just had a meal? Add it to <router-link to="/myJournal">My Journal</router-link> now!</h3>
       </div>
       <div id="halfDailySummary2">
         <pie-chart
@@ -115,11 +114,14 @@
           ? "You are nearing your recommended Calorie goal. Try not to eat too much!"
           : "Great job! You are still within your recommended Calorie intake!";
       },
+      consumedMacroNutrient() {
+          return this.dailyNutrient["Carbohydrates"]+this.dailyNutrient["Fat"]+this.dailyNutrient["Protein"]
+      },
       idealNutrientBreakdown() {
         return {
-          Carbohydrates: [0.45 * this.consumedValue, 0.65 * this.consumedValue],
-          Fat: [0.25 * this.consumedValue, 0.35 * this.consumedValue],
-          Protein: [0.1 * this.consumedValue, 0.35 * this.consumedValue],
+          Carbohydrates: [0.45 * this.consumedMacroNutrient, 0.65 * this.consumedMacroNutrient],
+          Fat: [0.25 * this.consumedMacroNutrient, 0.35 * this.consumedMacroNutrient],
+          Protein: [0.1 * this.consumedMacroNutrient, 0.35 * this.consumedMacroNutrient],
         };
       },
       carbohydratesLower() {

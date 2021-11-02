@@ -2,7 +2,7 @@
   <div>
     <div id="searchBar">
       <h3>Search Food</h3>
-      <form v-on:submit.prevent="onSubmit">
+      <form v-on:submit.prevent="onSubmit" style="display: flex">
         <input
           type="text"
           id="foodSearch"
@@ -10,6 +10,9 @@
           v-on:keyup.enter="searchFood"
           placeholder="e.g. durian, french fries"
         />
+        <button type="button" id="searchButton" v-on:click="searchFood">
+          Search
+        </button>
       </form>
       <br /><br />
     </div>
@@ -106,8 +109,14 @@
     text-align: left;
   }
 
+  #searchButton {
+    width: 10%;
+    margin-left: 5%;
+    border-radius: 10px;
+  }
+
   #foodSearch {
-    width: 100%;
+    width: 85%;
     height: 25px;
     font-size: 100%;
   }

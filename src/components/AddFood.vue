@@ -39,6 +39,7 @@
       <APIQuery @chosenFood="foodChosen($event)" /><br /><br />
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
       <div v-else>Select a food!</div><br><br>
+      <div>Add a picture of your meal:</div>
       <input type="file" accept="image/*" @change="imageChange" />
       <button type="button" id="addFoodButton" v-on:click="submitToFS()">
         Submit

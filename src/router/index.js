@@ -11,6 +11,7 @@ import Goal4 from '@/views/GoalStep4.vue';
 import SignIn from '@/views/SignUpPage.vue';
 import Myprogress from '@/views/MyProgress.vue';
 import AccountProfile from '@/views/AccountProfile.vue';
+import WeightUpdate from '@/views/WeightUpdate.vue';
 import NotFound from '@/views/NotFound.vue';
 
 
@@ -74,6 +75,11 @@ const routes = [
     path: '/Profile', //temporary, remove once done
     name: 'AccountProfile',
     component: AccountProfile,
+  },
+  {
+    path: '/WeightUpdate', 
+    name: 'WeightUpdate',
+    component: WeightUpdate,
   },
   {
     path:'/:catchAll(.*)',

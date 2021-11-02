@@ -1,7 +1,7 @@
 <template>
   <div id="addFood">
     <h3>{{ mealType }}</h3>
-    <div id="mealInfo">
+    <div id="mealInfo" v-if="displayFoodInfo">
       <div>
         <div>Meal: {{ mealName }}</div>
         <div>Calorie: {{ mealCal }}</div>
@@ -9,21 +9,27 @@
         <div>Protein: {{ mealProtein }}</div>
         <div>Carbohydrates: {{ mealCarb }}</div>
       </div>
-      <img id="mealImage" :src="previewImage" />
+      <img :id="mealImageID" :src="null" style="mealImageStyle" />
+      <button type="button" id="addFoodButton" v-on:click="deleteMeal">
+        Delete meal
+      </button>
     </div>
     <button type="button" id="addFoodButton" v-on:click="displayCalc()">
       Add Food</button
     ><br /><br />
-    <input type="file" accept="image/*" @change="uploadImage" />
+    <input type="file" accept="image/*" @change="imageChange" />
     <div v-if="displayTable">
       <APIQuery @chosenFood="foodChosen($event)" />
+      <button type="button" id="addFoodButton" v-on:click="submitToFS()">
+        Submit
+      </button>
     </div>
   </div>
 </template>
 
 <script>
   import firebaseApp from "../firebase.js";
-  import { getDoc, getFirestore, setDoc } from "firebase/firestore";
+  import { getDoc, getFirestore, setDoc, deleteDoc } from "firebase/firestore";
   import { doc } from "firebase/firestore";
 
   import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -33,6 +39,7 @@
     ref,
     uploadBytes,
     getDownloadURL,
+    deleteObject,
   } from "firebase/storage";
   const db = getFirestore(firebaseApp);
 
@@ -40,7 +47,9 @@
     data() {
       return {
         displayTable: false,
-        previewImage: null,
+        displayFoodInfo: false,
+        recipe: null,
+        currUploadedImage: null,
         mealName: "",
         mealProtein: "",
         mealCarb: "",
@@ -54,6 +63,9 @@
           getStorage(),
           this.fbuser + "/" + this.mealDate + "/" + this.mealType
         );
+      },
+      mealImageID() {
+        return this.mealType + "Image";
       },
     },
     mounted() {
@@ -79,7 +91,26 @@
         this.displayTable = true;
       },
       async foodChosen(recipe) {
-        // var date = document.getElementById("dateInput").value;
+        this.recipe = recipe;
+      },
+      imageChange(e) {
+        this.currUploadedImage = e;
+      },
+      async uploadImage() {
+        if (this.currUploadedImage == null) return;
+        uploadBytes(this.storageRef, this.currUploadedImage.target.files[0]);
+        this.loadImage();
+      },
+      async loadImage() {
+        getDownloadURL(this.storageRef)
+          .then((url) => {
+            const img = document.getElementById(this.mealImageID);
+            img.setAttribute("src", url);
+          })
+          .catch((e) => e); // generates an error, try to remove
+      },
+      async submitToFS() {
+        if (this.recipe == null) alert("Select a meal!");
         try {
           setDoc(
             doc(
@@ -88,32 +119,20 @@
               this.mealType
             ),
             {
-              food: recipe["label"],
-              calorie: Math.round(recipe["calories"]),
-              fat: Math.round(recipe["totalNutrients"]["FAT"]["quantity"]),
+              food: this.recipe["label"],
+              calorie: Math.round(this.recipe["calories"]),
+              fat: Math.round(this.recipe["totalNutrients"]["FAT"]["quantity"]),
               protein: Math.round(
-                recipe["totalNutrients"]["PROCNT"]["quantity"]
+                this.recipe["totalNutrients"]["PROCNT"]["quantity"]
               ),
               carbohydrates: Math.round(
-                recipe["totalNutrients"]["CHOCDF"]["quantity"]
+                this.recipe["totalNutrients"]["CHOCDF"]["quantity"]
               ),
             }
           );
         } catch (error) {
           console.error("Error adding document: ", error);
         }
-      },
-      uploadImage(e) {
-        uploadBytes(this.storageRef, e.target.files[0]);
-        this.loadImage();
-      },
-      loadImage() {
-        getDownloadURL(this.storageRef)
-          .then((url) => {
-            const img = document.getElementById("mealImage");
-            img.setAttribute("src", url);
-          })
-          .catch((e) => e);
       },
       async getFoodData() {
         let a = doc(
@@ -129,7 +148,26 @@
         this.mealCarb = c.carbohydrates;
         this.mealFat = c.fat;
         this.mealCal = c.calorie;
-        console.log(this.storageRef);
+        this.displayFoodInfo = true;
+        this.loadImage();
+      },
+      async deleteMeal() {
+        alert("You are going to delete " + this.mealType);
+        await deleteDoc(
+          doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            this.mealType
+          )
+        );
+        deleteObject(this.storageRef)
+          .then(() => {
+            // File deleted successfully
+          })
+          .catch((error) => {
+            error;
+            // Uh-oh, an error occurred!
+          });
       },
     },
   };
@@ -149,9 +187,12 @@
     margin: 20px 20px 20px 20px;
   }
 
-  #mealImage {
+  #BreakfastImage,
+  #LunchImage,
+  #DinnerImage,
+  #SnackImage {
     height: 100%;
-    margin-left: 20%;
+    margin: 0% 10% 0% 10%;
   }
 
   #addFoodButton {

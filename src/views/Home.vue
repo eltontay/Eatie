@@ -5,11 +5,11 @@
       <div>
         <h2>What would you like to do today?</h2>
         <br />
-        <button>View My Progress</button>
+        <button @click="goProgress()">View My Progress</button>
         <br />
-        <button>View My Goals</button>
+        <button @click="goGoals()">View My Goals</button>
         <br />
-        <button>View My Journal</button>
+        <button @click="goJournal()">View My Journal</button>
       </div>
     </div>
     <div v-if="!user">
@@ -42,6 +42,18 @@ export default {
         console.log(user);
       }
     });
+  },
+
+  methods: {
+    goProgress() {
+      this.$router.push('/myProgress');
+    },
+    goGoals() {
+      this.$router.push('/myGoals');
+    },
+    goJournal() {
+      this.$router.push('/myJournal');
+    },
   },
 };
 </script>

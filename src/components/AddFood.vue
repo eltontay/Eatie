@@ -2,11 +2,11 @@
   <div id="addFood">
     <h3>{{ mealType }}</h3>
 
-    <div id="mealInfo" v-if="displayFoodInfo">
+    <div id="mealInfo" v-if="displayFoodInfo" :key="refreshCounter">
       <div style="width: 20%">
         <img
           :id="mealImageID"
-          :src="imageSource"
+          v-bind:src="imageSource"
           style="mealImageStyle"
         />
         <h4>{{ mealName }}</h4>
@@ -48,11 +48,15 @@
         </button>
       </div>
     </div>
-    <br /><br />
 
-    <button type="button" id="addFoodButton" v-on:click="displayCalc()">
-      Add Food</button
-    ><br /><br />
+    <button
+      v-if="!displayTable && !displayFoodInfo"
+      type="button"
+      id="addFoodButton"
+      v-on:click="displayCalc()"
+    >
+      Add Food
+    </button>
     <div v-if="displayTable">
       <APIQuery @chosenFood="foodChosen($event)" /><br /><br />
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
@@ -81,6 +85,8 @@
     getDownloadURL,
     deleteObject,
   } from "firebase/storage";
+  import no_image_loaded from "@/assets/no_image_uploaded.png";
+
   const db = getFirestore(firebaseApp);
 
   export default {
@@ -91,12 +97,13 @@
         recipe: null,
         currUploadedImage: null,
         haveImage: false,
-        imageSource: "@/assets/no_image_uploaded.png",
+        imageSource: no_image_loaded,
         mealName: "",
         mealProtein: "",
         mealCarb: "",
         mealFat: "",
         mealCal: "",
+        refreshCounter: 0,
       };
     },
     computed: {
@@ -139,18 +146,29 @@
       },
       async uploadImage() {
         if (this.currUploadedImage == null) return;
-        uploadBytes(this.storageRef, this.currUploadedImage.target.files[0]);
-        this.loadImage();
+        await uploadBytes(
+          this.storageRef,
+          this.currUploadedImage.target.files[0]
+        );
+        await this.loadImage();
       },
       async loadImage() {
         getDownloadURL(this.storageRef)
           .then((url) => {
-            // const img = document.getElementById(this.mealImageID);
-            // img.setAttribute("src", url);
             this.haveImage = true;
-            this.imageSource = url
+            this.imageSource = url;
           })
-          .catch((e) => e); // generates an error, try to remove
+          .catch((error) => {
+            switch (error.code) {
+              case "storage/object-not-found":
+                // File doesn't exist
+                break;
+              case "storage/unknown":
+                // Unknown error occurred, inspect the server response
+                break;
+            }
+          });
+        this.refreshCounter++;
       },
       async submitToFS() {
         if (this.recipe == null) {
@@ -192,21 +210,26 @@
         this.getFoodData();
       },
       async getFoodData() {
-        let a = doc(
-          doc(db, String(this.fbuser), "daily_nutrient"),
-          this.mealDate,
-          this.mealType
-        );
-        let b = await getDoc(a);
-        let c = b.data();
-        if (c == undefined) return;
-        this.mealName = c.food;
-        this.mealProtein = c.protein;
-        this.mealCarb = c.carbohydrates;
-        this.mealFat = c.fat;
-        this.mealCal = c.calorie;
-        this.displayFoodInfo = true;
-        this.loadImage();
+        try {
+          let a = doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            this.mealType
+          );
+          let b = await getDoc(a);
+          let c = b.data();
+          if (c == undefined) return;
+          this.mealName = c.food;
+          this.mealProtein = c.protein;
+          this.mealCarb = c.carbohydrates;
+          this.mealFat = c.fat;
+          this.mealCal = c.calorie;
+          this.displayFoodInfo = true;
+          this.loadImage();
+        } catch (error) {
+          if (error.code == "invalid-argument") return;
+          console.error("Error getting document: ", error.code);
+        }
       },
       async deleteMeal() {
         alert("You are going to delete " + this.mealType);
@@ -226,6 +249,9 @@
             // Uh-oh, an error occurred!
           });
         this.displayFoodInfo = false;
+        this.imageSource = no_image_loaded;
+        this.haveImage = false;
+        this.recipe = null;
       },
     },
   };

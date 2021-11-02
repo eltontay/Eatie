@@ -104,21 +104,11 @@ e29578
  
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
  
-h2, h3{
- color:#006d77;
-}
- 
 p {
  color:#006d77;
  font-weight: 900;
 }
- 
-.container {
- 
- justify-content: center;
- align-items: center;
- height: 100vh;
-}
+
  
 .activity{
  justify-content: center;

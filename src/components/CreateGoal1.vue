@@ -84,12 +84,6 @@ e29578
  
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
  
-h2, h3{
- color:#006d77;
-}
- 
-
-
 body {
  box-sizing: border-box;
  margin: 0;
@@ -98,13 +92,6 @@ body {
  font-family: "lato", sans-serif;
  text-align: center;
 }
- 
-.container {
- justify-content: center;
- align-items: center;
- height: 100vh;
-}
- 
  
  
 img { 

@@ -1,26 +1,45 @@
 <template>
   <div id="addFood">
     <h3>{{ mealType }}</h3>
+
     <div id="mealInfo" v-if="displayFoodInfo">
-      <div>
-        <div>Meal: {{ mealName }}</div>
-        <div>Calorie: {{ mealCal }}</div>
-        <div>Fat: {{ mealFat }}</div>
-        <div>Protein: {{ mealProtein }}</div>
-        <div>Carbohydrates: {{ mealCarb }}</div>
+      <div style="width: 20%">
+        <img :id="mealImageID" :src="null" style="mealImageStyle" />
+        <h4>{{ mealName }}</h4>
       </div>
-      <img :id="mealImageID" :src="null" style="mealImageStyle" />
-      <button type="button" id="addFoodButton" v-on:click="deleteMeal">
-        Delete meal
-      </button>
+      <div id="mealNutrient">
+        <table id="mealTable">
+          <tr>
+            <th>Calorie</th>
+            <th>Fat</th>
+            <th>Protein</th>
+            <th>Carbohydrates</th>
+          </tr>
+          <tr>
+            <td>{{ mealCal }}</td>
+            <td>{{ mealFat }}</td>
+            <td>{{ mealProtein }}</td>
+            <td>{{ mealCarb }}</td>
+          </tr>
+        </table>
+
+        <br /><br />
+
+        <button type="button" id="addFoodButton" v-on:click="deleteMeal">
+          Delete meal
+        </button>
+      </div>
     </div>
+    <br /><br />
+
     <button type="button" id="addFoodButton" v-on:click="displayCalc()">
       Add Food</button
     ><br /><br />
     <div v-if="displayTable">
       <APIQuery @chosenFood="foodChosen($event)" /><br /><br />
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
-      <div v-else>Select a food!</div>
+      <div v-else>Select a food!</div><br><br>
+      <div>Add a picture of your meal:</div>
       <input type="file" accept="image/*" @change="imageChange" />
       <button type="button" id="addFoodButton" v-on:click="submitToFS()">
         Submit
@@ -192,21 +211,43 @@
 
   #mealInfo {
     display: flex;
-    height: 110px;
-    margin: 20px 20px 20px 20px;
+    width: 100%;
+    text-align: center;
+  }
+
+  #mealNutrient {
+      width: 80%;
+      height: 100%;
+      margin-top: 75px;
   }
 
   #BreakfastImage,
   #LunchImage,
   #DinnerImage,
   #SnackImage {
-    height: 100%;
-    margin: 0% 10% 0% 10%;
+    width: 100%;
   }
 
   #addFoodButton {
     width: 15%;
     height: 30px;
     border-radius: 5px;
+  }
+
+  #mealTable {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+    align-self: center;
+    border: 3px solid black;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  #mealTable th {
+    border: 3px solid black;
+    text-align: center;
+    background-color: #575454;
+    color: white;
   }
 </style>

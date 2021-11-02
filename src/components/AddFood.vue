@@ -38,7 +38,8 @@
     <div v-if="displayTable">
       <APIQuery @chosenFood="foodChosen($event)" /><br /><br />
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
-      <div v-else>Select a food!</div><br><br>
+      <div v-else>Select a food!</div>
+      <br /><br />
       <div>Add a picture of your meal:</div>
       <input type="file" accept="image/*" @change="imageChange" />
       <button type="button" id="addFoodButton" v-on:click="submitToFS()">
@@ -108,7 +109,7 @@
     },
     methods: {
       async displayCalc() {
-        this.displayTable = true;
+        this.displayTable = !this.displayTable;
       },
       async foodChosen(recipe) {
         this.recipe = recipe;
@@ -143,13 +144,20 @@
             ),
             {
               food: this.recipe["label"],
-              calorie: Math.round(this.recipe["calories"]),
-              fat: Math.round(this.recipe["totalNutrients"]["FAT"]["quantity"]),
+              calorie: Math.round(
+                this.recipe["calories"] / this.recipe["yield"]
+              ),
+              fat: Math.round(
+                this.recipe["totalNutrients"]["FAT"]["quantity"] /
+                  this.recipe["yield"]
+              ),
               protein: Math.round(
-                this.recipe["totalNutrients"]["PROCNT"]["quantity"]
+                this.recipe["totalNutrients"]["PROCNT"]["quantity"] /
+                  this.recipe["yield"]
               ),
               carbohydrates: Math.round(
-                this.recipe["totalNutrients"]["CHOCDF"]["quantity"]
+                this.recipe["totalNutrients"]["CHOCDF"]["quantity"] /
+                  this.recipe["yield"]
               ),
             }
           );
@@ -216,9 +224,9 @@
   }
 
   #mealNutrient {
-      width: 80%;
-      height: 100%;
-      margin-top: 75px;
+    width: 80%;
+    height: 100%;
+    margin-top: 75px;
   }
 
   #BreakfastImage,

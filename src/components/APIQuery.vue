@@ -68,6 +68,7 @@
           var ind = 1;
           results.forEach((doc) => {
             var recipe = doc["recipe"];
+            var y = recipe["yield"];
             var row = document.getElementById("table").insertRow(ind);
             let bu = document.createElement("button");
             bu.id = "foodNameButton";
@@ -75,15 +76,15 @@
             bu.innerHTML = recipe["label"];
             bu.onclick = () => this.$emit("chosenFood", recipe);
             row.insertCell(0).appendChild(bu);
-            row.insertCell(1).innerHTML = Math.round(recipe["calories"]);
+            row.insertCell(1).innerHTML = Math.round(recipe["calories"] / y);
             row.insertCell(2).innerHTML = Math.round(
-              recipe["totalNutrients"]["FAT"]["quantity"]
+              recipe["totalNutrients"]["FAT"]["quantity"] / y
             );
             row.insertCell(3).innerHTML = Math.round(
-              recipe["totalNutrients"]["PROCNT"]["quantity"]
+              recipe["totalNutrients"]["PROCNT"]["quantity"] / y
             );
             row.insertCell(4).innerHTML = Math.round(
-              recipe["totalNutrients"]["CHOCDF"]["quantity"]
+              recipe["totalNutrients"]["CHOCDF"]["quantity"] / y
             );
           });
         }

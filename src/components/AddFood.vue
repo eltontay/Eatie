@@ -17,11 +17,11 @@
     <button type="button" id="addFoodButton" v-on:click="displayCalc()">
       Add Food</button
     ><br /><br />
-    <input type="file" accept="image/*" @change="imageChange" />
     <div v-if="displayTable">
-      <APIQuery @chosenFood="foodChosen($event)" /><br><br>
-      <div v-if="recipe">Current food selected: {{recipe["label"]}}</div>
+      <APIQuery @chosenFood="foodChosen($event)" /><br /><br />
+      <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
       <div v-else>Select a food!</div>
+      <input type="file" accept="image/*" @change="imageChange" />
       <button type="button" id="addFoodButton" v-on:click="submitToFS()">
         Submit
       </button>
@@ -112,8 +112,8 @@
       },
       async submitToFS() {
         if (this.recipe == null) {
-            alert("Select a meal!");
-            return
+          alert("Select a meal!");
+          return;
         }
         try {
           setDoc(
@@ -138,8 +138,8 @@
           console.error("Error adding document: ", error);
         }
         this.uploadImage();
-        this.displayTable=false;
-        this.displayFoodInfo=true;
+        this.displayTable = false;
+        this.displayFoodInfo = true;
         this.getFoodData();
       },
       async getFoodData() {
@@ -176,7 +176,7 @@
             error;
             // Uh-oh, an error occurred!
           });
-          this.displayFoodInfo=false;
+        this.displayFoodInfo = false;
       },
     },
   };
@@ -206,6 +206,7 @@
 
   #addFoodButton {
     width: 15%;
+    height: 30px;
     border-radius: 5px;
   }
 </style>

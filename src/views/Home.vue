@@ -1,10 +1,16 @@
 <template>
   <div>
     <div v-if="user">
-      <h2>Welcome to Eatie</h2>
-      <p>
-        There should be a component of a calendar with the food the user ate.
-      </p>
+      <h2>Welcome back {{ this.user.displayName }}</h2>
+      <div>
+        <h2>What would you like to do today?</h2>
+        <br />
+        <button>View My Progress</button>
+        <br />
+        <button>View My Goals</button>
+        <br />
+        <button>View My Journal</button>
+      </div>
     </div>
     <div v-if="!user">
       <h3>Welcome to Eatie</h3>

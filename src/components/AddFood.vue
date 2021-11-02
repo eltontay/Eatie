@@ -4,8 +4,26 @@
 
     <div id="mealInfo" v-if="displayFoodInfo">
       <div style="width: 20%">
-        <img :id="mealImageID" :src="null" style="mealImageStyle" />
+        <img
+          :id="mealImageID"
+          :src="imageSource"
+          style="mealImageStyle"
+        />
         <h4>{{ mealName }}</h4>
+        <input
+          v-if="!haveImage"
+          type="file"
+          accept="image/*"
+          @change="imageChange"
+        /><br /><br />
+        <button
+          v-if="!haveImage"
+          type="button"
+          id="addImageButton"
+          v-on:click="uploadImage"
+        >
+          Upload Image
+        </button>
       </div>
       <div id="mealNutrient">
         <table id="mealTable">
@@ -72,6 +90,8 @@
         displayFoodInfo: false,
         recipe: null,
         currUploadedImage: null,
+        haveImage: false,
+        imageSource: "@/assets/no_image_uploaded.png",
         mealName: "",
         mealProtein: "",
         mealCarb: "",
@@ -125,8 +145,10 @@
       async loadImage() {
         getDownloadURL(this.storageRef)
           .then((url) => {
-            const img = document.getElementById(this.mealImageID);
-            img.setAttribute("src", url);
+            // const img = document.getElementById(this.mealImageID);
+            // img.setAttribute("src", url);
+            this.haveImage = true;
+            this.imageSource = url
           })
           .catch((e) => e); // generates an error, try to remove
       },

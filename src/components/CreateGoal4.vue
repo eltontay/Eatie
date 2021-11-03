@@ -104,12 +104,6 @@ e29578
  
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
  
-p {
- color:#006d77;
- font-weight: 900;
-}
-
- 
 .activity{
  justify-content: center;
  align-items: center;

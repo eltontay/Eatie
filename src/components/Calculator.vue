@@ -42,8 +42,4 @@
     display: flex;
     justify-content: center;
   }
-
-  .foodIcon {
-    height: 70px;
-  }
 </style>

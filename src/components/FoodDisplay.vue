@@ -1,28 +1,29 @@
 <template>
   <h2>{{ date }}</h2>
+  <hr />
   <div id="foodDisplay">
     <div id="mealDisplay" :key="haveMeal">
       <h3>Breakfast</h3>
       <img :src="mealImg['Breakfast']" v-if="haveMeal['Breakfast']" />
-      <h4 v-if="haveMeal['Breakfast']" >{{ mealName["Breakfast"] }}</h4>
+      <h4 v-if="haveMeal['Breakfast']">{{ mealName["Breakfast"] }}</h4>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Lunch</h3>
       <img :src="mealImg['Lunch']" v-if="haveMeal['Lunch']" />
-      <h4 v-if="haveMeal['Lunch']" >{{ mealName["Lunch"] }}</h4>
+      <h4 v-if="haveMeal['Lunch']">{{ mealName["Lunch"] }}</h4>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Dinner</h3>
       <img :src="mealImg['Dinner']" v-if="haveMeal['Dinner']" />
-      <h4 v-if="haveMeal['Dinner']" >{{ mealName["Dinner"] }}</h4>
+      <h4 v-if="haveMeal['Dinner']">{{ mealName["Dinner"] }}</h4>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Snack</h3>
       <img :src="mealImg['Snack']" v-if="haveMeal['Snack']" />
-      <h4 v-if="haveMeal['Snack']" >{{ mealName["Snack"] }}</h4>
+      <h4 v-if="haveMeal['Snack']">{{ mealName["Snack"] }}</h4>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
   </div>

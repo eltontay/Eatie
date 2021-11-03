@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import FoodCalculator from '@/views/FoodCalculator.vue';
 import MyJournal from '@/views/MyJournal.vue';
-import About from '@/views/About.vue';
 import MyGoals from '@/views/MyGoals.vue';
 import Goal1 from '@/views/GoalStep1.vue';
 import Goal2 from '@/views/GoalStep2.vue';
@@ -12,6 +11,7 @@ import SignIn from '@/views/SignUpPage.vue';
 import Myprogress from '@/views/MyProgress.vue';
 import AccountProfile from '@/views/AccountProfile.vue';
 import WeightUpdate from '@/views/WeightUpdate.vue';
+import EditProfile from '@/views/EditProfile.vue';
 import NotFound from '@/views/NotFound.vue';
 
 
@@ -30,11 +30,6 @@ const routes = [
     path: '/myJournal',
     name: 'MyJournal',
     component: MyJournal,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About,
   },
   {
     path: '/myGoals',
@@ -67,12 +62,12 @@ const routes = [
     component: Myprogress,
   },
   {
-    path: '/SignIn', //temporary, remove once done
+    path: '/SignIn',
     name: 'SignIn',
     component: SignIn,
   },
   {
-    path: '/Profile', //temporary, remove once done
+    path: '/Profile',
     name: 'AccountProfile',
     component: AccountProfile,
   },
@@ -80,6 +75,11 @@ const routes = [
     path: '/WeightUpdate', 
     name: 'WeightUpdate',
     component: WeightUpdate,
+  },
+  {
+    path: '/editProfile', 
+    name: 'EditProfile',
+    component: EditProfile,
   },
   {
     path:'/:catchAll(.*)',

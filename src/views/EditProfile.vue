@@ -1,26 +1,23 @@
 <template>
   <div style="text-align:center;" v-if="user" class="container">
     <h2>Edit Profile</h2>
-    <div id="displayPictureContainer">
-      <img :src="profileImg" id="displayPic" />
-      <br />
-      <div id="editProfile">
-      <h3>Upload image:</h3>
-              <input type="file" accept="image/*" @change="imageChange" /><br /><br />
-      <button type="button" id="submitButton" v-on:click="uploadDP()">
-        Submit
-      </button>
+    <div>
+      <div id="displayPictureContainer">
+        <img :src="profileImg" id="displayPic" />
+        <div id="editProfile">
+          <h3>Upload Profile Picture:</h3>
+          <input
+            type="file"
+            accept="image/*"
+            @change="imageChange"
+          /><br /><br />
+          <button type="button" id="uploadPhoto" v-on:click="uploadDP()">
+            Upload
+          </button>
+        </div>
       </div>
     </div>
     <br /><br />
-          <form>
-        <label for="profileName">New name: </label>
-        <input type="text" id="profileName" required="" placeholder="Enter new name"> <br><br>
-        <label for="password1">New password: </label>
-        <input type="password" id="password1" required="" placeholder="Enter new password"> <br><br>
-        <label for="password2">Confirm password: </label>
-        <input type="password" id="password2" required="" placeholder="Confirm password"> <br><br>
-      </form>
     <div id="profileInfoContainer">
       <p>
         Name: <strong>{{ user.displayName }}</strong
@@ -29,11 +26,45 @@
       </p>
       <br />
     </div>
+    <form id="profileForm">
+      <label for="profileName">New name: </label>
+      <input type="text" id="profileName" required="" v-model="newName" />
+      <br /><br />
+      <label for="password1">Current password: </label>
+      <input
+        type="password"
+        id="password1"
+        required=""
+        v-model="currentPassword"
+      />
+      <br /><br />
+      <label for="password2">New password: </label>
+      <input type="password" id="password2" required="" v-model="newPassword" />
+      <br /><br />
+      <label for="password3">Confirm password: </label>
+      <input
+        type="password"
+        id="password3"
+        required=""
+        v-model="confirmPassword"
+      />
+      <br /><br />
+      <button type="button" id="submitButton" v-on:click="updateProf()">
+        Submit
+      </button>
+    </form>
   </div>
 </template>
 
 <script>
-  import { getAuth, onAuthStateChanged, updateProfile } from "firebase/auth";
+  import {
+    getAuth,
+    onAuthStateChanged,
+    updateProfile,
+    updatePassword,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
+  } from "firebase/auth";
   import {
     getStorage,
     ref,
@@ -42,6 +73,7 @@
   } from "firebase/storage";
 
   import girlPic from "@/assets/girl.png";
+  import router from "@/router/index.js";
   // import boyPic from "@/assets/boy.png";
 
   export default {
@@ -54,6 +86,7 @@
         profileImg: girlPic,
         currUploadedImage: null,
         newName: "",
+        currentPassword: "",
         newPassword: "",
         confirmPassword: "",
       };
@@ -65,6 +98,7 @@
         if (user) {
           this.user = user;
           this.fbuser = auth.currentUser.email;
+          this.newName = user.displayName;
           if (user.photoURL != null) {
             this.profileImg = user.photoURL;
           }
@@ -77,7 +111,10 @@
         console.log(e);
       },
       async uploadDP() {
-        if (this.currUploadedImage == null) return;
+        if (this.currUploadedImage == null) {
+          alert("Choose a picture");
+          return;
+        }
         let storageRef = ref(getStorage(), this.fbuser + "/displayPic");
         await uploadBytes(storageRef, this.currUploadedImage.target.files[0]);
         getDownloadURL(storageRef)
@@ -100,6 +137,60 @@
             }
           });
       },
+      updateProf() {
+        if (
+          this.newName == "" ||
+          this.currentPassword == "" ||
+          this.newPassword == "" ||
+          this.confirmPassword == ""
+        ) {
+          alert("Fill in all fields!");
+          return;
+        } else if (this.newPassword !== this.confirmPassword) {
+          alert("Passwords do not match!");
+          return;
+        }
+        const credential = EmailAuthProvider.credential(
+          this.fbuser,
+          this.currentPassword
+        );
+        reauthenticateWithCredential(this.user, credential)
+          .then(() => {
+            // User re-authenticated.
+            updatePassword(this.user, this.newPassword)
+              .then(() => {
+                alert("Profile updated!");
+                updateProfile(this.user, {
+                  displayName: this.newName,
+                })
+                  .then(() => {
+                    // Profile updated!
+                  })
+                  .catch((error) => {
+                    console.error("Problem updating username: " + error.code);
+                  });
+                router.push("/Profile");
+              })
+              .catch((error) => {
+                switch (error.code) {
+                  case "auth/weak-password":
+                    alert(
+                      "Weak password! Password must be at least 6 characters long"
+                    );
+                    break;
+                }
+                console.error("Problem updating password: " + error.code);
+              });
+          })
+          .catch((error) => {
+            switch (error.code) {
+              case "auth/wrong-password":
+                alert("Wrong password!");
+                return;
+            }
+            console.error("Problem with authentication: " + error.code);
+          });
+      },
     },
   };
 </script>
@@ -107,10 +198,9 @@
 <style scoped>
   #editProfile {
     width: 50%;
-    height: 30px;
-    border-radius: 10px;
   }
 
+  #submitButton,
   #submitButton {
     width: 25%;
     height: 30px;
@@ -137,5 +227,10 @@
     margin-left: 10%;
     margin-right: 10%;
     border: 4px solid #333;
+  }
+
+  #profileForm {
+    display: inline-block;
+    text-align: right;
   }
 </style>

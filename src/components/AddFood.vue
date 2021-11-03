@@ -142,7 +142,10 @@
         this.currUploadedImage = e;
       },
       async uploadImage() {
-        if (this.currUploadedImage == null) return;
+        if (this.currUploadedImage == null) {
+          alert("Choose a picture");
+          return;
+        }
         await uploadBytes(
           this.storageRef,
           this.currUploadedImage.target.files[0]

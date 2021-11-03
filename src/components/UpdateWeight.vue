@@ -2,6 +2,8 @@
  <div class="container">
  
    <h3>What is your current weight?</h3>
+   <input id="dateInput" type="date" v-model="weightDate"/>
+   <br/> <br/>
  
    <div id="flex-container">
  
@@ -20,7 +22,7 @@
 
 <script>
 import firebaseApp from '../firebase.js';
-import { getFirestore, setDoc } from 'firebase/firestore';
+import { getFirestore, setDoc, getDoc, updateDoc } from 'firebase/firestore';
 import { doc } from 'firebase/firestore';
 
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -29,7 +31,7 @@ const db = getFirestore(firebaseApp);
 export default {
     data() {
         return {    
-        date: ""
+        weightDate: '',
         }
     },
     computed: {
@@ -44,7 +46,7 @@ export default {
         );
       },
     },
-    mounted() {
+    beforeMount() {
         const auth = getAuth();
         onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -52,21 +54,29 @@ export default {
             this.fbuser = auth.currentUser.email;
         }
         });
-        this.date = this.currentDate
+        this.weightDate = this.currentDate
     },
 
     methods: {
     async updateweight(e) {
       e.preventDefault()
       try {
-        var weight = parseFloat(parseFloat(document.getElementById('weight').value).toFixed(2));
-        await setDoc(doc(db, String(this.fbuser), 'weight_progress'), {
-          [this.date]: weight,
+        let weight = parseFloat(parseFloat(document.getElementById('weight').value).toFixed(2));
+        let weightDoc = doc(db, String(this.fbuser), 'weight_progress');
+        let weightdb = await getDoc(weightDoc);
+        if (weightdb.data() == undefined) {
+          await setDoc(weightDoc, {
+          [this.weightDate]: weight,
         });
-        console.log('pushing?');
+        } else {
+          await updateDoc(weightDoc, {
+          [this.weightDate]: weight,
+          }, { merge: true }); 
+        }
+        
         this.$router.push('./MyProgress');
-        console.log('pushed');
       } catch (error) {
+        alert("Hav")
         console.log(error);
       }
     },

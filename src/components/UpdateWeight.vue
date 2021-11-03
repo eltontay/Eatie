@@ -9,13 +9,11 @@
        <img src="@/assets/weight.png" alt="" class="" />
      </div>
         
-     <form id="flex-child" class="form">       
-       <input class = "input" type="float" placeholder = "ph" id="weight" />
-       <label for="weight">My weight (kg) is</label>
+     <form id="flex-child" class="form" v-on:submit= "updateweight">   
+       <label for="weight">My weight (kg) is</label>    
+       <input type="text" id="weight" placeholder="ph" name="weight" pattern="\d{2,3}(\.\d{0,2})?" title="Please input weight up to 2 decimals" required>
+       <button type="submit" class ="Btn">Enter</button>
      </form>
-  
-     <button class ="Btn" @click="updateweight()">Submit</button>
-
    </div>
  </div>
 </template>
@@ -58,9 +56,10 @@ export default {
     },
 
     methods: {
-    async updateweight() {
+    async updateweight(e) {
+      e.preventDefault()
       try {
-        var weight = parseFloat(parseFloat(document.getElementById('weight').value).toFixed(1));
+        var weight = parseFloat(parseFloat(document.getElementById('weight').value).toFixed(2));
         await setDoc(doc(db, String(this.fbuser), 'weight_progress'), {
           [this.date]: weight,
         });

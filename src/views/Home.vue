@@ -1,13 +1,7 @@
 <template>
   <div v-if="user">
     <h2>Welcome to Eatie</h2>
-    <FoodDisplay :date="date[0]" />
-    <FoodDisplay :date="date[1]" />
-    <FoodDisplay :date="date[2]" />
-    <FoodDisplay :date="date[3]" />
-    <FoodDisplay :date="date[4]" />
-    <FoodDisplay :date="date[5]" />
-    <FoodDisplay :date="date[6]" />
+    <FoodCalendar />
   </div>
   <div v-if="!user">
     <h3>Welcome to Eatie</h3>
@@ -17,29 +11,17 @@
 
 <script>
   import { getAuth, onAuthStateChanged } from "firebase/auth";
-  import FoodDisplay from "@/components/FoodDisplay.vue";
+  import FoodCalendar from "@/components/FoodCalendar.vue";
 
   export default {
     name: "App",
     components: {
-      FoodDisplay,
+      FoodCalendar,
     },
     data() {
       return {
         user: false,
       };
-    },
-    computed: {
-      date() {
-        console.log("hello")
-        let currDate = new Date();
-        let d = {};
-        for (let i = 0; i < 7; i++) {
-          d[i] = this.convertToDateString(currDate);
-          currDate.setDate(currDate.getDate() - 1);
-        }
-        return d;
-      },
     },
     mounted() {
       const auth = getAuth();
@@ -48,17 +30,6 @@
           this.user = user;
         }
       });
-    },
-    methods: {
-      convertToDateString(date) {
-        return (
-          date.getFullYear() +
-          "-" +
-          String(date.getMonth() + 1).padStart(2, "0") +
-          "-" +
-          String(date.getDate()).padStart(2, "0")
-        );
-      },
     },
   };
 </script>

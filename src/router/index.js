@@ -11,6 +11,7 @@ import SignIn from '@/views/SignUpPage.vue';
 import Myprogress from '@/views/MyProgress.vue';
 import AccountProfile from '@/views/AccountProfile.vue';
 import WeightUpdate from '@/views/WeightUpdate.vue';
+import EditProfile from '@/views/EditProfile.vue';
 import NotFound from '@/views/NotFound.vue';
 
 
@@ -74,6 +75,11 @@ const routes = [
     path: '/WeightUpdate', 
     name: 'WeightUpdate',
     component: WeightUpdate,
+  },
+  {
+    path: '/editProfile', 
+    name: 'EditProfile',
+    component: EditProfile,
   },
   {
     path:'/:catchAll(.*)',

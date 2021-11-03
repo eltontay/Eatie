@@ -1,22 +1,24 @@
 <template>
+  <About />
   <div v-if="user">
-    <h2>Welcome to Eatie</h2>
+    <h2>Food history for the past week</h2>
     <FoodCalendar />
   </div>
   <div v-if="!user">
-    <h3>Welcome to Eatie</h3>
-    <h4>We can insert the ABOUT page component here</h4>
+    Add something here??
   </div>
 </template>
 
 <script>
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import FoodCalendar from "@/components/FoodCalendar.vue";
+  import About from "@/components/About.vue";
 
   export default {
     name: "App",
     components: {
       FoodCalendar,
+      About,
     },
     data() {
       return {

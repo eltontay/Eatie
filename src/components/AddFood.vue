@@ -5,7 +5,7 @@
     <div id="mealInfo" v-if="displayFoodInfo" :key="refreshCounter">
       <div style="width: 20%">
         <img
-          :id="mealImageID"
+          id="foodImageID"
           v-bind:src="imageSource"
           style="mealImageStyle"
         />
@@ -112,9 +112,6 @@
           getStorage(),
           this.fbuser + "/" + this.mealDate + "/" + this.mealType
         );
-      },
-      mealImageID() {
-        return this.mealType + "Image";
       },
     },
     mounted() {
@@ -277,10 +274,7 @@
     margin-top: 75px;
   }
 
-  #BreakfastImage,
-  #LunchImage,
-  #DinnerImage,
-  #SnackImage {
+  #foodImageID {
     width: 100%;
   }
 

@@ -138,6 +138,7 @@
           });
       },
       updateProf() {
+        var name = this.newName;
         if (
           this.newName == "" ||
           this.currentPassword == "" ||
@@ -148,6 +149,9 @@
           return;
         } else if (this.newPassword !== this.confirmPassword) {
           alert("Passwords do not match!");
+          return;
+        } else if (this.currentPassword === this.newPassword) {
+          alert("Provide a new password!")
           return;
         }
         const credential = EmailAuthProvider.credential(
@@ -161,7 +165,7 @@
               .then(() => {
                 alert("Profile updated!");
                 updateProfile(this.user, {
-                  displayName: this.newName,
+                  displayName: name,
                 })
                   .then(() => {
                     // Profile updated!

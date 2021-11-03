@@ -1,5 +1,5 @@
 <template>
-  <div style="text-align:center;" v-if="user" class="container">
+  <div style="text-align:center;" class="container">
     <div id="about">
       <img class="foodIcon" src="@/assets/h1.png" alt="" /> &nbsp;
       <img class="foodIcon" src="@/assets/h3.png" alt="" />

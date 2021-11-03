@@ -5,7 +5,7 @@
     <FoodCalendar />
   </div>
   <div v-if="!user">
-    Add something here??
+    <h3><router-link to="/SignIn">Sign in</router-link> to enjoy the full feature of our app!</h3>
   </div>
 </template>
 

@@ -1,0 +1,128 @@
+<template>
+  <h2>{{ date }}</h2>
+  <div id="foodDisplay">
+    <div id="mealDisplay" :key="haveMeal">
+      <h3>Breakfast</h3>
+      <img :src="mealImg['Breakfast']" v-if="haveMeal['Breakfast']" />
+      <h4 v-if="haveMeal['Breakfast']" >{{ mealName["Breakfast"] }}</h4>
+      <router-link to="/myJournal" v-else>Add a meal</router-link>
+    </div>
+    <div id="mealDisplay" :key="haveMeal">
+      <h3>Lunch</h3>
+      <img :src="mealImg['Lunch']" v-if="haveMeal['Lunch']" />
+      <h4 v-if="haveMeal['Lunch']" >{{ mealName["Lunch"] }}</h4>
+      <router-link to="/myJournal" v-else>Add a meal</router-link>
+    </div>
+    <div id="mealDisplay" :key="haveMeal">
+      <h3>Dinner</h3>
+      <img :src="mealImg['Dinner']" v-if="haveMeal['Dinner']" />
+      <h4 v-if="haveMeal['Dinner']" >{{ mealName["Dinner"] }}</h4>
+      <router-link to="/myJournal" v-else>Add a meal</router-link>
+    </div>
+    <div id="mealDisplay" :key="haveMeal">
+      <h3>Snack</h3>
+      <img :src="mealImg['Snack']" v-if="haveMeal['Snack']" />
+      <h4 v-if="haveMeal['Snack']" >{{ mealName["Snack"] }}</h4>
+      <router-link to="/myJournal" v-else>Add a meal</router-link>
+    </div>
+  </div>
+</template>
+
+<script>
+  import firebaseApp from "../firebase.js";
+  import { getDoc, getFirestore } from "firebase/firestore";
+  import { doc } from "firebase/firestore";
+
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
+  import { getStorage, ref, getDownloadURL } from "firebase/storage";
+  import no_image_loaded from "@/assets/no_image_uploaded.png";
+  const db = getFirestore(firebaseApp);
+
+  export default {
+    data() {
+      return {
+        fbuser: "",
+        mealName: { Breakfast: "", Lunch: "", Dinner: "", Snack: "" },
+        mealImg: {
+          Breakfast: no_image_loaded,
+          Lunch: no_image_loaded,
+          Dinner: no_image_loaded,
+          Snack: no_image_loaded,
+        },
+        haveMeal: {
+          Breakfast: false,
+          Lunch: false,
+          Dinner: false,
+          Snack: false,
+        },
+      };
+    },
+    props: {
+      date: String,
+    },
+    mounted() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.user = user;
+          this.fbuser = auth.currentUser.email;
+          this.loadMeal("Breakfast");
+          this.loadMeal("Lunch");
+          this.loadMeal("Dinner");
+          this.loadMeal("Snack");
+        }
+      });
+    },
+    methods: {
+      async loadMeal(mealType) {
+        try {
+          var a = doc(db, String(this.fbuser), "daily_nutrient");
+          var meal = await getDoc(doc(a, this.date, mealType));
+          if (meal.data() != undefined) {
+            this.haveMeal[mealType] = true;
+            this.mealName[mealType] = meal.data()["food"];
+            this.loadImage(mealType);
+          }
+        } catch (error) {
+          if (error.code == "invalid-argument") return;
+          console.error("Error getting document: ", error.code);
+        }
+      },
+      async loadImage(mealType) {
+        let storageRef = ref(
+          getStorage(),
+          this.fbuser + "/" + this.date + "/" + mealType
+        );
+        getDownloadURL(storageRef)
+          .then((url) => {
+            this.mealImg[mealType] = url;
+          })
+          .catch((error) => {
+            switch (error.code) {
+              case "storage/object-not-found":
+                // File doesn't exist
+                break;
+              case "storage/unknown":
+                // Unknown error occurred, inspect the server response
+                break;
+            }
+          });
+      },
+    },
+  };
+</script>
+
+<style>
+  #foodDisplay {
+    display: flex;
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  #mealDisplay {
+    width: 15%;
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+</style>

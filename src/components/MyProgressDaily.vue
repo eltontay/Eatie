@@ -175,42 +175,24 @@
         if (user) {
           this.user = user;
           this.fbuser = auth.currentUser.email;
-          this.findDailyNutrient();
+          this.findDailyNutrient("Breakfast");
+          this.findDailyNutrient("Lunch");
+          this.findDailyNutrient("Dinner");
+          this.findDailyNutrient("Snack");
         }
       });
     },
     methods: {
-      async findDailyNutrient() {
+      async findDailyNutrient(mealType) {
         var a = doc(db, String(this.fbuser), "daily_nutrient");
-        var breakfast = await getDoc(doc(a, this.date, "Breakfast"));
-        var lunch = await getDoc(doc(a, this.date, "Lunch"));
-        var dinner = await getDoc(doc(a, this.date, "Dinner"));
-        var snack = await getDoc(doc(a, this.date, "Snack"));
-        if (breakfast.data() != undefined) {
-          this.dailyNutrient["Calorie"] += breakfast.data()["calorie"];
-          this.dailyNutrient["Protein"] = breakfast.data()["protein"];
-          this.dailyNutrient["Carbohydrates"] = breakfast.data()[
+        var meal = await getDoc(doc(a, this.date, mealType));
+        if (meal.data() != undefined) {
+          this.dailyNutrient["Calorie"] += meal.data()["calorie"];
+          this.dailyNutrient["Protein"] = meal.data()["protein"];
+          this.dailyNutrient["Carbohydrates"] = meal.data()[
             "carbohydrates"
           ];
-          this.dailyNutrient["Fat"] = breakfast.data()["fat"];
-        }
-        if (lunch.data() != undefined) {
-          this.dailyNutrient["Calorie"] += lunch.data()["calorie"];
-          this.dailyNutrient["Protein"] = lunch.data()["protein"];
-          this.dailyNutrient["Carbohydrates"] = lunch.data()["carbohydrates"];
-          this.dailyNutrient["Fat"] = lunch.data()["fat"];
-        }
-        if (dinner.data() != undefined) {
-          this.dailyNutrient["Calorie"] += dinner.data()["calorie"];
-          this.dailyNutrient["Protein"] = dinner.data()["protein"];
-          this.dailyNutrient["Carbohydrates"] = dinner.data()["carbohydrates"];
-          this.dailyNutrient["Fat"] = dinner.data()["fat"];
-        }
-        if (snack.data() != undefined) {
-          this.dailyNutrient["Calorie"] += snack.data()["calorie"];
-          this.dailyNutrient["Protein"] = snack.data()["protein"];
-          this.dailyNutrient["Carbohydrates"] = snack.data()["carbohydrates"];
-          this.dailyNutrient["Fat"] = snack.data()["fat"];
+          this.dailyNutrient["Fat"] = meal.data()["fat"];
         }
       },
     },

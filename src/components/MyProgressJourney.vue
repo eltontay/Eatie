@@ -90,7 +90,10 @@
         if (user) {
           this.user = user;
           this.fbuser = auth.currentUser.email;
-          this.findWeeklyNutrient();
+          this.findWeeklyNutrient("Breakfast");
+          this.findWeeklyNutrient("Lunch");
+          this.findWeeklyNutrient("Dinner");
+          this.findWeeklyNutrient("Snack");
           this.findWeeklyWeight();
         }
       });
@@ -105,42 +108,18 @@
           String(date.getDate()).padStart(2, "0")
         );
       },
-      async findWeeklyNutrient() {
+      async findWeeklyNutrient(mealType) {
         let a = doc(db, String(this.fbuser), "daily_nutrient");
         let currDate = new Date();
         let i = currDate.getDay();
         while (i >= 0) {
-          let breakfast = await getDoc(
-            doc(a, this.convertToDateString(currDate), "Breakfast")
+          let meal = await getDoc(
+            doc(a, this.convertToDateString(currDate), mealType)
           );
-          let lunch = await getDoc(
-            doc(a, this.convertToDateString(currDate), "Lunch")
-          );
-          let dinner = await getDoc(
-            doc(a, this.convertToDateString(currDate), "Dinner")
-          );
-          let snack = await getDoc(
-            doc(a, this.convertToDateString(currDate), "Snack")
-          );
-          if (breakfast.data() != undefined) {
-            this.weeklyFat += breakfast.data()["fat"];
-            this.weeklyProtein += breakfast.data()["protein"];
-            this.weeklyCarb += breakfast.data()["carbohydrates"];
-          }
-          if (lunch.data() != undefined) {
-            this.weeklyFat += lunch.data()["fat"];
-            this.weeklyProtein += lunch.data()["protein"];
-            this.weeklyCarb += lunch.data()["carbohydrates"];
-          }
-          if (dinner.data() != undefined) {
-            this.weeklyFat += dinner.data()["fat"];
-            this.weeklyProtein += dinner.data()["protein"];
-            this.weeklyCarb += dinner.data()["carbohydrates"];
-          }
-          if (snack.data() != undefined) {
-            this.weeklyFat += snack.data()["fat"];
-            this.weeklyProtein += snack.data()["protein"];
-            this.weeklyCarb += snack.data()["carbohydrates"];
+          if (meal.data() != undefined) {
+            this.weeklyFat += meal.data()["fat"];
+            this.weeklyProtein += meal.data()["protein"];
+            this.weeklyCarb += meal.data()["carbohydrates"];
           }
           currDate.setDate(currDate.getDate() - 1);
           i--;

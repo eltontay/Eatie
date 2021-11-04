@@ -4,25 +4,25 @@
   <div id="foodDisplay">
     <div id="mealDisplay" :key="haveMeal">
       <h3>Breakfast</h3>
-      <img :src="mealImg['Breakfast']" v-if="haveMeal['Breakfast']" />
+      <img id="homeFoodIcon" :src="mealImg['Breakfast']" v-if="haveMeal['Breakfast']" />
       <h4 v-if="haveMeal['Breakfast']">{{ mealName["Breakfast"] }}</h4>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Lunch</h3>
-      <img :src="mealImg['Lunch']" v-if="haveMeal['Lunch']" />
+      <img id="homeFoodIcon" :src="mealImg['Lunch']" v-if="haveMeal['Lunch']" />
       <h4 v-if="haveMeal['Lunch']">{{ mealName["Lunch"] }}</h4>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Dinner</h3>
-      <img :src="mealImg['Dinner']" v-if="haveMeal['Dinner']" />
+      <img id="homeFoodIcon" :src="mealImg['Dinner']" v-if="haveMeal['Dinner']" />
       <h4 v-if="haveMeal['Dinner']">{{ mealName["Dinner"] }}</h4>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Snack</h3>
-      <img :src="mealImg['Snack']" v-if="haveMeal['Snack']" />
+      <img id="homeFoodIcon" :src="mealImg['Snack']" v-if="haveMeal['Snack']" />
       <h4 v-if="haveMeal['Snack']">{{ mealName["Snack"] }}</h4>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
@@ -113,7 +113,7 @@
   };
 </script>
 
-<style>
+<style scope>
   #foodDisplay {
     display: flex;
     width: 80%;
@@ -125,5 +125,9 @@
     width: 15%;
     margin-left: 5%;
     margin-right: 5%;
+  }
+
+  #homeFoodIcon {
+    width: 100%;
   }
 </style>

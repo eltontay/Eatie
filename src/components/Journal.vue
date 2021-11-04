@@ -6,21 +6,17 @@
     <!-- <div>Today's date: {{ currentDate }}</div> -->
     <input id="dateInput" type="date" v-model="date"/>
 
-    <AddFood mealType="Breakfast Item 1" :mealDate="date" :key="date"/>
-    <AddFood mealType="Breakfast Item 2" :mealDate="date" :key="date"/>
-    <AddFood mealType="Breakfast Item 3" :mealDate="date" :key="date"/>
+    <AddFood mealType="Breakfast" :mealDate="date" :key="date"/>
 
-    <AddFood mealType="Lunch Item 1" :mealDate="date" :key="date"/>
-    <AddFood mealType="Lunch Item 2" :mealDate="date" :key="date"/>
-    <AddFood mealType="Lunch Item 3" :mealDate="date" :key="date"/>
 
-    <AddFood mealType="Dinner Item 1" :mealDate="date" :key="date"/>
-    <AddFood mealType="Dinner Item 2" :mealDate="date" :key="date"/>
-    <AddFood mealType="Dinner Item 3" :mealDate="date" :key="date"/>
+    <AddFood mealType="Lunch" :mealDate="date" :key="date"/>
 
-    <AddFood mealType="Snack Item 1" :mealDate="date" :key="date"/>
-    <AddFood mealType="Snack Item 2" :mealDate="date" :key="date"/>
-    <AddFood mealType="Snack Item 3" :mealDate="date" :key="date"/>
+
+    <AddFood mealType="Dinner" :mealDate="date" :key="date"/>
+
+
+    <AddFood mealType="Snack" :mealDate="date" :key="date"/>
+
 
   </div>
 </template>

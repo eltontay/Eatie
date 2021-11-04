@@ -57,7 +57,7 @@
     >
       Add Food
     </button>
-    <div v-if="displayTable">
+    <div v-if="displayTable" :key="refreshCounter">
       <APIQuery @chosenFood="foodChosen($event)" /><br /><br />
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
       <div v-else>Select a food!</div>
@@ -67,6 +67,7 @@
       <button type="button" id="addFoodButton" v-on:click="submitToFS()">
         Submit
       </button>
+      
     </div>
   </div>
 </template>
@@ -208,6 +209,7 @@
         this.displayTable = false;
         this.displayFoodInfo = true;
         this.getFoodData();
+        this.refreshCounter++;
       },
       async getFoodData() {
         try {

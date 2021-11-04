@@ -14,6 +14,8 @@ import WeightUpdate from '@/views/WeightUpdate.vue';
 import EditProfile from '@/views/EditProfile.vue';
 import NotFound from '@/views/NotFound.vue';
 
+import CreateGoal from '@/views/Goal/Create.vue';
+import GoalReport from '@/views/Goal/Report.vue';
 
 const routes = [
   {
@@ -35,6 +37,11 @@ const routes = [
     path: '/myGoals',
     name: 'MyGoals',
     component: MyGoals,
+  },
+  {
+    path: '/create',
+    name: 'create-goal',
+    component: CreateGoal,
   },
   {
     path: '/goalStep1',
@@ -60,6 +67,11 @@ const routes = [
     path: '/myProgress',
     name: 'MyProgress',
     component: Myprogress,
+  },
+  {
+    path: '/goalReport',
+    name: 'GoalReport',
+    component: GoalReport,
   },
   {
     path: '/SignIn',

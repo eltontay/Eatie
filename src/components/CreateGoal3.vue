@@ -19,6 +19,7 @@
   </div>
 </template>
 
+
 <script>
 import firebaseApp from '../firebase.js';
 import { getFirestore, setDoc } from 'firebase/firestore';

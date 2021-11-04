@@ -1,26 +1,23 @@
- <template>
- <div class="container">
- 
-   <h2 class = "Title">Step (3/4)</h2>
-   <h3>What is your weight?</h3>
- 
-   <div id="flex-container">
- 
-     <div id="flex-child">
-       <img src="@/assets/weight.png" alt="" class="" />
-     </div>
-        
-     <form id="flex-child" class="form">       
-       <input class = "input" type="text" placeholder = "ph" id="weight" />
-       <label for="weight">My weight (kg) is</label>
-     </form>
-  
-     <button class ="Btn" @click="step3()">Next</button>
-
-   </div>
- </div>
+<template>
+  <div class="container">
+    <h2>Step (3/4)</h2>
+    <h3>What is your weight?</h3>
+    <div class="mx-600 mb-50">
+      <div class="left">
+        <div class="img-box">
+          <img src="@/assets/weight.png" alt="" class="" />
+           
+        </div>
+      </div>
+      <form  class="right">
+        <label for="height">My weight (kg) is</label>
+        <input type="text" v-model="weight" id="weight" />
+        <button @click.prevent="step3()">Next</button>
+      </form>
+     
+    </div>
+  </div>
 </template>
-
 
 
 <script>
@@ -41,128 +38,46 @@ export default {
       }
     });
   },
+  data (){
+    return {
+      weight: 0,
+    }
+  },
   methods: {
     async step3() {
       try {
-        var weight = document.getElementById('weight').value;
-        await setDoc(doc(db, 'profile', 'weight'), {
+        var weight = this.weight;
+        
+        if (weight < 5) {
+          alert('Please enter a correct weight in KG')
+          return false;
+        }
+        
+        await setDoc(doc(db, 'profile', 'weight'), { 
           weight: weight,
         });
-        console.log('pushing?');
+
+        this.$store.commit('setWeight', weight);
         this.$router.push('./goalStep4');
-        console.log('pushed');
       } catch (error) {
         console.log(error);
       }
     },
   },
+  created(){
+
+    if(!this.$store.getters.getGoal.gender){
+      this.$router.push('./goalStep1');
+    }
+  }
 };
 </script>
 
-
-<style type="text/css">
-/*
-Color Theme
-006d77
-83c5be
-edf6f9
-ffddd2
-e29578
-*/
- 
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
- 
- 
-body {
- box-sizing: border-box;
- margin: 0;
- padding: 0;
- background-color: white;
- font-family: "lato", sans-serif;
- text-align: center;
+<style scoped>
+.mb-50{
+  padding-bottom: 50px;
 }
- 
-img { 
-max-width: 100%; 
-height: auto; 
-} 
- 
- 
- 
- 
-.form {
- display:inline-block;
- background-color: white;
- width: 500px;
- border-radius: 8px;
- padding: 20px 40px;
- box-shadow: 0 10px 25px rgba(92, 99, 105, .2);
- align-items: center;
+.right{
+  left: -40px;
 }
- 
- 
-.title {
- font-size: 50px;
- margin-bottom: 100px;
-}
- 
-/* Hide the placeholder texts (a) */
-::placeholder {
- color: transparent;
-}
- 
- 
-.input {
- position: relative;
- top: 0px;
- left: 0px;
- height: 100%;
- width: 100%;
- border: 3px solid #DADCE0;
- border-radius: 3px;
- font-size: 18px;
- outline: none;
- background: none;
- z-index: 1;
-}
- 
-.input:focus {
- border: 3px solid#83c5be;
-}
- 
- 
-.label {
- position: absolute;
- top: 15px;
- left: 15px;
- padding: 0 4px;
- background-color: white;
- color: #006d77;
- font-size: 16px;
- transition: 0.5s;
- z-index: 0;
-}
- 
- 
-.Btn {
- display: block;
- margin-left: auto;
- padding: 15px 30px;
- border: none;
- background-color: #e29578;
- color: white;
- border-radius: 6px;
- cursor: pointer;
- font-size: 16px;
- margin-top: 30px;
-}
- 
-.Btn:hover {
- background-color: #f1c9bb;
- transform: translateY(-2px);
-}
- 
- 
- 
- 
 </style>

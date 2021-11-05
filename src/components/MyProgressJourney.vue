@@ -61,7 +61,9 @@
             minValue = val[1];
           }
         }
-        if (minValue - 5 < 0) {return 0}
+        if (minValue - 5 < 0) {
+          return 0;
+        }
         return minValue - 5;
       },
       totalConsumedNutrient() {
@@ -117,61 +119,68 @@
             doc(a, this.convertToDateString(currDate), mealType)
           );
           if (meal.data() != undefined) {
-            this.weeklyFat += meal.data()["fat"];
-            this.weeklyProtein += meal.data()["protein"];
-            this.weeklyCarb += meal.data()["carbohydrates"];
+            Object.entries(meal.data()).forEach((entry) => {
+              this.weeklyFat += entry[1]["fat"];
+              this.weeklyProtein += entry[1]["protein"];
+              this.weeklyCarb += entry[1]["carbohydrates"];
+            });
           }
           currDate.setDate(currDate.getDate() - 1);
           i--;
         }
       },
       currentDate(num) {
-        var today = new Date() ;
-        today.setDate(today.getDate() - num)
-        return (today.getFullYear() +
-        "-" +
-        String(today.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(today.getDate()).padStart(2, "0"))
+        var today = new Date();
+        today.setDate(today.getDate() - num);
+        return (
+          today.getFullYear() +
+          "-" +
+          String(today.getMonth() + 1).padStart(2, "0") +
+          "-" +
+          String(today.getDate()).padStart(2, "0")
+        );
       },
 
-      lastestWeight(lst_dates, curr){
-        let flag = -1000
+      lastestWeight(lst_dates, curr) {
+        let flag = -1000;
         for (var i = lst_dates.length - 1; i > -1; i--) {
           if (lst_dates[i] > curr) {
-            continue
+            continue;
           } else {
-            flag = i
-            break
+            flag = i;
+            break;
           }
         }
-        if (flag == -1000) {return 0}
+        if (flag == -1000) {
+          return 0;
+        }
         return lst_dates[flag];
       },
 
       async findWeeklyWeight() {
-        let cur_weight = await getDoc(doc(db, this.fbuser , "weight_progress"));
+        let cur_weight = await getDoc(doc(db, this.fbuser, "weight_progress"));
         let availdate = 0;
-        
+
         if (cur_weight.data() != undefined) {
           let availkeys = Object.keys(cur_weight.data()).sort();
-          console.log(availkeys)
-          
+          console.log(availkeys);
+
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);
 
             if (cur_weight.data()[cur_date] != undefined) {
-              this.weeklyWeightLineData[cur_date] = cur_weight.data()[cur_date]
-            
-            } else {              
-              availdate = this.lastestWeight(availkeys, cur_date)
+              this.weeklyWeightLineData[cur_date] = cur_weight.data()[cur_date];
+            } else {
+              availdate = this.lastestWeight(availkeys, cur_date);
               if (cur_weight.data()[availdate] == undefined) {
                 this.weeklyWeightLineData[cur_date] = 0;
               } else {
-              this.weeklyWeightLineData[cur_date] = cur_weight.data()[availdate]
+                this.weeklyWeightLineData[cur_date] = cur_weight.data()[
+                  availdate
+                ];
               }
             }
-          } 
+          }
         } else {
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);

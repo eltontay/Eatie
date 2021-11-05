@@ -4,26 +4,42 @@
   <div id="foodDisplay">
     <div id="mealDisplay" :key="haveMeal">
       <h3>Breakfast</h3>
-      <img id="homeFoodIcon" :src="mealImg['Breakfast']" v-if="haveMeal['Breakfast']" />
-      <h4 v-if="haveMeal['Breakfast']">{{ mealName["Breakfast"] }}</h4>
+      <img
+        id="homeFoodIcon"
+        :src="mealImg['Breakfast']"
+        v-if="haveMeal['Breakfast']"
+      />
+      <div v-if="haveMeal['Breakfast']">
+        <h4 :key="item" v-for="item in mealName['Breakfast']">{{ item }}</h4>
+      </div>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Lunch</h3>
       <img id="homeFoodIcon" :src="mealImg['Lunch']" v-if="haveMeal['Lunch']" />
-      <h4 v-if="haveMeal['Lunch']">{{ mealName["Lunch"] }}</h4>
+      <div v-if="haveMeal['Lunch']">
+        <h4 :key="item" v-for="item in mealName['Lunch']">{{ item }}</h4>
+      </div>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Dinner</h3>
-      <img id="homeFoodIcon" :src="mealImg['Dinner']" v-if="haveMeal['Dinner']" />
-      <h4 v-if="haveMeal['Dinner']">{{ mealName["Dinner"] }}</h4>
+      <img
+        id="homeFoodIcon"
+        :src="mealImg['Dinner']"
+        v-if="haveMeal['Dinner']"
+      />
+      <div v-if="haveMeal['Dinner']">
+        <h4 :key="item" v-for="item in mealName['Dinner']">{{ item }}</h4>
+      </div>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Snack</h3>
       <img id="homeFoodIcon" :src="mealImg['Snack']" v-if="haveMeal['Snack']" />
-      <h4 v-if="haveMeal['Snack']">{{ mealName["Snack"] }}</h4>
+      <div v-if="haveMeal['Snack']">
+        <h4 :key="item" v-for="item in mealName['Snack']">{{ item }}</h4>
+      </div>
       <router-link to="/myJournal" v-else>Add a meal</router-link>
     </div>
   </div>
@@ -43,7 +59,12 @@
     data() {
       return {
         fbuser: "",
-        mealName: { Breakfast: "", Lunch: "", Dinner: "", Snack: "" },
+        mealName: {
+          Breakfast: new Array(),
+          Lunch: new Array(),
+          Dinner: new Array(),
+          Snack: new Array(),
+        },
         mealImg: {
           Breakfast: no_image_loaded,
           Lunch: no_image_loaded,
@@ -80,8 +101,12 @@
           var a = doc(db, String(this.fbuser), "daily_nutrient");
           var meal = await getDoc(doc(a, this.date, mealType));
           if (meal.data() != undefined) {
+            var i = 0;
+            Object.entries(meal.data()).forEach((entry) => {
+              this.mealName[mealType][i] = entry[0];
+              i++;
+            });
             this.haveMeal[mealType] = true;
-            this.mealName[mealType] = meal.data()["food"];
             this.loadImage(mealType);
           }
         } catch (error) {

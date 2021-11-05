@@ -5,7 +5,6 @@
     <div id="mealInfo" v-if="displayFoodInfo" :key="refreshCounter">
       <div style="width: 20%">
         <img id="foodImageID" v-bind:src="imageSource" style="mealImageStyle" />
-        <h4>{{ mealName }}</h4>
         <input
           v-if="!haveImage"
           type="file"
@@ -96,11 +95,11 @@
         currUploadedImage: null,
         haveImage: false,
         imageSource: no_image_loaded,
-        mealName: "",
-        mealProtein: "",
-        mealCarb: "",
-        mealFat: "",
-        mealCal: "",
+        mealName: new Array(),
+        mealProtein: new Array(),
+        mealCarb: new Array(),
+        mealFat: new Array(),
+        mealCal: new Array(),
         refreshCounter: 0,
       };
     },
@@ -217,12 +216,14 @@
           let b = await getDoc(a);
           let c = b.data();
           if (c == undefined) return;
+          var i = 0;
           Object.entries(c).forEach((entry) => {
-            this.mealName = entry[0];
-            this.mealProtein = entry[1].protein;
-            this.mealCarb = entry[1].carbohydrates;
-            this.mealFat = entry[1].fat;
-            this.mealCal = entry[1].calorie;
+            this.mealName[i] = entry[0];
+            this.mealProtein[i] = entry[1].protein;
+            this.mealCarb[i] = entry[1].carbohydrates;
+            this.mealFat[i] = entry[1].fat;
+            this.mealCal[i] = entry[1].calorie;
+            i++;
           });
           this.displayFoodInfo = true;
           this.loadImage();

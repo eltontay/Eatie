@@ -4,20 +4,12 @@
     <div>Just had a meal? Add it to My Journal now!</div>
     <br />
     <!-- <div>Today's date: {{ currentDate }}</div> -->
-    <input id="dateInput" type="date" v-model="date"/>
+    <input id="dateInput" type="date" v-model="date" />
 
-    <AddFood mealType="Breakfast" :mealDate="date" :key="date"/>
-
-
-    <AddFood mealType="Lunch" :mealDate="date" :key="date"/>
-
-
-    <AddFood mealType="Dinner" :mealDate="date" :key="date"/>
-
-
-    <AddFood mealType="Snack" :mealDate="date" :key="date"/>
-
-
+    <AddFood mealType="Breakfast" :mealDate="date" :key="date" />
+    <AddFood mealType="Lunch" :mealDate="date" :key="date" />
+    <AddFood mealType="Dinner" :mealDate="date" :key="date" />
+    <AddFood mealType="Snack" :mealDate="date" :key="date" />
   </div>
 </template>
 
@@ -28,8 +20,8 @@
   export default {
     data() {
       return {
-        date: ""
-      }
+        date: "",
+      };
     },
     computed: {
       currentDate() {
@@ -54,7 +46,7 @@
           this.fbuser = auth.currentUser.email;
         }
       });
-      this.date = this.currentDate
+      this.date = this.currentDate;
     },
   };
 </script>

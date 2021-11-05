@@ -30,7 +30,10 @@
             <h3>{{ percentageCalorie }}%</h3>
           </div>
         </div>
-        <h3>Just had a meal? Add it to <router-link to="/myJournal">My Journal</router-link> now!</h3>
+        <h3>
+          Just had a meal? Add it to
+          <router-link to="/myJournal">My Journal</router-link> now!
+        </h3>
       </div>
       <div id="halfDailySummary2">
         <pie-chart
@@ -115,13 +118,26 @@
           : "Great job! You are still within your recommended Calorie intake!";
       },
       consumedMacroNutrient() {
-          return this.dailyNutrient["Carbohydrates"]+this.dailyNutrient["Fat"]+this.dailyNutrient["Protein"]
+        return (
+          this.dailyNutrient["Carbohydrates"] +
+          this.dailyNutrient["Fat"] +
+          this.dailyNutrient["Protein"]
+        );
       },
       idealNutrientBreakdown() {
         return {
-          Carbohydrates: [0.45 * this.consumedMacroNutrient, 0.65 * this.consumedMacroNutrient],
-          Fat: [0.25 * this.consumedMacroNutrient, 0.35 * this.consumedMacroNutrient],
-          Protein: [0.1 * this.consumedMacroNutrient, 0.35 * this.consumedMacroNutrient],
+          Carbohydrates: [
+            0.45 * this.consumedMacroNutrient,
+            0.65 * this.consumedMacroNutrient,
+          ],
+          Fat: [
+            0.25 * this.consumedMacroNutrient,
+            0.35 * this.consumedMacroNutrient,
+          ],
+          Protein: [
+            0.1 * this.consumedMacroNutrient,
+            0.35 * this.consumedMacroNutrient,
+          ],
         };
       },
       carbohydratesLower() {
@@ -187,12 +203,12 @@
         var a = doc(db, String(this.fbuser), "daily_nutrient");
         var meal = await getDoc(doc(a, this.date, mealType));
         if (meal.data() != undefined) {
-          this.dailyNutrient["Calorie"] += meal.data()["calorie"];
-          this.dailyNutrient["Protein"] = meal.data()["protein"];
-          this.dailyNutrient["Carbohydrates"] = meal.data()[
-            "carbohydrates"
-          ];
-          this.dailyNutrient["Fat"] = meal.data()["fat"];
+          Object.entries(meal.data()).forEach((entry) => {
+            this.dailyNutrient["Calorie"] += entry[1]["calorie"];
+            this.dailyNutrient["Protein"] = entry[1]["protein"];
+            this.dailyNutrient["Carbohydrates"] = entry[1]["carbohydrates"];
+            this.dailyNutrient["Fat"] = entry[1]["fat"];
+          });
         }
       },
     },

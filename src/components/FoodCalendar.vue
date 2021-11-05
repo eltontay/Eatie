@@ -19,7 +19,6 @@
     },
     computed: {
       date() {
-        console.log("hello");
         let currDate = new Date();
         let d = {};
         for (let i = 0; i < 7; i++) {

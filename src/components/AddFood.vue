@@ -4,11 +4,7 @@
 
     <div id="mealInfo" v-if="displayFoodInfo" :key="refreshCounter">
       <div style="width: 20%">
-        <img
-          id="foodImageID"
-          v-bind:src="imageSource"
-          style="mealImageStyle"
-        />
+        <img id="foodImageID" v-bind:src="imageSource" style="mealImageStyle" />
         <h4>{{ mealName }}</h4>
         <input
           v-if="!haveImage"
@@ -28,12 +24,14 @@
       <div id="mealNutrient">
         <table id="mealTable">
           <tr>
+            <th>Food Name</th>
             <th>Calorie</th>
             <th>Fat</th>
             <th>Protein</th>
             <th>Carbohydrates</th>
           </tr>
           <tr>
+            <td>{{ mealName }}</td>
             <td>{{ mealCal }}</td>
             <td>{{ mealFat }}</td>
             <td>{{ mealProtein }}</td>
@@ -50,14 +48,14 @@
     </div>
 
     <button
-      v-if="!displayTable && !displayFoodInfo"
+      v-if="!displayTable"
       type="button"
       id="addFoodButton"
       v-on:click="displayCalc()"
     >
       Add Food
     </button>
-    <div v-if="displayTable" :key="refreshCounter">
+    <div v-if="displayTable">
       <APIQuery @chosenFood="foodChosen($event)" /><br /><br />
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
       <div v-else>Select a food!</div>
@@ -67,7 +65,6 @@
       <button type="button" id="addFoodButton" v-on:click="submitToFS()">
         Submit
       </button>
-      
     </div>
   </div>
 </template>
@@ -144,7 +141,7 @@
       },
       async uploadImage() {
         if (this.currUploadedImage == null) {
-          alert("Choose a picture");
+          // alert("Choose a picture");
           return;
         }
         await uploadBytes(
@@ -184,22 +181,23 @@
               this.mealType
             ),
             {
-              food: this.recipe["label"],
-              calorie: Math.round(
-                this.recipe["calories"] / this.recipe["yield"]
-              ),
-              fat: Math.round(
-                this.recipe["totalNutrients"]["FAT"]["quantity"] /
-                  this.recipe["yield"]
-              ),
-              protein: Math.round(
-                this.recipe["totalNutrients"]["PROCNT"]["quantity"] /
-                  this.recipe["yield"]
-              ),
-              carbohydrates: Math.round(
-                this.recipe["totalNutrients"]["CHOCDF"]["quantity"] /
-                  this.recipe["yield"]
-              ),
+              [this.recipe["label"]]: {
+                calorie: Math.round(
+                  this.recipe["calories"] / this.recipe["yield"]
+                ),
+                fat: Math.round(
+                  this.recipe["totalNutrients"]["FAT"]["quantity"] /
+                    this.recipe["yield"]
+                ),
+                protein: Math.round(
+                  this.recipe["totalNutrients"]["PROCNT"]["quantity"] /
+                    this.recipe["yield"]
+                ),
+                carbohydrates: Math.round(
+                  this.recipe["totalNutrients"]["CHOCDF"]["quantity"] /
+                    this.recipe["yield"]
+                ),
+              },
             }
           );
         } catch (error) {
@@ -207,9 +205,7 @@
         }
         this.uploadImage();
         this.displayTable = false;
-        this.displayFoodInfo = true;
         this.getFoodData();
-        this.refreshCounter++;
       },
       async getFoodData() {
         try {
@@ -221,11 +217,13 @@
           let b = await getDoc(a);
           let c = b.data();
           if (c == undefined) return;
-          this.mealName = c.food;
-          this.mealProtein = c.protein;
-          this.mealCarb = c.carbohydrates;
-          this.mealFat = c.fat;
-          this.mealCal = c.calorie;
+          Object.entries(c).forEach((entry) => {
+            this.mealName = entry[0];
+            this.mealProtein = entry[1].protein;
+            this.mealCarb = entry[1].carbohydrates;
+            this.mealFat = entry[1].fat;
+            this.mealCal = entry[1].calorie;
+          });
           this.displayFoodInfo = true;
           this.loadImage();
         } catch (error) {

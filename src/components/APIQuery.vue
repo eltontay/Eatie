@@ -5,7 +5,8 @@
       <form v-on:submit.prevent="onSubmit" style="display: flex">
         <input
           type="text"
-          id="foodSearch"
+          class="foodSearch"
+          :id="foodSearchID"
           required=""
           v-on:keyup.enter="searchFood"
           placeholder="e.g. durian, french fries"
@@ -16,7 +17,7 @@
       </form>
       <br /><br />
     </div>
-    <table id="table">
+    <table class="foodTable" :id="foodTableID">
       <tr>
         <th>Food item</th>
         <th>Calorie</th>
@@ -32,6 +33,14 @@
   import { getAuth, onAuthStateChanged } from "firebase/auth";
 
   export default {
+    props: {
+      foodTableID: String,
+    },
+    computed: {
+      foodSearchID() {
+        return this.foodTableID + "search";
+      }
+    },
     mounted() {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
@@ -42,16 +51,16 @@
     },
     methods: {
       async searchFood() {
-        var foodName = String(document.getElementById("foodSearch").value);
+        var foodName = String(document.getElementById(this.foodSearchID).value);
         if (foodName == "") {
           alert("Fill in something!");
         } else {
           for (
-            var i = document.getElementById("table").rows.length;
+            var i = document.getElementById(this.foodTableID).rows.length;
             i > 1;
             i--
           ) {
-            document.getElementById("table").deleteRow(i - 1);
+            document.getElementById(this.foodTableID).deleteRow(i - 1);
           }
           var axios = require("axios").default;
           let auth = require("../dbconfig.json");
@@ -72,7 +81,7 @@
           results.forEach((doc) => {
             var recipe = doc["recipe"];
             var y = recipe["yield"];
-            var row = document.getElementById("table").insertRow(ind);
+            var row = document.getElementById(this.foodTableID).insertRow(ind);
             let bu = document.createElement("button");
             bu.id = "foodNameButton";
             bu.type = "button";
@@ -96,7 +105,7 @@
   };
 </script>
 
-<style>
+<style scope>
   #foodNameButton {
     /* background: none;
     border: none; */
@@ -115,13 +124,13 @@
     border-radius: 10px;
   }
 
-  #foodSearch {
+  .foodSearch {
     width: 85%;
     height: 25px;
     font-size: 100%;
   }
 
-  table {
+  .foodTable {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 80%;
@@ -139,14 +148,14 @@
     background-color: #bebaba;
   }
 
-  th,
+  .foodTable th,
   td {
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
   }
 
-  #table th {
+  .foodTable th {
     border: 3px solid black;
     text-align: center;
     background-color: #575454;

@@ -11,7 +11,7 @@
       <img class="foodIcon" src="@/assets/tomato.png" alt="" />
     </div>
     <hr />
-    <APIQuery/>
+    <APIQuery foodTableID="foodCalculator" />
   </div>
 </template>
 

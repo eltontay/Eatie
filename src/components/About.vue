@@ -29,7 +29,6 @@
         Eatie adopts a pictorial food journal to make journaling fun and easy!
       </p>
     </h3>
-    <h5>copyright@Eatie</h5>
   </div>
 </template>
 

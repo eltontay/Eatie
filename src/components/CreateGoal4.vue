@@ -24,22 +24,23 @@
 </template>
 
 <script>
-import firebaseApp from '../firebase.js';
-import { getFirestore, setDoc } from 'firebase/firestore';
-import { doc } from 'firebase/firestore';
+// import firebaseApp from '../firebase.js÷';
+// import { getFirestore, setDoc } from 'firebase/firestore';
+// import { doc } from 'firebase/firestore';
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-const db = getFirestore(firebaseApp);
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// const db = getFirestore(firebaseApp);
+
 
 export default {
   components: {},
   mounted() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.user = user;
-      }
-    });
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     this.user = user;
+    //   }
+    // });
   },
   methods: {
     async setActivity(activity) {
@@ -49,20 +50,18 @@ export default {
       }
 
       try {
-        await setDoc(doc(db, 'profile', 'activity'), {
-          activity: 'activity1',
-        });
-
-        this.$store.commit('setActivity', activity);
-        
+        this.$store.commit('setActivity', activity);        
         this.$router.push('./goalReport');
+
+        // await setDoc(doc(db, 'profile', this.user.uid), {
+        //   activity: 'activity1',
+        // });
       } catch (error) {
         console.log(error);
       }
     },
   },
   created(){
-
     if(!this.$store.getters.getGoal.gender){
       this.$router.push('./goalStep1');
     }

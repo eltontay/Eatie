@@ -6,7 +6,6 @@
       <div class="left">
         <div class="img-box">
           <img src="@/assets/weight.png" alt="" class="" />
-           
         </div>
       </div>
       <form  class="right">
@@ -14,29 +13,28 @@
         <input type="text" v-model="weight" id="weight" />
         <button @click.prevent="step3()">Next</button>
       </form>
-     
     </div>
   </div>
 </template>
 
 
 <script>
-import firebaseApp from '../firebase.js';
-import { getFirestore, setDoc } from 'firebase/firestore';
-import { doc } from 'firebase/firestore';
+// import firebaseApp from '../firebase.js';
+// import { getFirestore, setDoc } from 'firebase/firestore';
+// import { doc } from 'firebase/firestore';
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-const db = getFirestore(firebaseApp);
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// const db = getFirestore(firebaseApp);
 
 export default {
   components: {},
   mounted() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.user = user;
-      }
-    });
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     this.user = user;
+    //   }
+    // });
   },
   data (){
     return {
@@ -52,13 +50,13 @@ export default {
           alert('Please enter a correct weight in KG')
           return false;
         }
-        
-        await setDoc(doc(db, 'profile', 'weight'), { 
-          weight: weight,
-        });
 
         this.$store.commit('setWeight', weight);
         this.$router.push('./goalStep4');
+        
+        // await setDoc(doc(db, 'profile', this.user.uid), { 
+        //   weight: weight,
+        // });
       } catch (error) {
         console.log(error);
       }

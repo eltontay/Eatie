@@ -19,12 +19,12 @@
 
 
 <script>
-import firebaseApp from '../firebase.js';
-import { getFirestore, setDoc } from 'firebase/firestore';
-import { doc } from 'firebase/firestore';
+// import firebaseApp from '../firebase.js';
+// import { getFirestore, setDoc } from 'firebase/firestore';
+// import { doc } from 'firebase/firestore';
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-const db = getFirestore(firebaseApp);
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// const db = getFirestore(firebaseApp);
 
 export default {
   components: {},
@@ -34,12 +34,12 @@ export default {
     }
   },
   mounted() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.user = user;
-      }
-    });
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     this.user = user;
+    //   }
+    // });
   },
   methods: {
     async step2() {
@@ -50,13 +50,13 @@ export default {
           alert('Please enter a correct height in CM')
           return false;
         }
-
-        await setDoc(doc(db, 'profile', 'height'), {
-          height: height,
-        });
-
+        
         this.$store.commit('setHeight', height);
         this.$router.push('./goalStep3');
+
+        // await setDoc(doc(db, 'profile', this.user.uid), {
+        //   height: height,
+        // });
       } catch (error) {
         console.log(error);
       }

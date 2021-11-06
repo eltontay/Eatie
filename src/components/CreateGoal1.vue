@@ -18,43 +18,34 @@
   </div>
 </template>
 
+
 <script>
-import firebaseApp from '../firebase.js';
-import { getFirestore, setDoc } from 'firebase/firestore';
-import { doc } from 'firebase/firestore';
+// import firebaseApp from '../firebase.js';
+// import { getFirestore, setDoc } from 'firebase/firestore';
+// import { doc } from 'firebase/firestore';
 
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-
-const db = getFirestore(firebaseApp);
+// import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// const db = getFirestore(firebaseApp);
 
 export default {
   components: {},
   mounted() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.user = user;
-      }
-    });
+    // const auth = getAuth();
+    // onAuthStateChanged(auth, (user) => {
+    //   if (user) {
+    //     this.user = user;
+    //   }
+    // });
   },
   methods: {
     async setGender(gender) {
       try {
-        if(gender === 'Boy'){
-          await setDoc(doc(db, 'profile', 'gender'), {
-            gender: 'Boy',
-          });
-        } else if( gender === 'Girl') {
-          await setDoc(doc(db, 'profile', 'gender'), {
-            gender: 'Girl',
-          });
-        } else {
+        if(!(gender == 'Boy' || gender == 'Girl')){
           alert('Something went wrong, please try again')
           return false;
         }
 
         this.$store.commit('setGender', gender);
-        
         this.$router.push('./goalStep2');
       } catch (error) {
         console.log(error);

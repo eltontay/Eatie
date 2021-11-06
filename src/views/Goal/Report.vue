@@ -1,50 +1,103 @@
 <template>
   <div class="container">
     <h3>My Goal</h3>
-    <div class="mx-1">
-      <div class="tile-1"><strong>Congratulations! Your goal is created</strong></div>
-      <!-- <div class="bmi-r">your BMI is <span class="hlit">{{ bmi }}</span></div>
-      <div class="bmi-r">you are at <span class="hlit"> {{ risk }} </span></div> -->
-       <div class="bmi-r"> <span>Your BMI is</span> <span class="hlit"> {{ bmi }} </span></div>
-      <div class="bmi-r"><span>You are at</span> <span class="hlit"> {{ risk }} </span></div>
-      <div class="d-s">
-      <strong>of Obesity-related diseases</strong>
-    </div>
-    <div>  
-      <strong>Diagnosis</strong>
-    </div>
-    <div class="lnh">
-      {{ diagnosis }}
-      <br>
-      <strong>Recommended Calorie Intake: {{ calorie }} Kcal</strong>
-      <div>
-        <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
+    <loader v-if="loader" />
+    <div v-else> 
+      <div class="mx-1" v-if="hasGoal">
+        <div class="tile-1"><strong>Congratulations! Your goal is created</strong></div>
+        <div class="bmi-r"> <span>Your BMI is</span> <span class="hlit" :style="{ color: formattedColor()}"> {{ goal.bmi }}
+          </span></div>
+        <div class="bmi-r"><span>You are at</span> <span class="hlit" :style="{ color: formattedColor()}"> {{ goal.risk }}
+          </span></div>
+        <div class="d-s">
+          <strong>of Obesity-related diseases</strong>
+        </div>
+        <div>
+          <strong>Diagnosis</strong>
+        </div>
+        <div class="lnh">
+          {{ goal.diagnosis }}
+          <br>
+          <strong>Recommended Calorie Intake: {{ goal.calorie }} Kcal</strong>
+          <div>
+            <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
+          </div>
+        </div>
+      </div>
+      <div class="mx-1" v-else>
+        <div class="tile-1"><strong>Congratulations! Your goal is created</strong></div>
+        <!-- <div class="bmi-r">your BMI is <span class="hlit">{{ bmi }}</span></div>
+        <div class="bmi-r">you are at <span class="hlit"> {{ risk }} </span></div> -->
+        <div class="bmi-r"> <span>Your BMI is</span> <span class="hlit" :style="{ color: formattedColor()}"> {{ bmi }}
+          </span></div>
+        <div class="bmi-r"><span>You are at</span> <span class="hlit" :style="{ color: formattedColor()}"> {{ risk }}
+          </span></div>
+        <div class="d-s">
+          <strong>of Obesity-related diseases</strong>
+        </div>
+        <div>
+          <strong>Diagnosis</strong>
+        </div>
+        <div class="lnh">
+          {{ diagnosis }}
+          <br>
+          <strong>Recommended Calorie Intake: {{ calorie }} Kcal</strong>
+          <div>
+            <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
+          </div>
+        </div>
       </div>
     </div>
-   </div>
   </div>
 </template>
 
 <script>
-import firebaseApp from '../../firebase.js';
-import { getFirestore} from 'firebase/firestore';
-// import { doc } from 'firebase/firestore';
+import firebaseApp from "../../firebase.js";
+import {setDoc, doc, getFirestore } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 const db = getFirestore(firebaseApp);
 
+import Loader from '../../components/Loader.vue'
+
 export default {
-  components: {},
+  components: {
+    Loader,
+  },
+  props: ['hasGoal', 'goal', 'loader'],
   data () {
     return {
       bmi: null,
       risk: null,
       diagnosis: null,
       calorie: null,
+      bmr: null,
     }
   },
+  
+  // mounted() {
+  //   const auth = getAuth();
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       this.user = user;
+  //     }
+  //   });
+  // },
   methods: {
+    formattedColor(){
+      if(this.bmi < 18.6){
+        return '#fff'
+      } else if (this.bmi < 23) {
+        return '#1a40ff'
+      } else if (this.bmi < 27.9) {
+        return '#ebeb14'
+      } else if (this.bmi > 27.9) {
+        return '#db2518'
+      }
+    },
     async showReport() {
       let goal = this.$store.getters.getGoal;
       let bmr, risk, diagnosis, multiplier, calorie, bmi;
+      let user = this.user;
 
       // Calculate BMI 
       var weight = parseInt(goal.weight);
@@ -53,21 +106,24 @@ export default {
 
       // calculate BMR 
       if(goal.gender === 'Boy'){
+        // bmr = (goal.height + goal.weight) - 120
         bmr = (6.25*goal.height + 10*goal.weight) - 120
       } else {
+        // bmr = (goal.height + goal.weight) - 270
         bmr = (6.25*goal.height + 10*goal.weight) - 270
       }
+
       // Calculate Risk
       if(bmi < 18.6){
-        risk = "AT LOW RISK* for obesity-related diseases *But increased risk of other clinical problems"
+        risk = "AT LOW RISK* for obesity-related diseases *But increased risk of other clinical problems (please have a second line for the *)"
         diagnosis = "AT RISK of nutritional deficiency and osteoporosis. You are encouraged to eat a balanced meal and to seek medical advice if necessary."
       } else if (bmi < 23) {
         risk = "Low Risk";
         diagnosis = "Achieve a healthy weight by balancing your caloric input (diet) and output (physical activity)."
-      } else if (bmi < 27.6) {
+      } else if (bmi < 27.9) {
         risk = "Moderate Risk";
         diagnosis = "Aim to lose 5% to 10% of your body weight over 6 to 12 months by increasing physical activity and reducing caloric intake"
-      } else if (bmi > 27.6) {
+      } else if (bmi > 27.9) {
         risk = "High Risk";
         diagnosis = "Aim to lose 5% to 10% of your body weight over 6 to 12 months by increasing physical activity and reducing caloric intake. "
       }
@@ -84,40 +140,43 @@ export default {
       }
 
       // Calculate Calorie
-      calorie = bmr * multiplier
+      calorie = parseInt(bmr * multiplier).toFixed(1)
 
       this.bmi = bmi;
       this.risk = risk;
       this.diagnosis = diagnosis;
       this.calorie = calorie;
+      this.bmr = bmr;
 
       try {
-        // db.collection('goals').add({
-        //   bmi: bmi,
-        //   risk: risk,
-        //   diagnosis: diagnosis,
-        //   calorie: calorie,
-        // })
-        const goal = {
+        const goalData = {
           bmi: bmi,
           risk: risk,
           diagnosis: diagnosis,
           calorie: calorie,
+          height: goal.height,
+          weight: goal.weight,
         };
+        
+        await setDoc(doc(db, user.email, 'profile'), goalData);
 
-        db.collection('goals').add(goal);
-        this.$store.commit('ADD_GOAL', goal)
+        this.$store.commit('ADD_GOAL', goalData)
       } catch (error) {
         console.log(error);
       }
-    },
-  },
-  created(){
-    this.showReport();
-
-    if(!this.$store.getters.getGoal.gender){
-      this.$router.push('./goalStep1');
     }
+  },
+  mounted(){
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.user = user;
+
+        if(!this.hasGoal){
+          this.showReport();
+        }
+      }
+    });
   }
 };
 </script>

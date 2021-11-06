@@ -57,6 +57,7 @@
 </template>
 
 <script>
+  import firebaseApp from "../firebase.js";
   import {
     getAuth,
     onAuthStateChanged,
@@ -65,6 +66,7 @@
     reauthenticateWithCredential,
     EmailAuthProvider,
   } from "firebase/auth";
+  import { getDoc, getFirestore, doc } from "firebase/firestore";
   import {
     getStorage,
     ref,
@@ -72,9 +74,11 @@
     getDownloadURL,
   } from "firebase/storage";
 
-  import girlPic from "@/assets/girl.png";
   import router from "@/router/index.js";
-  // import boyPic from "@/assets/boy.png";
+  import girlPic from "@/assets/girl.png";
+  import boyPic from "@/assets/boy.png";
+
+  const db = getFirestore(firebaseApp);
 
   export default {
     name: "AccountProfile",
@@ -83,7 +87,7 @@
       return {
         user: false,
         fbuser: "",
-        profileImg: girlPic,
+        profileImg: null,
         currUploadedImage: null,
         newName: "",
         currentPassword: "",
@@ -99,13 +103,26 @@
           this.user = user;
           this.fbuser = auth.currentUser.email;
           this.newName = user.displayName;
-          if (user.photoURL != null) {
-            this.profileImg = user.photoURL;
-          }
+          this.setDP();
         }
       });
     },
     methods: {
+      async setDP() {
+        if (this.user.photoURL != null) {
+          this.profileImg = this.user.photoURL;
+          return;
+        }
+        var a = doc(db, String(this.fbuser), "profile");
+        var b = await getDoc(a);
+        if (b.data() == undefined) {
+          this.profileImg = boyPic;
+        } else if (b.data()["gender"] === "Boy") {
+          this.profileImg = boyPic;
+        } else {
+          this.profileImg = girlPic;
+        }
+      },
       imageChange(e) {
         this.currUploadedImage = e;
         console.log(e);
@@ -151,7 +168,7 @@
           alert("Passwords do not match!");
           return;
         } else if (this.currentPassword === this.newPassword) {
-          alert("Provide a new password!")
+          alert("Provide a new password!");
           return;
         }
         const credential = EmailAuthProvider.credential(

@@ -2,7 +2,11 @@
   <div style="text-align:center;" v-if="user" class="container">
     <div id="displayPictureContainer">
       <img :src="profileImg" id="displayPic" />
-      <button type="button" id="profileButton" @click="$router.push('/editProfile')">
+      <button
+        type="button"
+        id="profileButton"
+        @click="$router.push('/editProfile')"
+      >
         Edit Profile
       </button>
       <br />
@@ -21,10 +25,15 @@
 </template>
 
 <script>
-  import LogOut from "@/components/SignOut.vue";
-  import GirlPic from "@/assets/girl.png";
-
+  import firebaseApp from "../firebase.js";
+  import { getDoc, getFirestore, doc } from "firebase/firestore";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+  import LogOut from "@/components/SignOut.vue";
+  import girlPic from "@/assets/girl.png";
+  import boyPic from "@/assets/boy.png";
+
+  const db = getFirestore(firebaseApp);
 
   export default {
     name: "AccountProfile",
@@ -34,7 +43,7 @@
     data() {
       return {
         user: false,
-        profileImg: GirlPic,
+        profileImg: null,
       };
     },
 
@@ -43,9 +52,27 @@
       onAuthStateChanged(auth, (user) => {
         if (user) {
           this.user = user;
-          if (user.photoURL != null) this.profileImg = user.photoURL;
+          this.fbuser = auth.currentUser.email;
+          this.setDP();
         }
       });
+    },
+    methods: {
+      async setDP() {
+        if (this.user.photoURL != null) {
+          this.profileImg = this.user.photoURL;
+          return;
+        }
+        var a = doc(db, String(this.fbuser), "profile");
+        var b = await getDoc(a);
+        if (b.data() == undefined) {
+          this.profileImg = boyPic;
+        } else if (b.data()["gender"] === "Boy") {
+          this.profileImg = boyPic;
+        } else {
+          this.profileImg = girlPic;
+        }
+      },
     },
   };
 </script>

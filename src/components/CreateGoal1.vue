@@ -6,7 +6,7 @@
       <div class="gender-box">
         <div @click="setGender('Boy')" id="boy" value="boy">
           <img src="@/assets/boy.png" alt="" />
-          <span>male</span>
+          <span>Male</span>
         </div>
         <br />
         <div @click="setGender('Girl')" id="girl" value="girl">

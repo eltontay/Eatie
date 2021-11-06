@@ -21,23 +21,88 @@
         </button>
       </div>
       <div id="mealNutrient">
-        <table id="mealTable">
-          <tr>
-            <th>Food Name</th>
-            <th>Calorie</th>
-            <th>Fat</th>
-            <th>Protein</th>
-            <th>Carbohydrates</th>
-          </tr>
-          <tr>
-            <td>{{ mealName }}</td>
-            <td>{{ mealCal }}</td>
-            <td>{{ mealFat }}</td>
-            <td>{{ mealProtein }}</td>
-            <td>{{ mealCarb }}</td>
-          </tr>
-        </table>
+      
+      <table>
+        <tr>
+        <td>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Food Name</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in mealName" :key="item">
+                      <td>{{ item }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
 
+        <td>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Calories</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in mealCal" :key="item">
+                      <td>{{ item }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+
+        <td>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Fat</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in mealFat" :key="item">
+                      <td>{{ item }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+
+        <td>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Protein</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in mealProtein" :key="item">
+                      <td>{{ item }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+
+        <td>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Carbohydrates</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in mealCarb" :key="item">
+                      <td>{{ item }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        
+        </tr>
+      </table>
+             
+        
         <br /><br />
 
         <button type="button" id="addFoodButton" v-on:click="deleteMeal">
@@ -70,7 +135,7 @@
 
 <script>
   import firebaseApp from "../firebase.js";
-  import { getDoc, getFirestore, setDoc, deleteDoc } from "firebase/firestore";
+  import { getDoc, getFirestore, setDoc, updateDoc, deleteDoc } from "firebase/firestore";
   import { doc } from "firebase/firestore";
 
   import { getAuth, onAuthStateChanged } from "firebase/auth";
@@ -173,7 +238,15 @@
           return;
         }
         try {
-          setDoc(
+          let a = doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            this.mealType
+          );
+          let b = await getDoc(a);
+          let c = b.data();
+          if (c == undefined){
+            setDoc(
             doc(
               doc(db, String(this.fbuser), "daily_nutrient"),
               this.mealDate,
@@ -198,7 +271,35 @@
                 ),
               },
             }
-          );
+            );
+          }else{
+            updateDoc(
+            doc(
+              doc(db, String(this.fbuser), "daily_nutrient"),
+              this.mealDate,
+              this.mealType
+            ),
+            {
+              [this.recipe["label"]]: {
+                calorie: Math.round(
+                  this.recipe["calories"] / this.recipe["yield"]
+                ),
+                fat: Math.round(
+                  this.recipe["totalNutrients"]["FAT"]["quantity"] /
+                    this.recipe["yield"]
+                ),
+                protein: Math.round(
+                  this.recipe["totalNutrients"]["PROCNT"]["quantity"] /
+                    this.recipe["yield"]
+                ),
+                carbohydrates: Math.round(
+                  this.recipe["totalNutrients"]["CHOCDF"]["quantity"] /
+                    this.recipe["yield"]
+                ),
+              },
+            }
+            );
+          }
         } catch (error) {
           console.error("Error adding document: ", error);
         }
@@ -223,7 +324,25 @@
             this.mealCarb[i] = entry[1].carbohydrates;
             this.mealFat[i] = entry[1].fat;
             this.mealCal[i] = entry[1].calorie;
+
+    /*        var table = document.getElementById("mealTable")
+            var row = table.insertRow(i+1)
+
+            var cell1 = row.insertCell(0); 
+            var cell2 = row.insertCell(1); 
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3); 
+            var cell5 = row.insertCell(4); 
+            
+
+            cell1.innerHTML = this.mealName[i]; 
+            cell2.innerHTML = this.mealProtein[i]; 
+            cell3.innerHTML = this.mealCarb[i]; 
+            cell4.innerHTML = this.mealFat[i]; 
+            cell5.innerHTML = this.mealFat[i];*/
             i++;
+     
+            
           });
           this.displayFoodInfo = true;
           this.loadImage();
@@ -232,6 +351,7 @@
           console.error("Error getting document: ", error.code);
         }
       },
+      
       async deleteMeal() {
         alert("You are going to delete " + this.mealType);
         await deleteDoc(
@@ -304,4 +424,5 @@
     background-color: #575454;
     color: white;
   }
+  
 </style>

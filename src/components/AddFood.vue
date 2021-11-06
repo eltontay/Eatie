@@ -21,8 +21,10 @@
         </button>
       </div>
       <div id="mealNutrient">
+
       
-      <table>
+           
+<!--      <table id = "mealTable">
         <tr>
         <td>
             <table>
@@ -101,7 +103,7 @@
         
         </tr>
       </table>
-             
+         -->  
         
         <br /><br />
 
@@ -185,6 +187,7 @@
           this.getFoodData();
         }
       });
+      
     },
     components: {
       APIQuery,
@@ -318,6 +321,7 @@
           let c = b.data();
           if (c == undefined) return;
           var i = 0;
+
           Object.entries(c).forEach((entry) => {
             this.mealName[i] = entry[0];
             this.mealProtein[i] = entry[1].protein;
@@ -325,7 +329,7 @@
             this.mealFat[i] = entry[1].fat;
             this.mealCal[i] = entry[1].calorie;
 
-    /*        var table = document.getElementById("mealTable")
+            var table = document.getElementById("mealTable")
             var row = table.insertRow(i+1)
 
             var cell1 = row.insertCell(0); 
@@ -334,12 +338,12 @@
             var cell4 = row.insertCell(3); 
             var cell5 = row.insertCell(4); 
             
-
             cell1.innerHTML = this.mealName[i]; 
-            cell2.innerHTML = this.mealProtein[i]; 
-            cell3.innerHTML = this.mealCarb[i]; 
-            cell4.innerHTML = this.mealFat[i]; 
-            cell5.innerHTML = this.mealFat[i];*/
+            cell2.innerHTML = this.mealCal[i]; 
+            cell3.innerHTML = this.mealFat[i]; 
+            cell4.innerHTML = this.mealProtein[i]; 
+            cell5.innerHTML = this.mealCal[i];
+  
             i++;
      
             
@@ -373,8 +377,8 @@
         this.imageSource = no_image_loaded;
         this.haveImage = false;
         this.recipe = null;
-      },
-    },
+      }
+    }
   };
 </script>
 
@@ -411,8 +415,6 @@
   #mealTable {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 90%;
-    align-self: center;
     border: 3px solid black;
     margin-left: 5%;
     margin-right: 5%;

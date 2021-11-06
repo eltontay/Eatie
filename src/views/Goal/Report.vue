@@ -73,7 +73,7 @@ export default {
       bmr: null,
     }
   },
-  
+
   // mounted() {
   //   const auth = getAuth();
   //   onAuthStateChanged(auth, (user) => {
@@ -115,7 +115,7 @@ export default {
 
       // Calculate Risk
       if(bmi < 18.6){
-        risk = "AT LOW RISK* for obesity-related diseases *But increased risk of other clinical problems (please have a second line for the *)"
+        risk = "AT LOW RISK* for obesity-related diseases *But increased risk of other clinical problems"
         diagnosis = "AT RISK of nutritional deficiency and osteoporosis. You are encouraged to eat a balanced meal and to seek medical advice if necessary."
       } else if (bmi < 23) {
         risk = "Low Risk";

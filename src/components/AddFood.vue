@@ -48,10 +48,10 @@
       Add Food
     </button>
     <div v-show="displayTable">
-      <APIQuery
-        @chosenFood="foodChosen($event)"
-        :foodTableID="mealType"
-      /><br /><br />
+      <div id="APIQueryDiv">
+        <APIQuery @chosenFood="foodChosen($event)" :foodTableID="mealType" />
+      </div>
+      <br /><br />
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
       <div v-else>Select a food!</div>
       <br /><br />
@@ -119,7 +119,6 @@
           this.getFoodData();
         }
       });
-      
     },
     components: {
       APIQuery,
@@ -197,7 +196,8 @@
                     this.recipe["yield"]
                 ),
               },
-            }, { merge: true}
+            },
+            { merge: true }
           );
         } catch (error) {
           console.error("Error adding document: ", error);
@@ -225,7 +225,6 @@
               calorie: entry[1].calorie,
             };
           });
-          this.displayFoodInfo = true;
           this.updateMealTable();
           this.loadImage();
         } catch (error) {
@@ -233,7 +232,7 @@
           console.error("Error getting document: ", error.code);
         }
       },
-      updateMealTable() {
+      async updateMealTable() {
         for (
           var i = document.getElementById(this.mealTableID).rows.length;
           i > 1;
@@ -255,7 +254,13 @@
           bu.innerHTML = "Delete";
           bu.onclick = () => this.deleteFood(entry[0]);
           row.insertCell(5).appendChild(bu);
+          ind++;
         });
+        if (ind == 1) {
+          this.displayFoodInfo = false;
+        } else {
+          this.displayFoodInfo = true;
+        }
         this.refreshCounter++;
       },
       async deleteMeal() {
@@ -327,6 +332,8 @@
   .mealTable {
     font-family: arial, sans-serif;
     border-collapse: collapse;
+    width: 90%;
+    align-self: center;
     border: 3px solid black;
     margin-left: 5%;
     margin-right: 5%;
@@ -336,5 +343,13 @@
     text-align: center;
     background-color: #575454;
     color: white;
+  }
+
+  #APIQueryDiv {
+    background-color: rgb(115, 135, 190);
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-radius: 20px;
+    border: 1px solid black;
   }
 </style>

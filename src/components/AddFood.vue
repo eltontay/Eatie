@@ -33,7 +33,6 @@
         </table>
 
         <br /><br />
-
         <button type="button" id="addFoodButton" v-on:click="deleteMeal">
           Delete meal
         </button>
@@ -120,6 +119,7 @@
           this.getFoodData();
         }
       });
+      
     },
     components: {
       APIQuery,
@@ -311,7 +311,6 @@
   #mealNutrient {
     width: 80%;
     height: 100%;
-    /* margin-top: 75px; */
   }
   #foodImageID {
     width: 100%;
@@ -328,8 +327,6 @@
   .mealTable {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 90%;
-    align-self: center;
     border: 3px solid black;
     margin-left: 5%;
     margin-right: 5%;

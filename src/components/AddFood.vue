@@ -337,12 +337,26 @@
             var cell3 = row.insertCell(2);
             var cell4 = row.insertCell(3); 
             var cell5 = row.insertCell(4); 
+            var cell6 = row.insertCell(5);
+            var cell7 = row.insertCell(6);
+            var cell8 = row.insertCell(6);
             
             cell1.innerHTML = this.mealName[i]; 
             cell2.innerHTML = this.mealCal[i]; 
             cell3.innerHTML = this.mealFat[i]; 
             cell4.innerHTML = this.mealProtein[i]; 
             cell5.innerHTML = this.mealCal[i];
+            cell6.innerHTML = this.mealType;
+            cell7.innerHTML = this.mealDate;
+
+            var bu = document.createElement("button")
+            bu.className = "bwt"
+            bu.id = String(this.mealName[i])
+            bu.innerHTML ="Delete"
+            bu.onclick =  function(){
+                deleteinstrument2(this.mealName[i])
+            }
+            cell8.appendChild(bu)    
   
             i++;
      
@@ -354,6 +368,22 @@
           if (error.code == "invalid-argument") return;
           console.error("Error getting document: ", error.code);
         }
+      },
+    
+      async deleteinstrument2(foodname){
+        var x = foodname
+        alert("You are going to delete " + x)
+        console.log(x)
+
+        db.collection().doc(x).delete().then(() => {
+        console.log("Document successfully deleted!" , x);
+        window.location.reload()
+        // display()
+
+        }).catch((error) => {
+        console.error("Error removing document: ", error);
+        });
+  
       },
       
       async deleteMeal() {

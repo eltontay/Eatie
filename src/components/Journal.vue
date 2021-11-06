@@ -14,6 +14,8 @@
                     <th>Fat</th>
                     <th>Protein</th>
                     <th>Carbohydrates</th>
+                    <th>Meal</th>
+                    <th>Date</th>
                 </tr>
     </table>
     <br>

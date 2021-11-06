@@ -66,20 +66,19 @@
 <script>
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import firebaseApp from "../firebase.js";
-  import { getDoc, getFirestore } from "firebase/firestore";
-  import { doc } from "firebase/firestore";
+  import { getDoc, getFirestore, doc } from "firebase/firestore";
   const db = getFirestore(firebaseApp);
   export default {
     data() {
       return {
         fbuser: "",
-        goalValue: 2500, //change value
+        goalValue: 0,
         dailyNutrient: {
           Calorie: 0,
           Carbohydrates: 0,
           Fat: 0,
           Protein: 0,
-        }, //change value
+        },
       };
     },
     computed: {
@@ -110,12 +109,21 @@
         return Math.round((this.consumedValue / this.goalValue) * 100);
       },
       dailyCaloriePieData() {
-        return { consumed: this.consumedValue, remaining: this.remainingValue };
+        if (this.consumedValue < this.goalValue) {
+          return {
+            consumed: this.consumedValue,
+            remaining: this.remainingValue,
+          };
+        }
+        return { consumed: 100, remaining: 0 };
       },
       calorieGoalRecommendation() {
-        return this.remainingValue < 100
-          ? "You are nearing your recommended Calorie goal. Try not to eat too much!"
-          : "Great job! You are still within your recommended Calorie intake!";
+        if (this.remainingValue < 0)
+          return "You are over your recommended Calorie goal. Try not to eat too much!";
+        else if (this.remainingValue < 100)
+          return "You are nearing your recommended Calorie goal. Try not to eat too much!";
+        else
+          return "Great job! You are still within your recommended Calorie intake!";
       },
       consumedMacroNutrient() {
         return (
@@ -191,6 +199,7 @@
         if (user) {
           this.user = user;
           this.fbuser = auth.currentUser.email;
+          this.findGoal();
           this.findDailyNutrient("Breakfast");
           this.findDailyNutrient("Lunch");
           this.findDailyNutrient("Dinner");
@@ -210,6 +219,11 @@
             this.dailyNutrient["Fat"] = entry[1]["fat"];
           });
         }
+      },
+      async findGoal() {
+        var a = doc(db, String(this.fbuser), "profile");
+        var b = await getDoc(a);
+        this.goalValue = Math.round(b.data()["calorie"]);
       },
     },
   };

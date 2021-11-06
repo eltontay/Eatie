@@ -156,6 +156,7 @@ export default {
           calorie: calorie,
           height: goal.height,
           weight: goal.weight,
+          gender: goal.gender,
         };
         
         await setDoc(doc(db, user.email, 'profile'), goalData);

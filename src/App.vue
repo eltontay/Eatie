@@ -1,16 +1,23 @@
 <template>
-  <div class="header">
+  <header>
     <div style="width: 50%">
-      <img id="logo" src="@/assets/Eatie_logo.png" alt="" @click="$router.push('/')"/>
+      <img
+        id="logo"
+        src="@/assets/Eatie_logo.png"
+        alt=""
+        @click="$router.push('/')"
+      />
     </div>
     <NavBar />
-  </div>
+  </header>
   <hr />
-  <router-view />
-  <div id="footer">
-    <hr>
+  <body>
+    <router-view />
+  </body>
+  <footer>
+    <hr />
     &copy;2021 Eatie
-  </div>
+  </footer>
 </template>
 
 <script>
@@ -33,13 +40,21 @@
     color: #2c3e50;
   }
 
-  .header {
+  header {
     width: 80%;
     height: 100px;
     margin-left: 10%;
     margin-right: 10%;
     text-align: right;
     display: flex;
+  }
+
+  body {
+    min-height: 70vh;
+  }
+
+  footer {
+    margin-top: auto;
   }
 
   hr {

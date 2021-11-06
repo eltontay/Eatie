@@ -5,20 +5,6 @@
     <br />
     <!-- <div>Today's date: {{ currentDate }}</div> -->
     <input id="dateInput" type="date" v-model="date" />
-
-    <br><br>
-    <table id = "mealTable">
-                <tr>            
-                    <th>Food Name</th>
-                    <th>Calorie</th>
-                    <th>Fat</th>
-                    <th>Protein</th>
-                    <th>Carbohydrates</th>
-                    <th>Meal</th>
-                    <th>Date</th>
-                </tr>
-    </table>
-    <br>
     
     <AddFood mealType="Breakfast" :mealDate="date" :key="date" />
     <AddFood mealType="Lunch" :mealDate="date" :key="date" />
@@ -62,26 +48,8 @@
       });
       this.date = this.currentDate;
     },
-    myFunction() {
-      document.getElementById("myTable").deleteRow(0);
-    }
   };
 </script>
 
 <style>
-  #mealTable {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    text-align: center;
-    border: 3px solid black;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  #mealTable th {
-    border: 3px solid black;
-    text-align: center;
-    background-color: #575454;
-    color: white;
-  }
 </style>

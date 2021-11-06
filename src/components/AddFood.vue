@@ -55,7 +55,7 @@
       Add Food
     </button>
     <div v-if="displayTable">
-      <APIQuery @chosenFood="foodChosen($event)" /><br /><br />
+      <APIQuery @chosenFood="foodChosen($event)" :foodTableID="mealType"/><br /><br />
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
       <div v-else>Select a food!</div>
       <br /><br />

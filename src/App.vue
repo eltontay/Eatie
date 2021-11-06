@@ -1,12 +1,16 @@
 <template>
   <div class="header">
     <div style="width: 50%">
-      <img id="logo" src="@/assets/Eatie_logo.png" alt="" />
+      <img id="logo" src="@/assets/Eatie_logo.png" alt="" @click="$router.push('/')"/>
     </div>
     <NavBar />
   </div>
   <hr />
   <router-view />
+  <div id="footer">
+    <hr>
+    &copy;2021 Eatie
+  </div>
 </template>
 
 <script>

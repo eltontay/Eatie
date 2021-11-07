@@ -81,6 +81,25 @@
   button {
     width: 30%;
     border-radius: 10px;
+    color: rgba(17, 94, 17, 0.603);
+    border: 2px solid rgba(17, 94, 17, 0.603);
+  }
+
+  button:hover {
+    background-color: rgba(17, 94, 17, 0.603);
+    color: white;
+    box-shadow: 3px 3px grey;
+  }
+
+  .redButton {
+    color: rgba(172, 37, 37, 0.863);
+    border: 2px solid rgba(172, 37, 37, 0.863);
+  }
+
+  .redButton:hover {
+    background-color: rgba(172, 37, 37, 0.863);
+    color: white;
+    box-shadow: 3px 3px grey;
   }
 
   #logo {

@@ -1,5 +1,5 @@
 <template>
-<button id = "btn" @click="signOut()" v-if="user">Logout</button>
+<button class="redButton" id = "btn" @click="signOut()" v-if="user">Logout</button>
 </template>
 
 <script>
@@ -40,10 +40,5 @@ export default {
 #btn{
     text-align: center;
     margin: auto;
-}
-#btn:hover{
-    color: rgb(243, 236, 236);
-    background-color: #2e815c;
-    box-shadow: 3px 3px grey;
 }
 </style>

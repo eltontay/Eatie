@@ -12,9 +12,9 @@
           style="display: none"
           @change="uploadImage"
         />
-      <div class="foodOverlay">
-        Change image
-      </div>
+        <div class="foodOverlay">
+          Change image
+        </div>
       </div>
       <div id="mealNutrient">
         <table class="mealTable" :id="mealTableID">
@@ -29,11 +29,17 @@
         </table>
 
         <br /><br />
-        <button type="button" id="addFoodButton" v-on:click="deleteMeal">
+        <button
+          class="redButton"
+          type="button"
+          id="addFoodButton"
+          v-on:click="deleteMeal"
+        >
           Delete meal
         </button>
       </div>
     </div>
+    <br /><br />
 
     <button
       v-show="!displayTable"
@@ -130,10 +136,7 @@
         this.$refs.fileInput.click();
       },
       async uploadImage(e) {
-        await uploadBytes(
-          this.storageRef,
-          e.target.files[0]
-        );
+        await uploadBytes(this.storageRef, e.target.files[0]);
         await this.loadImage();
       },
       async loadImage() {
@@ -261,6 +264,7 @@
           row.insertCell(3).innerHTML = entry[1]["protein"];
           row.insertCell(4).innerHTML = entry[1]["carbohydrates"];
           let bu = document.createElement("button");
+          bu.class = "redButton";
           bu.id = "deleteFoodButton";
           bu.type = "button";
           bu.innerHTML = "Delete";
@@ -366,6 +370,12 @@
   #deleteFoodButton {
     width: 80%;
     border-radius: 5px;
+    color: rgba(172, 37, 37, 0.863);
+    border: 2px solid rgba(172, 37, 37, 0.863);
+  }
+  #deleteFoodButton:hover {
+    background-color: rgba(172, 37, 37, 0.863);
+    color: white;
   }
   .mealTable {
     font-family: arial, sans-serif;

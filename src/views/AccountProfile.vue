@@ -95,7 +95,6 @@
   }
 
   #displayPictureContainer {
-    display: flex;
     width: 40%;
     margin-left: 30%;
     margin-right: 30%;
@@ -108,9 +107,12 @@
   }
 
   #displayPic {
-    width: 30%;
-    margin-left: 10%;
-    margin-right: 10%;
-    border: 4px solid #333;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    border-radius: 100%;
+    border: 4px solid black;
   }
 </style>

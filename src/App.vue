@@ -12,6 +12,7 @@
       <NavBar />
     </div>
   </header>
+  <div style="height: 120px"></div>
   <body>
     <router-view />
   </body>
@@ -41,10 +42,6 @@
     color: #2c3e50;
   }
 
-  /* html {
-    background-color: rgb(150, 180, 169);
-  } */
-
   header {
     width: 100%;
     height: 120px;
@@ -54,12 +51,12 @@
     top: 0;
     left: 0;
     position: fixed;
+    z-index: 1;
     border: 5px solid black;
   }
 
   body {
-    margin-top: 150px;
-    min-height: 70vh;
+    min-height: 80vh;
   }
 
   footer {

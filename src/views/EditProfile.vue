@@ -1,21 +1,16 @@
 <template>
   <div style="text-align:center;" v-if="user" class="container">
     <h2>Edit Profile</h2>
-    <div>
-      <div id="displayPictureContainer">
-        <img :src="profileImg" id="displayPic" />
-        <div id="editProfile">
-          <h3>Upload Profile Picture:</h3>
-          <input
-            type="file"
-            accept="image/*"
-            @change="imageChange"
-          /><br /><br />
-          <button type="button" id="uploadPhoto" v-on:click="uploadDP()">
-            Upload
-          </button>
-        </div>
-      </div>
+    <div id="displayPictureContainer" @click="uploadImage">
+      <img :src="profileImg" id="displayPic" />
+      <div id="overlay">Upload Profile Picture</div>
+      <input
+        type="file"
+        accept="image/*"
+        ref="fileInput"
+        style="display: none"
+        @change="uploadDP"
+      /><br /><br />
     </div>
     <br /><br />
     <div id="profileInfoContainer">
@@ -88,7 +83,6 @@
         user: false,
         fbuser: "",
         profileImg: null,
-        currUploadedImage: null,
         newName: "",
         currentPassword: "",
         newPassword: "",
@@ -123,17 +117,12 @@
           this.profileImg = girlPic;
         }
       },
-      imageChange(e) {
-        this.currUploadedImage = e;
-        console.log(e);
+      uploadImage() {
+        this.$refs.fileInput.click();
       },
-      async uploadDP() {
-        if (this.currUploadedImage == null) {
-          alert("Choose a picture");
-          return;
-        }
+      async uploadDP(e) {
         let storageRef = ref(getStorage(), this.fbuser + "/displayPic");
-        await uploadBytes(storageRef, this.currUploadedImage.target.files[0]);
+        await uploadBytes(storageRef, e.target.files[0]);
         getDownloadURL(storageRef)
           .then((url) => {
             const auth = getAuth();
@@ -221,20 +210,20 @@
     width: 50%;
   }
 
-  #submitButton,
+  #displayPictureContainer {
+    text-align: left;
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+
   #submitButton {
     width: 25%;
     height: 30px;
     margin-left: 12.5%;
     margin-right: 12.5%;
     border-radius: 10px;
-  }
-
-  #displayPictureContainer {
-    display: flex;
-    width: 40%;
-    margin-left: 30%;
-    margin-right: 30%;
   }
 
   #profileInfoContainer {
@@ -244,10 +233,34 @@
   }
 
   #displayPic {
-    width: 30%;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
     border: 4px solid #333;
+  }
+
+  #overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 4px solid #333;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: rgb(41, 83, 41);
+    text-align: center;
+    line-height: 250px;
+    font-size: 120%;
+    color: white;
+  }
+
+  #overlay:hover {
+    opacity: 0.8;
   }
 
   #profileForm {

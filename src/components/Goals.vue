@@ -1,8 +1,5 @@
 <template>
   <Report
-    :hasGoal="true"
-    :goal="goal"
-    :loader="loader"
     v-if="Object.keys(goal).length"
   />
   <div class="container" v-else>
@@ -47,17 +44,18 @@ export default {
   data() {
     return {
       goal: {},
-      loader: false,
+      // loader: false,
+      weightGoal_key: 0,
     };
   },
   methods: {
     async displayGoal() {
-      this.loader = true;
-      console.log(this.user);
+      // this.loader = true;
+      // console.log(this.user);
       let goal = await getDoc(doc(db, this.user.email, 'profile'));
       this.goal = goal.exists() ? goal.data() : {};
 
-      this.loader = false;
+      // this.loader = false;
     },
     Create() {
       this.$router.push('./goalStep1');

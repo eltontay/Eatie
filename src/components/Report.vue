@@ -5,8 +5,8 @@
       <h2>My Goals</h2> &nbsp; &nbsp; &nbsp;
       <img class="foodIcon" src="@/assets/goal2.png" alt="" /> 
     </div>
-    <loader v-if="loader" />
-    <div v-else>
+    <!-- <loader v-if="loader" /> -->
+    <div>
       <div class="mx-1">
         <div class="tile-1">
           <strong>Congratulations! Your goal is created</strong>
@@ -14,13 +14,13 @@
         <div class="bmi-r">
           <span>Your BMI is</span> &nbsp; &nbsp;
           <span class="hlit" :style="{ color: formattedColor() }">
-            {{ goal.bmi }}
+            {{ this.bmi }}
           </span>
         </div>
         <div class="bmi-r">
           <span>You are at</span> &nbsp; &nbsp;
           <span class="hlit" :style="{ color: formattedColor() }">
-            {{ goal.risk }}
+            {{ this.risk }}
           </span>
         </div>
         <!-- <p class="d-s">
@@ -30,19 +30,19 @@
           <strong>Diagnosis</strong>
         </h3>
         <h3 class="lnh" style="margin-top:15px; font-weight: normal;">
-          {{ goal.diagnosis }}
+          {{ this.diagnosis }}
           <br />
           <br />
-          <strong>Recommended Calorie Intake: {{ goal.calorie }} Kcal</strong>
+          <strong>Recommended Calorie Intake: {{ this.calorie }} Kcal</strong>
         </h3>
         <div style="margin-top:5px;margin-bottom:20px;" >
-          <h3  :key="weightGoal_key" style="font-size: 1.17em;"> Your current weight goal is {{goal.weightGoal}}kg </h3> 
+          <h3 style="font-size: 1.17em;"> Your current weight goal is {{this.weightGoals}}kg </h3> 
         </div>
         <div>
-          <form class="">
-            <span style="font-size:18px;"> Set a weight goal: </span> &nbsp; &nbsp; 
-            <input type="number" v-model="weightGoal" id="weightGoal" /> &nbsp; &nbsp; 
-            <button v-on:click="goalWeight()">Submit</button>
+          <form v-on:submit="goalWeight">
+            <label style="font-size:18px;"> Set a weight goal: </label> &nbsp; &nbsp; 
+            <input type="number" v-model="weightGoal" name="weightGoal" /> &nbsp; &nbsp; 
+            <button type="submit" class ="Btn">Submit</button>
           </form>
         </div>
 
@@ -63,27 +63,32 @@ import {
   doc,
   getFirestore,
   updateDoc,
-  // getDoc,
+  getDoc,
 } from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 const db = getFirestore(firebaseApp);
 
-import Loader from './Loader.vue';
+// import Loader from './Loader.vue';
 
 export default {
-  components: {
-    Loader,
-  },
-  mounted() {
+  // components: {
+  //   Loader,
+  // },
+  beforeMount() {
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         this.user = user;
         this.fbuser = auth.currentUser.email;
+        await this.getGoals();
+        this.formattedColor();
       }
     });
   },
-  props: ['hasGoal', 'goal', 'loader'],
+  // mounted() {
+  //   this.getGoals();
+  // },
+  // props: ['hasGoal', 'goal', 'loader'],
   data() {
     return {
       bmi: null,
@@ -94,8 +99,8 @@ export default {
       weight: null,
       calorie: null,
       bmr: null,
+      weightGoals: null,
       weightGoal: null,
-      weightGoal_key: 0,
     };
   },
   methods: {
@@ -110,30 +115,37 @@ export default {
         return '#db2518';
       }
     },
-    async goalWeight() {
+    async getGoals() {
+      let goal = await getDoc(doc(db, this.user.email, 'profile'));
+      if (goal.data() != undefined) {
+        let dct = goal.data();
+        this.bmi = dct['bmi'];
+        this.risk = dct['risk'];
+        this.calorie = dct['calorie'];
+        this.diagnosis = dct['diagnosis'];
+        this.weightGoals = dct['weightGoal'];
+      }
+    },
+    async goalWeight(e) {
+      e.preventDefault();
       try {
-        var weightGoal = this.weightGoal;
 
-        if (weightGoal < 5) {
+        if (this.weightGoal < 5) {
+          this.weightGoal = '';
           alert('Please enter a correct weight in KG');
           return false;
         }
+
         let profile = doc(db, String(this.fbuser), 'profile');
-        console.log(profile);
-        console.log(weightGoal);
-        await updateDoc(
-          profile,
-          {
-            weightGoal: weightGoal,
-          },
-          { merge: true }
-        );
-        this.weightGoal_key += 1;
-        console.log(this.weightGoal_key)
+        await updateDoc(profile, {weightGoal: this.weightGoal},{ merge: true });
         
+        this.weightGoals = this.weightGoal;
+        this.weightGoal = '';
+
       } catch (error) {
-        console.log(error);
+        console.log(error)
       }
+        
     },
   },
 };

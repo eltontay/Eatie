@@ -85,15 +85,15 @@ export default {
           diagnosis =
             'AT RISK of nutritional deficiency and osteoporosis. You are encouraged to eat a balanced meal and to seek medical advice if necessary.';
         } else if (bmi < 23) {
-          risk = 'Low Risk';
+          risk = 'Low Risk for Obesity-related diseases';
           diagnosis =
             'Achieve a healthy weight by balancing your caloric input (diet) and output (physical activity).';
         } else if (bmi < 27.9) {
-          risk = 'Moderate Risk';
+          risk = 'Moderate Risk for Obesity-related diseases';
           diagnosis =
             'Aim to lose 5% to 10% of your body weight over 6 to 12 months by increasing physical activity and reducing caloric intake';
         } else if (bmi > 27.9) {
-          risk = 'High Risk';
+          risk = 'High Risk for Obesity-related diseases';
           diagnosis =
             'Aim to lose 5% to 10% of your body weight over 6 to 12 months by increasing physical activity and reducing caloric intake. ';
         }

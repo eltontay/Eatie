@@ -20,7 +20,7 @@
         <div class="bmi-r">
           <span>You are at</span> &nbsp; &nbsp;
           <span class="hlit" :style="{ color: formattedColor() }">
-            {{ goal.risk }} of Obesity-related diseases
+            {{ goal.risk }}
           </span>
         </div>
         <!-- <p class="d-s">
@@ -29,21 +29,25 @@
         <h3 style="margin-top:20px; margin-bottom:15px;">
           <strong>Diagnosis</strong>
         </h3>
-        <h3 class="lnh" style="margin-top:15px; margin-bottom:15px;font-weight: normal;">
+        <h3 class="lnh" style="margin-top:15px; font-weight: normal;">
           {{ goal.diagnosis }}
           <br />
           <br />
           <strong>Recommended Calorie Intake: {{ goal.calorie }} Kcal</strong>
         </h3>
+        <div style="margin-top:5px;margin-bottom:20px;">
+          <h3 style="font-size: 1.17em;"> Your current weight goal is {{goal.weightGoal}}kg </h3> 
+        </div>
         <div>
           <form class="">
-            <span style="font-size:18px;"> Set a new weight goal: </span> &nbsp; &nbsp; 
+            <span style="font-size:18px;"> Set a weight goal: </span> &nbsp; &nbsp; 
             <input type="text" v-model="weightGoal" id="weightGoal" /> &nbsp; &nbsp; 
             <button @click.prevent="goalWeight()">Submit</button>
           </form>
         </div>
+
         <div>
-          <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
+          <router-link to="./goalStep1" class="new-btn">Reset Profile</router-link>
         </div>
       </div>
     </div>
@@ -158,11 +162,11 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-// .d-s {
-//   font-size: 17px;
-//   margin-bottom: 10px;
-//   margin-top: 20px;
-// }
+.d-s {
+  font-size: 17px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
 .lnh {
   margin-top: 5px;
 }

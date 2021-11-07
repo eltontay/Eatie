@@ -51,15 +51,9 @@
     </button>
     <div v-show="displayTable">
       <div id="APIQueryDiv">
-        <APIQuery @chosenFood="foodChosen($event)" :foodTableID="mealType" />
+        <APIQuery @chosenFood="submitToFS($event)" :foodTableID="mealType" />
       </div>
       <br /><br />
-      <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
-      <div v-else>Select a food!</div>
-      <br /><br />
-      <button type="button" id="addFoodButton" v-on:click="submitToFS()">
-        Submit
-      </button>
     </div>
   </div>
 </template>
@@ -90,7 +84,6 @@
       return {
         displayTable: false,
         displayFoodInfo: false,
-        recipe: null,
         haveImage: false,
         imageSource: null,
         mealDetail: {},
@@ -129,9 +122,6 @@
       async displayCalc() {
         this.displayTable = !this.displayTable;
       },
-      async foodChosen(recipe) {
-        this.recipe = recipe;
-      },
       imageChange() {
         this.$refs.fileInput.click();
       },
@@ -169,11 +159,7 @@
           });
         this.refreshCounter++;
       },
-      async submitToFS() {
-        if (this.recipe == null) {
-          alert("Select a meal!");
-          return;
-        }
+      async submitToFS(recipe) {
         try {
           setDoc(
             doc(
@@ -182,21 +168,18 @@
               this.mealType
             ),
             {
-              [this.recipe["label"]]: {
-                calorie: Math.round(
-                  this.recipe["calories"] / this.recipe["yield"]
-                ),
+              [recipe["label"]]: {
+                calorie: Math.round(recipe["calories"] / recipe["yield"]),
                 fat: Math.round(
-                  this.recipe["totalNutrients"]["FAT"]["quantity"] /
-                    this.recipe["yield"]
+                  recipe["totalNutrients"]["FAT"]["quantity"] / recipe["yield"]
                 ),
                 protein: Math.round(
-                  this.recipe["totalNutrients"]["PROCNT"]["quantity"] /
-                    this.recipe["yield"]
+                  recipe["totalNutrients"]["PROCNT"]["quantity"] /
+                    recipe["yield"]
                 ),
                 carbohydrates: Math.round(
-                  this.recipe["totalNutrients"]["CHOCDF"]["quantity"] /
-                    this.recipe["yield"]
+                  recipe["totalNutrients"]["CHOCDF"]["quantity"] /
+                    recipe["yield"]
                 ),
               },
             },
@@ -210,7 +193,7 @@
             ),
             {
               [this.mealType]: {
-                [this.recipe["label"]]: this.recipe["image"],
+                [recipe["label"]]: recipe["image"],
               },
             },
             { merge: true }
@@ -296,6 +279,16 @@
             error;
             // Uh-oh, an error occurred!
           });
+        updateDoc(
+          doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            "default_image"
+          ),
+          {
+            [this.mealType]: deleteField(),
+          }
+        );
         this.displayFoodInfo = false;
         this.imageSource = null;
         this.haveImage = false;
@@ -310,6 +303,23 @@
           {
             [foodName]: deleteField(),
           }
+        );
+        var a = await getDoc(
+          doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            "default_image"
+          )
+        );
+        var b = a.data();
+        delete b[this.mealType][foodName];
+        updateDoc(
+          doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            "default_image"
+          ),
+          b
         );
         this.getFoodData();
       },

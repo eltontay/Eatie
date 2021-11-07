@@ -41,7 +41,7 @@
         <div>
           <form class="">
             <span style="font-size:18px;"> Set a weight goal: </span> &nbsp; &nbsp; 
-            <input type="text" v-model="weightGoal" id="weightGoal" /> &nbsp; &nbsp; 
+            <input type="number" v-model="weightGoal" id="weightGoal" /> &nbsp; &nbsp; 
             <button v-on:click="goalWeight()">Submit</button>
           </form>
         </div>

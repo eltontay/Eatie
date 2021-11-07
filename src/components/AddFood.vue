@@ -371,6 +371,7 @@
   }
   .foodOverlay:hover {
     opacity: 0.8;
+    cursor: pointer;
   }
   #addFoodButton {
     width: 15%;

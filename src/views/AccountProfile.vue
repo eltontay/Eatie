@@ -2,24 +2,19 @@
   <div style="text-align:center;" v-if="user" class="container">
     <div id="displayPictureContainer">
       <img :src="profileImg" id="displayPic" />
-      <button
-        type="button"
-        id="profileButton"
-        @click="$router.push('/editProfile')"
-      >
-        Edit Profile
-      </button>
-      <br />
+      <div id="profileInfoContainer">
+        <h2>{{ user.displayName }}</h2>
+        <h3>{{ user.email }}</h3>
+        <button
+          type="button"
+          id="profileButton"
+          @click="$router.push('/editProfile')"
+        >
+          Edit Profile
+        </button>
+      </div>
     </div>
     <br /><br />
-    <div id="profileInfoContainer">
-      <p>
-        Name: <strong>{{ user.displayName }}</strong
-        ><br />
-        Email:<strong>{{ user.email }}</strong>
-      </p>
-      <br />
-    </div>
     <LogOut />
   </div>
 </template>
@@ -78,19 +73,12 @@
 </script>
 
 <style scoped>
-  p {
-    text-align: left;
-    width: 50%;
-    float: middle;
-    margin: 0 auto;
-  }
-
   #profileButton {
-    width: 25%;
+    width: 100%;
     height: 30px;
     margin-left: 12.5%;
     margin-right: 12.5%;
-    margin-top: 75px;
+    margin-top: 25px;
     border-radius: 10px;
   }
 
@@ -98,12 +86,15 @@
     width: 40%;
     margin-left: 30%;
     margin-right: 30%;
+    display: flex;
   }
 
   #profileInfoContainer {
     width: 40%;
     margin-left: 30%;
     margin-right: 30%;
+    margin-top: 50px;
+    text-align: left;
   }
 
   #displayPic {

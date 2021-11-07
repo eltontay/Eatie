@@ -261,6 +261,7 @@
 
   #dpOverlay:hover {
     opacity: 0.8;
+    cursor: pointer;
   }
 
   #profileForm {

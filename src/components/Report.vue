@@ -3,7 +3,7 @@
     <h3>My Goal</h3>
     <loader v-if="loader" />
     <div v-else>
-      <div class="mx-1" v-if="hasGoal">
+      <div class="mx-1">
         <div class="tile-1">
           <strong>Congratulations! Your goal is created</strong>
         </div>
@@ -29,40 +29,6 @@
           {{ goal.diagnosis }}
           <br />
           <strong>Recommended Calorie Intake: {{ goal.calorie }} Kcal</strong>
-          <div>
-            <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
-          </div>
-        </div>
-      </div>
-      <div class="mx-1" v-else>
-        <div class="tile-1">
-          <strong>Congratulations! Your goal is created</strong>
-        </div>
-        <!-- <div class="bmi-r">your BMI is <span class="hlit">{{ bmi }}</span></div>
-        <div class="bmi-r">you are at <span class="hlit"> {{ risk }} </span></div> -->
-        <div class="bmi-r">
-          <span>Your BMI is</span>
-          <span class="hlit" :style="{ color: formattedColor() }">
-            {{ bmi }}
-          </span>
-        </div>
-        <div class="bmi-r">
-          <span>You are at</span>
-          <span class="hlit" :style="{ color: formattedColor() }">
-            {{ risk }}
-          </span>
-        </div>
-        <div class="d-s">
-          <strong>of Obesity-related diseases</strong>
-        </div>
-        <div>
-          <strong>Diagnosis</strong>
-        </div>
-        <div class="lnh">
-          {{ diagnosis }}
-          <br />
-          <strong>Recommended Calorie Intake: {{ calorie }} Kcal</strong>
-          <strong>test</strong>
           <div>
             <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
           </div>

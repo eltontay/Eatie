@@ -3,7 +3,7 @@
     <h2>Edit Profile</h2>
     <div id="displayPictureContainer" @click="uploadImage">
       <img :src="profileImg" id="displayPic" />
-      <div id="overlay">Upload Profile Picture</div>
+      <div id="dpOverlay">Upload Profile Picture</div>
       <input
         type="file"
         accept="image/*"
@@ -242,7 +242,7 @@
     border: 4px solid #333;
   }
 
-  #overlay {
+  #dpOverlay {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -259,7 +259,7 @@
     color: white;
   }
 
-  #overlay:hover {
+  #dpOverlay:hover {
     opacity: 0.8;
   }
 

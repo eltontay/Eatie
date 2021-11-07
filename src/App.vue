@@ -47,7 +47,7 @@
     height: 120px;
     text-align: right;
     display: flex;
-    background-color: rgb(150, 180, 169);
+    background-color: rgb(19, 43, 34);
     top: 0;
     left: 0;
     position: fixed;
@@ -128,7 +128,7 @@
   }
 
   .container {
-    background-color: rgb(162, 180, 199);
+    background-color: rgb(150, 180, 169);
     box-shadow: 10px 10px;
     margin: 0px 150px 150px 150px;
     padding: 20px;

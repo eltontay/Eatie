@@ -3,22 +3,18 @@
     <h3>{{ mealType }}</h3>
 
     <div id="mealInfo" v-show="displayFoodInfo">
-      <div style="width: 20%">
-        <img id="foodImageID" v-bind:src="imageSource"/>
+      <div id="foodImageContainer" @click="imageChange">
+        <img id="foodImageID" v-bind:src="imageSource" />
         <input
-          v-if="!haveImage"
           type="file"
           accept="image/*"
-          @change="imageChange"
-        /><br /><br />
-        <button
-          v-if="!haveImage"
-          type="button"
-          id="addImageButton"
-          v-on:click="uploadImage"
-        >
-          Upload Image
-        </button>
+          ref="fileInput"
+          style="display: none"
+          @change="uploadImage"
+        />
+      <div class="foodOverlay">
+        Change image
+      </div>
       </div>
       <div id="mealNutrient">
         <table class="mealTable" :id="mealTableID">
@@ -55,8 +51,6 @@
       <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
       <div v-else>Select a food!</div>
       <br /><br />
-      <div>Add a picture of your meal:</div>
-      <input type="file" accept="image/*" @change="imageChange" />
       <button type="button" id="addFoodButton" v-on:click="submitToFS()">
         Submit
       </button>
@@ -91,7 +85,6 @@
         displayTable: false,
         displayFoodInfo: false,
         recipe: null,
-        currUploadedImage: null,
         haveImage: false,
         imageSource: null,
         mealDetail: {},
@@ -133,17 +126,13 @@
       async foodChosen(recipe) {
         this.recipe = recipe;
       },
-      imageChange(e) {
-        this.currUploadedImage = e;
+      imageChange() {
+        this.$refs.fileInput.click();
       },
-      async uploadImage() {
-        if (this.currUploadedImage == null) {
-          // alert("Choose a picture");
-          return;
-        }
+      async uploadImage(e) {
         await uploadBytes(
           this.storageRef,
-          this.currUploadedImage.target.files[0]
+          e.target.files[0]
         );
         await this.loadImage();
       },
@@ -165,7 +154,9 @@
                     "default_image"
                   )
                 ).then((a) => {
-                  this.imageSource = a.data()[this.mealType][Object.keys(a.data()[this.mealType])[0]];
+                  this.imageSource = a.data()[this.mealType][
+                    Object.keys(a.data()[this.mealType])[0]
+                  ];
                 });
                 break;
               case "storage/unknown":
@@ -217,14 +208,13 @@
             {
               [this.mealType]: {
                 [this.recipe["label"]]: this.recipe["image"],
-              }
+              },
             },
             { merge: true }
           );
         } catch (error) {
           console.error("Error adding document: ", error);
         }
-        this.uploadImage();
         this.displayTable = false;
         this.getFoodData();
       },
@@ -279,7 +269,7 @@
           ind++;
         });
         if (ind == 1) {
-          this.deleteMeal()
+          this.deleteMeal();
         } else {
           this.displayFoodInfo = true;
         }
@@ -339,9 +329,34 @@
     width: 80%;
     height: 100%;
   }
+  #foodImageContainer {
+    width: 200px;
+    position: relative;
+  }
   #foodImageID {
-    width: 100%;
+    width: 200px;
+    height: 200px;
     border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+  }
+  .foodOverlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: rgb(41, 83, 41);
+    text-align: center;
+    line-height: 200px;
+    font-size: 120%;
+    color: white;
+  }
+  .foodOverlay:hover {
+    opacity: 0.8;
   }
   #addFoodButton {
     width: 15%;

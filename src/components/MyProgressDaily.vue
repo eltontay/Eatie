@@ -214,9 +214,9 @@
         if (meal.data() != undefined) {
           Object.entries(meal.data()).forEach((entry) => {
             this.dailyNutrient["Calorie"] += entry[1]["calorie"];
-            this.dailyNutrient["Protein"] = entry[1]["protein"];
-            this.dailyNutrient["Carbohydrates"] = entry[1]["carbohydrates"];
-            this.dailyNutrient["Fat"] = entry[1]["fat"];
+            this.dailyNutrient["Protein"] += entry[1]["protein"];
+            this.dailyNutrient["Carbohydrates"] += entry[1]["carbohydrates"];
+            this.dailyNutrient["Fat"] += entry[1]["fat"];
           });
         }
       },

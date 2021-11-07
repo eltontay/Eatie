@@ -4,7 +4,7 @@
 
     <div id="mealInfo" v-show="displayFoodInfo">
       <div style="width: 20%">
-        <img id="foodImageID" v-bind:src="imageSource" style="mealImageStyle" />
+        <img id="foodImageID" v-bind:src="imageSource"/>
         <input
           v-if="!haveImage"
           type="file"
@@ -158,6 +158,16 @@
             switch (error.code) {
               case "storage/object-not-found":
                 // File doesn't exist
+                this.haveImage = false;
+                getDoc(
+                  doc(
+                    doc(db, String(this.fbuser), "daily_nutrient"),
+                    this.mealDate,
+                    "default_image"
+                  )
+                ).then((a) => {
+                  this.imageSource = a.data()[this.mealType][Object.keys(a.data()[this.mealType])[0]];
+                });
                 break;
               case "storage/unknown":
                 // Unknown error occurred, inspect the server response
@@ -196,6 +206,19 @@
                     this.recipe["yield"]
                 ),
               },
+            },
+            { merge: true }
+          );
+          setDoc(
+            doc(
+              doc(db, String(this.fbuser), "daily_nutrient"),
+              this.mealDate,
+              "default_image"
+            ),
+            {
+              [this.mealType]: {
+                [this.recipe["label"]]: this.recipe["image"],
+              }
             },
             { merge: true }
           );
@@ -257,7 +280,7 @@
           ind++;
         });
         if (ind == 1) {
-          this.displayFoodInfo = false;
+          this.deleteMeal()
         } else {
           this.displayFoodInfo = true;
         }
@@ -319,6 +342,7 @@
   }
   #foodImageID {
     width: 100%;
+    border-radius: 20px;
   }
   #addFoodButton {
     width: 15%;

@@ -14,9 +14,6 @@ import WeightUpdate from '@/views/WeightUpdate.vue';
 import EditProfile from '@/views/EditProfile.vue';
 import NotFound from '@/views/NotFound.vue';
 
-import CreateGoal from '@/views/Goal/Create.vue';
-import GoalReport from '@/views/Goal/Report.vue';
-
 const routes = [
   {
     path: '/',
@@ -37,11 +34,6 @@ const routes = [
     path: '/myGoals',
     name: 'MyGoals',
     component: MyGoals,
-  },
-  {
-    path: '/create',
-    name: 'create-goal',
-    component: CreateGoal,
   },
   {
     path: '/goalStep1',
@@ -69,11 +61,6 @@ const routes = [
     component: Myprogress,
   },
   {
-    path: '/goalReport',
-    name: 'GoalReport',
-    component: GoalReport,
-  },
-  {
     path: '/SignIn',
     name: 'SignIn',
     component: SignIn,
@@ -84,20 +71,20 @@ const routes = [
     component: AccountProfile,
   },
   {
-    path: '/WeightUpdate', 
+    path: '/WeightUpdate',
     name: 'WeightUpdate',
     component: WeightUpdate,
   },
   {
-    path: '/editProfile', 
+    path: '/editProfile',
     name: 'EditProfile',
     component: EditProfile,
   },
   {
-    path:'/:catchAll(.*)',
+    path: '/:catchAll(.*)',
     name: 'NotFound',
-    component: NotFound
-  }
+    component: NotFound,
+  },
 ];
 const router = createRouter({
   history: createWebHistory(),

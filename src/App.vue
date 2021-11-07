@@ -12,7 +12,7 @@
       <NavBar />
     </div>
   </header>
-  <div style="height: 10vh"></div>
+  <div style="height: 5vh"></div>
   <p id="body1">
     <router-view />
   </p>
@@ -54,7 +54,7 @@
     z-index: 1;
     /* background-image: url('~@/assets/food-background.png'); */
     background-image: url('~@/assets/food-backgrounds.jpg');
-    border-bottom: 3px solid rgb(228, 228, 228);
+    border-bottom: 2px solid rgb(228, 228, 228);
     /* background-image: url(https://assets.loseit.com/website/home/Wave.png), linear-gradient(280deg, rgb(150, 180, 169) 0, rgb(150, 180, 169) 100%); */
     /* background-size: 100% 100%; */
   }
@@ -64,8 +64,8 @@
   }
 
   body {    
-    /* background-color: #f1f1f1; */
-    background-color: rgb(170,226,205);
+    background-color: #f1f1f1;
+    /* background-color: rgb(170,226,205); */
     /* background-image: url(https://assets.loseit.com/website/home/Wave.png), linear-gradient(60deg, rgb(150, 180, 169) 0, rgba(246, 146, 29, 1) 100%); */
     /* background-size: 100% 100%; */
     /* background-image: url('~@/assets/food-backgrounds.jpg'); */
@@ -138,8 +138,9 @@
   #navbarDiv {
     width: 50%;
     margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 20px;
+    /* margin-right: 5%; */
+    margin-top: 25px;
+    align-content: right;
   }
 
   #flex-container {
@@ -164,13 +165,13 @@
   }
 
   .container {
-    background-color: #f1f1f1;
-    /* background-color: rgb(170,226,205); */
+    /* background-color: #f1f1f1; */
+    background-color: rgb(170,226,205);
     /* background-color: rgb(150, 180, 169); */
     box-shadow: 8px 8px;
     margin: 0px 150px 150px 150px;
     padding: 20px;
-    border: 1px solid #858484;
+    border: 2.5px solid #858484;
     opacity: 0.90;
   }
 

@@ -1,5 +1,10 @@
 <template>
-  <report :hasGoal="true" :goal="goal" :loader="loader" v-if="Object.keys(goal).length"/>
+  <Report
+    :hasGoal="true"
+    :goal="goal"
+    :loader="loader"
+    v-if="Object.keys(goal).length"
+  />
   <div class="container" v-else>
     <div>
       <h2>My Goals</h2>
@@ -13,18 +18,17 @@
   </div>
 </template>
 
-
 <script>
-import firebaseApp from "../firebase.js";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
-import Report from '../views/Goal/Report.vue'
+import firebaseApp from '../firebase.js';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import Report from './Report.vue';
 
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 const db = getFirestore(firebaseApp);
 
 export default {
   components: {
-    Report
+    Report,
   },
   mounted() {
     const auth = getAuth();
@@ -32,53 +36,53 @@ export default {
       if (user) {
         this.user = user;
 
-        this.displayGoal()
+        this.displayGoal();
       }
     });
   },
-  data(){
+  data() {
     return {
       goal: {},
       loader: false,
-    }
+    };
   },
   methods: {
     async displayGoal() {
       this.loader = true;
       console.log(this.user);
-      let goal = await getDoc(doc(db, this.user.email, "profile"));
+      let goal = await getDoc(doc(db, this.user.email, 'profile'));
       this.goal = goal.exists() ? goal.data() : {};
 
       this.loader = false;
     },
     Create() {
-      this.$router.push('./goalStep1')
-    }
+      this.$router.push('./goalStep1');
+    },
   },
-  computed:  {
+  computed: {
     goals() {
       return this.$store.getters.getGoals;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style  scoped lang="scss">
-.sh-box{
+<style scoped lang="scss">
+.sh-box {
   background-color: #fff;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
-button{
+button {
   width: 100%;
   max-width: 60%;
 }
@@ -88,7 +92,7 @@ table.goal-data {
   max-width: 500px;
   margin: 0 auto;
   border: 0;
-  tr{
+  tr {
     background-color: transparent;
     vertical-align: top;
     td {
@@ -99,7 +103,7 @@ table.goal-data {
         width: max-content;
         white-space: nowrap;
       }
-    } 
+    }
   }
 }
 </style>

@@ -1,6 +1,10 @@
 <template>
   <div class="container" style="margin-bottom:30px">
-    <h2>Daily Summary</h2>
+    <div id="dailySummaryHeader">
+      <img class="foodIcon" src="@/assets/progress1.png" alt="" /> &nbsp; &nbsp; &nbsp;
+      <div><h2>Daily Summary</h2></div> &nbsp; &nbsp; &nbsp;
+      <img class="foodIcon" src="@/assets/progress2.png" alt="" />
+    </div>
     <div id="dailySummary">
       <div id="halfDailySummary1">
         <h3>{{ calorieGoalRecommendation }}</h3>
@@ -44,23 +48,25 @@
           height="300px"
           :data="dailyNutrientPieData"
         ></pie-chart>
-        <h3 v-if="carbohydratesLower">
-          You should increase your consumption of carbohydrates!
-        </h3>
-        <h3 v-if="carbohydratesUpper">
-          You should reduce your consumption of carbohydrates!
-        </h3>
-        <h3 v-if="fatLower">You should increase your consumption of fat!</h3>
-        <h3 v-if="fatUpper">You should reduce your consumption of fat!</h3>
-        <h3 v-if="proteinLower">
-          You should increase your consumption of protein!
-        </h3>
-        <h3 v-if="proteinUpper">
-          You should reduce your consumption of protein!
-        </h3>
-        <h3 v-if="nutrientRecommendation">
-          Your nutrient breakdown is within recommendation!
-        </h3>
+        <div style="margin-top:20px;">
+          <h3 v-if="carbohydratesLower">
+            You should increase your consumption of carbohydrates!
+          </h3>
+          <h3 v-if="carbohydratesUpper">
+            You should reduce your consumption of carbohydrates!
+          </h3>
+          <h3 v-if="fatLower">You should increase your consumption of fat!</h3>
+          <h3 v-if="fatUpper">You should reduce your consumption of fat!</h3>
+          <h3 v-if="proteinLower">
+            You should increase your consumption of protein!
+          </h3>
+          <h3 v-if="proteinUpper">
+            You should reduce your consumption of protein!
+          </h3>
+          <h3 v-if="nutrientRecommendation">
+            Your nutrient breakdown is within recommendation!
+          </h3>
+          </div>
       </div>
     </div>
   </div>
@@ -270,6 +276,15 @@
   #calorieSummary {
     margin-top: 10%;
     margin-bottom: 40%;     
+  }
+
+  #dailySummaryHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom:10px;
+    display: flex;
+    justify-content: center;
   }
 
 </style>

@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <h2 style="margin-top:15px; margin-bottom:15px;">My Journey</h2>
+    <div id="myJourneyHeader">
+      <img class="foodIcon" src="@/assets/journey1.png" alt="" /> &nbsp; &nbsp; &nbsp;
+      <h2 style="margin-top:15px; margin-bottom:15px;">My Journey</h2> &nbsp; &nbsp; &nbsp;
+      <img class="foodIcon" src="@/assets/journey2.png" alt="" />
+    </div>
     <div id="myJourney">
       <div id="halfMyJourney">
         <LineChart 
@@ -20,8 +24,8 @@
         <h3 style="margin-top:15px; margin-bottom:15px;">Weekly Nutrient Distribution</h3>
       </div>
     </div>
-    <h3 style="margin-top:15px; margin-bottom:15px;">Diagnosis</h3>
-    <div style="margin-top:15px; margin-bottom:15px;">{{ myJourneyDiagnosis }}</div>
+    <h3 style="margin-top:20px; margin-bottom:15px;">Diagnosis: </h3>
+    <h3 style="margin-top:15px; margin-bottom:15px;font-weight: bold;">{{ myJourneyDiagnosis }}</h3>
   </div>
 </template>
 
@@ -300,4 +304,14 @@
     width: 100%  !important;
     height: 100% !important;
   }
+
+  #myJourneyHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom:15px;
+    display: flex;
+    justify-content: center;
+  }
+
 </style>

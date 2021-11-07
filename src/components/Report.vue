@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <h3>My Goal</h3>
+    <div id="goalsCreatedHeader">
+      <img class="foodIcon" src="@/assets/goal1.png" alt="" /> &nbsp; &nbsp; 
+      <h2>My Goals</h2> &nbsp; &nbsp; &nbsp;
+      <img class="foodIcon" src="@/assets/goal2.png" alt="" /> 
+    </div>
     <loader v-if="loader" />
     <div v-else>
       <div class="mx-1">
@@ -8,37 +12,44 @@
           <strong>Congratulations! Your goal is created</strong>
         </div>
         <div class="bmi-r">
-          <span>Your BMI is</span>
+          <span>Your BMI is</span> &nbsp; &nbsp;
           <span class="hlit" :style="{ color: formattedColor() }">
             {{ goal.bmi }}
           </span>
         </div>
         <div class="bmi-r">
-          <span>You are at</span>
+          <span>You are at</span> &nbsp; &nbsp;
           <span class="hlit" :style="{ color: formattedColor() }">
             {{ goal.risk }}
           </span>
         </div>
-        <div class="d-s">
+        <!-- <p class="d-s">
           <strong>of Obesity-related diseases</strong>
-        </div>
-        <div>
+        </p> -->
+        <h3 style="margin-top:20px; margin-bottom:15px;">
           <strong>Diagnosis</strong>
-        </div>
-        <div class="lnh">
+        </h3>
+        <h3 class="lnh" style="margin-top:15px; font-weight: normal;">
           {{ goal.diagnosis }}
           <br />
+          <br />
           <strong>Recommended Calorie Intake: {{ goal.calorie }} Kcal</strong>
+        </h3>
+        <div style="margin-top:5px;margin-bottom:20px;" >
+          <h3  :key="weightGoal_key" style="font-size: 1.17em;"> Your current weight goal is {{goal.weightGoal}}kg </h3> 
         </div>
         <div>
           <form class="">
-            <strong>My desired weight (kg) is </strong>
-            <input type="text" v-model="weightGoal" id="weightGoal" />
-            <button @click.prevent="goalWeight()">Submit</button>
+            <span style="font-size:18px;"> Set a weight goal: </span> &nbsp; &nbsp; 
+            <input type="text" v-model="weightGoal" id="weightGoal" /> &nbsp; &nbsp; 
+            <button v-on:click="goalWeight()">Submit</button>
           </form>
         </div>
-        <div>
-          <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
+
+        <div style="margin-top:15px;" >
+          <button>
+          <router-link to="./goalStep1" class="new-btn">Reset Profile</router-link>
+          </button>
         </div>
       </div>
     </div>
@@ -84,6 +95,7 @@ export default {
       calorie: null,
       bmr: null,
       weightGoal: null,
+      weightGoal_key: 0,
     };
   },
   methods: {
@@ -107,15 +119,18 @@ export default {
           return false;
         }
         let profile = doc(db, String(this.fbuser), 'profile');
-        let weightdb = await updateDoc(
+        console.log(profile);
+        console.log(weightGoal);
+        await updateDoc(
           profile,
           {
             weightGoal: weightGoal,
           },
           { merge: true }
         );
-
-        console.log(weightdb);
+        this.weightGoal_key += 1;
+        console.log(this.weightGoal_key)
+        
       } catch (error) {
         console.log(error);
       }
@@ -131,27 +146,30 @@ export default {
   margin-bottom: 10px;
 }
 .bmi-r {
-  font-size: 17px;
+  font-size: 20px;
   display: flex;
-  max-width: 300px;
+  max-width: 3500px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom:5px;
   span {
+    text-align:right;
     flex: 1;
-    text-align: start;
   }
   .hlit {
+    text-align: left;
     display: inline-block;
     color: darken(#ec9741, 10%);
     font-weight: 700;
   }
 }
 .mx-1 {
-  max-width: 550px;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
 .d-s {
+  font-size: 17px;
   margin-bottom: 10px;
   margin-top: 20px;
 }
@@ -160,16 +178,25 @@ export default {
 }
 .new-btn {
   display: inline-block;
-  background: #d9d9d9;
-  padding: 5px 25px;
+  // background: #d9d9d9;
+  // padding: 5px 25px;
   border-radius: 3px;
   text-decoration: none;
-  font-weight: 600;
+  // font-weight: 600;
   color: #1e2240;
-  margin-top: 10px;
-  font-size: 15px;
+  margin: auto;
+  // font-size: 15px;
 }
 .mb-a {
   margin-top: 7px;
 }
+
+#goalsCreatedHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom:15px;
+    display: flex;
+    justify-content: center;
+  }
 </style>

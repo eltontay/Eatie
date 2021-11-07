@@ -7,7 +7,11 @@
   />
   <div class="container" v-else>
     <div>
-      <h2>My Goals</h2>
+      <div id="goalsNotCreatedHeader">
+        <img class="foodIcon" src="@/assets/goal1.png" alt="" /> &nbsp; &nbsp; &nbsp;
+        <h2>My Goals</h2> &nbsp; &nbsp; &nbsp;
+        <img class="foodIcon" src="@/assets/goal2.png" alt="" /> 
+      </div>
       <div class="sh-box">
         <h3>You have not created a goal yet.</h3>
         <button @click="Create()" class="pointer">
@@ -106,4 +110,13 @@ table.goal-data {
     }
   }
 }
+
+  #goalsNotCreatedHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 15%;
+    margin-bottom:10px;
+    display: flex;
+    justify-content: center;
+  }
 </style>

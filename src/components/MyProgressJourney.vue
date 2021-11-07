@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <h2>My Journey</h2>
+    <div id="myJourneyHeader">
+      <img class="foodIcon" src="@/assets/journey1.png" alt="" /> &nbsp; &nbsp; &nbsp;
+      <h2 style="margin-top:15px; margin-bottom:15px;">My Journey</h2> &nbsp; &nbsp; &nbsp;
+      <img class="foodIcon" src="@/assets/journey2.png" alt="" />
+    </div>
     <div id="myJourney">
       <div id="halfMyJourney">
         <LineChart 
@@ -10,18 +14,18 @@
           v-bind:maxWeight="maxWeight"
           v-bind:minWeight="minWeight"
         ></LineChart >
-        <h3>My Weight Journey</h3>
+        <h3 style="margin-top:15px; margin-bottom:15px;">My Weight Journey</h3>
       </div>
       <div id="halfMyJourney">
         <column-chart
           id="charts2"
           :colors="['rgb(7, 4, 155)', 'rgb(5, 52, 155)', 'rgb(36, 105, 255)']"
           :data="weeklyNutrientDistribution"></column-chart>
-        <h3>Weekly Nutrient Distribution</h3>
+        <h3 style="margin-top:15px; margin-bottom:15px;">Weekly Nutrient Distribution</h3>
       </div>
     </div>
-    <h3>Diagnosis</h3>
-    <div>{{ myJourneyDiagnosis }}</div>
+    <h3 style="margin-top:20px; margin-bottom:15px;">Diagnosis: </h3>
+    <h3 style="margin-top:15px; margin-bottom:15px;font-weight: bold;">{{ myJourneyDiagnosis }}</h3>
   </div>
 </template>
 
@@ -51,7 +55,7 @@
         refresh:0,
         loaded: false,
         loaded2: false,
-        
+        weightGoal: 0,
       };
     },
     computed: {
@@ -75,6 +79,9 @@
           if (val > maxValue) {
             maxValue = val;
           }
+        }
+        if (this.weightGoal > maxValue) {
+          maxValue = this.weightGoal
         }
         return maxValue + 5;
       },
@@ -111,7 +118,7 @@
         };
       },
     },
-    mounted() {
+    beforeMount() {
       const auth = getAuth();
       onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -221,11 +228,11 @@
 
         if (goal_weight.data() != undefined) {
           this.myJourneyDiagnosis = await goal_weight.data()["diagnosis"];
-          let ideal_weight = await parseInt(goal_weight.data()["weightGoal"]);
+          this.weightGoal = await parseInt(goal_weight.data()["weightGoal"]);
           
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);
-            this.weeklyWeightLineData[1][cur_date] = ideal_weight;
+            this.weeklyWeightLineData[1][cur_date] = this.weightGoal;
           }
         } else {
           for (let i = 0; i < 29; i++) {
@@ -262,7 +269,7 @@
             }
           ]
         }
-        // console.log(this.weight_linechart)
+        console.log(this.weight_linechart)
         this.loaded = true;
         // console.log("it has been assigned")
       }
@@ -300,4 +307,14 @@
     width: 100%  !important;
     height: 100% !important;
   }
+
+  #myJourneyHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom:15px;
+    display: flex;
+    justify-content: center;
+  }
+
 </style>

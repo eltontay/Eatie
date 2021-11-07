@@ -1,5 +1,5 @@
 <template>
-  <About />
+  <About style="margin-bottom:40px;"/>
   <div v-if="user">
     <h2>Food history for the past week</h2>
     <FoodCalendar />

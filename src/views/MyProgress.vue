@@ -1,5 +1,5 @@
 <template>
-  <h2>My Progress</h2>
+  <!-- <h2>My Progress</h2> -->
   <div v-if="goalSet">
     <MyProgressDaily />
     <CheckWeight />

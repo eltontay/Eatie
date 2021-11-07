@@ -32,7 +32,7 @@
         </div>
         <div>
           <form class="">
-            <label for="height">My weight (kg) is</label>
+            <strong>My desired weight (kg) is </strong>
             <input type="text" v-model="weightGoal" id="weightGoal" />
             <button @click.prevent="goalWeight()">Submit</button>
           </form>
@@ -63,26 +63,29 @@ export default {
   components: {
     Loader,
   },
+  mounted() {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.user = user;
+        this.fbuser = auth.currentUser.email;
+      }
+    });
+  },
   props: ['hasGoal', 'goal', 'loader'],
   data() {
     return {
       bmi: null,
       risk: null,
       diagnosis: null,
+      gender: null,
+      height: null,
+      weight: null,
       calorie: null,
       bmr: null,
       weightGoal: null,
     };
   },
-
-  // mounted() {
-  //   const auth = getAuth();
-  //   onAuthStateChanged(auth, (user) => {
-  //     if (user) {
-  //       this.user = user;
-  //     }
-  //   });
-  // },
   methods: {
     formattedColor() {
       if (this.bmi < 18.6) {
@@ -95,93 +98,15 @@ export default {
         return '#db2518';
       }
     },
-    async showReport() {
-      let goal = this.$store.getters.getGoal;
-      let bmr, risk, diagnosis, multiplier, calorie, bmi;
-
-      // Calculate BMI
-      var weight = parseInt(goal.weight);
-      var height = parseInt(goal.height) / 100;
-      bmi = (weight / (height * height)).toFixed(1);
-
-      // calculate BMR
-      if (goal.gender === 'Boy') {
-        // bmr = (goal.height + goal.weight) - 120
-        bmr = 6.25 * goal.height + 10 * goal.weight - 120;
-      } else {
-        // bmr = (goal.height + goal.weight) - 270
-        bmr = 6.25 * goal.height + 10 * goal.weight - 270;
-      }
-
-      // Calculate Risk
-      if (bmi < 18.6) {
-        risk =
-          'AT LOW RISK* for obesity-related diseases *But increased risk of other clinical problems';
-        diagnosis =
-          'AT RISK of nutritional deficiency and osteoporosis. You are encouraged to eat a balanced meal and to seek medical advice if necessary.';
-      } else if (bmi < 23) {
-        risk = 'Low Risk';
-        diagnosis =
-          'Achieve a healthy weight by balancing your caloric input (diet) and output (physical activity).';
-      } else if (bmi < 27.9) {
-        risk = 'Moderate Risk';
-        diagnosis =
-          'Aim to lose 5% to 10% of your body weight over 6 to 12 months by increasing physical activity and reducing caloric intake';
-      } else if (bmi > 27.9) {
-        risk = 'High Risk';
-        diagnosis =
-          'Aim to lose 5% to 10% of your body weight over 6 to 12 months by increasing physical activity and reducing caloric intake. ';
-      }
-
-      // Calculate Multiplier
-      if (goal.activity === 'activity1') {
-        multiplier = 1;
-      } else if (goal.activity === 'activity2') {
-        multiplier = 1.2;
-      } else if (goal.activity === 'activity3') {
-        multiplier = 1.375;
-      } else if (goal.activity === 'activity4') {
-        multiplier = 1.5;
-      }
-
-      // Calculate Calorie
-      calorie = parseInt(bmr * multiplier).toFixed(1);
-
-      this.bmi = bmi;
-      this.risk = risk;
-      this.diagnosis = diagnosis;
-      this.calorie = calorie;
-      this.bmr = bmr;
-
-      try {
-        const goalData = {
-          bmi: bmi,
-          risk: risk,
-          diagnosis: diagnosis,
-          calorie: calorie,
-          height: goal.height,
-          weight: goal.weight,
-          gender: goal.gender,
-          weightGoal: goal.weight,
-        };
-
-        // let profile = doc(db, String(this.fbuser), 'profile');
-        // let profiledb = await getDoc(profile);
-        // console.log(profile);
-        // console.log(profiledb);
-        // if (profiledb.data() == undefined) {
-        //   console.log('undefined');
-        //   await setDoc(doc(db, String(this.fbuser), 'profile'), goalData);
-        // } else {
-        //   console.log('undefined');
-        //   await updateDoc(doc(db, String(this.fbuser), 'profile'), goalData);
-        // }
-
-        this.$store.commit('ADD_GOAL', goalData);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    // async showReport() {
+    //   try {
+    //     var a = doc(db, String(this.fbuser), 'profile');
+    //     var b = await getDoc(a);
+    //     this.calorie = Math.round(b.data()['calorie']);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
     async goalWeight() {
       try {
         var weightGoal = this.weightGoal;
@@ -197,7 +122,7 @@ export default {
         let weightdb = await updateDoc(
           profile,
           {
-            [this.weightGoal]: weightGoal,
+            weightGoal: weightGoal,
           },
           { merge: true }
         );
@@ -207,18 +132,6 @@ export default {
         console.log(error);
       }
     },
-  },
-  mounted() {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        this.user = user;
-
-        if (!this.hasGoal) {
-          this.showReport();
-        }
-      }
-    });
   },
 };
 </script>

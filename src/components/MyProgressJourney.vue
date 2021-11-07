@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2>My Journey</h2>
+    <h2 style="margin-top:15px; margin-bottom:15px;">My Journey</h2>
     <div id="myJourney">
       <div id="halfMyJourney">
         <LineChart 
@@ -10,18 +10,18 @@
           v-bind:maxWeight="maxWeight"
           v-bind:minWeight="minWeight"
         ></LineChart >
-        <h3>My Weight Journey</h3>
+        <h3 style="margin-top:15px; margin-bottom:15px;">My Weight Journey</h3>
       </div>
       <div id="halfMyJourney">
         <column-chart
           id="charts2"
           :colors="['rgb(7, 4, 155)', 'rgb(5, 52, 155)', 'rgb(36, 105, 255)']"
           :data="weeklyNutrientDistribution"></column-chart>
-        <h3>Weekly Nutrient Distribution</h3>
+        <h3 style="margin-top:15px; margin-bottom:15px;">Weekly Nutrient Distribution</h3>
       </div>
     </div>
-    <h3>Diagnosis</h3>
-    <div>{{ myJourneyDiagnosis }}</div>
+    <h3 style="margin-top:15px; margin-bottom:15px;">Diagnosis</h3>
+    <div style="margin-top:15px; margin-bottom:15px;">{{ myJourneyDiagnosis }}</div>
   </div>
 </template>
 

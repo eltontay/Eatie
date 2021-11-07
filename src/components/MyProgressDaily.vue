@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="margin-bottom:30px">
     <h2>Daily Summary</h2>
     <div id="dailySummary">
       <div id="halfDailySummary1">

@@ -1,9 +1,11 @@
 <template>
-    <div v-if = "!flag">
-        <h3>You have not updated your weight this week! Go to <router-link to="/WeightUpdate">Weight Update</router-link> now!</h3>
-    </div>
-    <div v-else>
-        <h3>If you would like to update your weight today, click <router-link to="/WeightUpdate">Weight Update</router-link></h3>
+    <div style="margin-bottom:20px">
+        <div v-if = "!flag">
+            <h3>You have not updated your weight this week! Go to <router-link to="/WeightUpdate">Weight Update</router-link> now!</h3>
+        </div>
+        <div v-else>
+            <h3>If you would like to update your weight today, click <router-link to="/WeightUpdate">Weight Update</router-link></h3>
+        </div>
     </div>
 </template>
 

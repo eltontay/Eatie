@@ -55,7 +55,7 @@
         refresh:0,
         loaded: false,
         loaded2: false,
-        
+        weightGoal: 0,
       };
     },
     computed: {
@@ -79,6 +79,9 @@
           if (val > maxValue) {
             maxValue = val;
           }
+        }
+        if (this.weightGoal > maxValue) {
+          maxValue = this.weightGoal
         }
         return maxValue + 5;
       },
@@ -115,7 +118,7 @@
         };
       },
     },
-    mounted() {
+    beforeMount() {
       const auth = getAuth();
       onAuthStateChanged(auth, async (user) => {
         if (user) {
@@ -225,11 +228,11 @@
 
         if (goal_weight.data() != undefined) {
           this.myJourneyDiagnosis = await goal_weight.data()["diagnosis"];
-          let ideal_weight = await parseInt(goal_weight.data()["weightGoal"]);
+          this.weightGoal = await parseInt(goal_weight.data()["weightGoal"]);
           
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);
-            this.weeklyWeightLineData[1][cur_date] = ideal_weight;
+            this.weeklyWeightLineData[1][cur_date] = this.weightGoal;
           }
         } else {
           for (let i = 0; i < 29; i++) {
@@ -266,7 +269,7 @@
             }
           ]
         }
-        // console.log(this.weight_linechart)
+        console.log(this.weight_linechart)
         this.loaded = true;
         // console.log("it has been assigned")
       }

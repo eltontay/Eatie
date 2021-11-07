@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <h3>My Goal</h3>
+    <div id="goalsCreatedHeader">
+      <img class="foodIcon" src="@/assets/goal1.png" alt="" /> &nbsp; &nbsp; 
+      <h2>My Goals</h2> &nbsp; &nbsp; &nbsp;
+      <img class="foodIcon" src="@/assets/goal2.png" alt="" /> 
+    </div>
     <loader v-if="loader" />
     <div v-else>
       <div class="mx-1">
@@ -8,32 +12,33 @@
           <strong>Congratulations! Your goal is created</strong>
         </div>
         <div class="bmi-r">
-          <span>Your BMI is</span>
+          <span>Your BMI is</span> &nbsp; &nbsp;
           <span class="hlit" :style="{ color: formattedColor() }">
             {{ goal.bmi }}
           </span>
         </div>
         <div class="bmi-r">
-          <span>You are at</span>
+          <span>You are at</span> &nbsp; &nbsp;
           <span class="hlit" :style="{ color: formattedColor() }">
-            {{ goal.risk }}
+            {{ goal.risk }} of Obesity-related diseases
           </span>
         </div>
-        <div class="d-s">
+        <!-- <p class="d-s">
           <strong>of Obesity-related diseases</strong>
-        </div>
-        <div>
+        </p> -->
+        <h3 style="margin-top:20px; margin-bottom:15px;">
           <strong>Diagnosis</strong>
-        </div>
-        <div class="lnh">
+        </h3>
+        <h3 class="lnh" style="margin-top:15px; margin-bottom:15px;font-weight: normal;">
           {{ goal.diagnosis }}
           <br />
+          <br />
           <strong>Recommended Calorie Intake: {{ goal.calorie }} Kcal</strong>
-        </div>
+        </h3>
         <div>
           <form class="">
-            <strong>My desired weight (kg) is </strong>
-            <input type="text" v-model="weightGoal" id="weightGoal" />
+            <span style="font-size:18px;"> Set a new weight goal: </span> &nbsp; &nbsp; 
+            <input type="text" v-model="weightGoal" id="weightGoal" /> &nbsp; &nbsp; 
             <button @click.prevent="goalWeight()">Submit</button>
           </form>
         </div>
@@ -131,30 +136,33 @@ export default {
   margin-bottom: 10px;
 }
 .bmi-r {
-  font-size: 17px;
+  font-size: 20px;
   display: flex;
-  max-width: 300px;
+  max-width: 3500px;
   margin-left: auto;
   margin-right: auto;
+  margin-bottom:5px;
   span {
+    text-align:right;
     flex: 1;
-    text-align: start;
   }
   .hlit {
+    text-align: left;
     display: inline-block;
     color: darken(#ec9741, 10%);
     font-weight: 700;
   }
 }
 .mx-1 {
-  max-width: 550px;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
 }
-.d-s {
-  margin-bottom: 10px;
-  margin-top: 20px;
-}
+// .d-s {
+//   font-size: 17px;
+//   margin-bottom: 10px;
+//   margin-top: 20px;
+// }
 .lnh {
   margin-top: 5px;
 }
@@ -172,4 +180,13 @@ export default {
 .mb-a {
   margin-top: 7px;
 }
+
+#goalsCreatedHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom:15px;
+    display: flex;
+    justify-content: center;
+  }
 </style>

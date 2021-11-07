@@ -13,9 +13,9 @@
     </div>
   </header>
   <div style="height: 10vh"></div>
-  <body>
+  <p id="body1">
     <router-view />
-  </body>
+  </p>
   <footer>
     <hr />
     &copy;2021 Eatie
@@ -47,16 +47,31 @@
     height: 10vh;
     text-align: right;
     display: flex;
-    background-color: rgb(19, 43, 34);
+    background-color: #f1f1f1;
     top: 0;
     left: 0;
     position: fixed;
     z-index: 1;
-    border: 5px solid black;
+    /* background-image: url('~@/assets/food-background.png'); */
+    background-image: url('~@/assets/food-backgrounds.jpg');
+    border-bottom: 3px solid rgb(228, 228, 228);
+    /* background-image: url(https://assets.loseit.com/website/home/Wave.png), linear-gradient(280deg, rgb(150, 180, 169) 0, rgb(150, 180, 169) 100%); */
+    /* background-size: 100% 100%; */
   }
 
-  body {
+  #body1 {
     min-height: 80vh;
+  }
+
+  body {    
+    /* background-color: #f1f1f1; */
+    background-color: rgb(170,226,205);
+    /* background-image: url(https://assets.loseit.com/website/home/Wave.png), linear-gradient(60deg, rgb(150, 180, 169) 0, rgba(246, 146, 29, 1) 100%); */
+    /* background-size: 100% 100%; */
+    /* background-image: url('~@/assets/food-backgrounds.jpg'); */
+    /* background-size: auto cover; */
+    /* background-repeat: no-repeat;
+    background-position: center center; */
   }
 
   footer {
@@ -147,11 +162,14 @@
   }
 
   .container {
-    background-color: rgb(150, 180, 169);
-    box-shadow: 10px 10px;
+    background-color: #f1f1f1;
+    /* background-color: rgb(170,226,205); */
+    /* background-color: rgb(150, 180, 169); */
+    box-shadow: 8px 8px;
     margin: 0px 150px 150px 150px;
     padding: 20px;
-    border: 3px solid #313131;
+    border: 1px solid #858484;
+    opacity: 0.90;
   }
 
   .foodIcon {

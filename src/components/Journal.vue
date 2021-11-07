@@ -1,7 +1,11 @@
 <template>
   <div class="container">
-    <h2>My Journal</h2>
-    <div>Just had a meal? Add it to My Journal now!</div>
+    <div id="journalHeader">
+      <img class="foodIcon" src="@/assets/journal1.png" alt="" /> &nbsp; &nbsp; &nbsp;
+      <h2>My Journal</h2> &nbsp; &nbsp; &nbsp;
+      <img class="foodIcon" src="@/assets/journal2.png" alt="" /> 
+    </div>
+    <h3>Just had a meal? Add it to My Journal now!</h3>
     <br />
     <!-- <div>Today's date: {{ currentDate }}</div> -->
     <input id="dateInput" type="date" v-model="date" />
@@ -52,4 +56,12 @@
 </script>
 
 <style>
+  #journalHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 15%;
+    margin-bottom:10px;
+    display: flex;
+    justify-content: center;
+  }
 </style>

@@ -35,19 +35,21 @@
           <br />
           <strong>Recommended Calorie Intake: {{ goal.calorie }} Kcal</strong>
         </h3>
-        <div style="margin-top:5px;margin-bottom:20px;">
-          <h3 style="font-size: 1.17em;"> Your current weight goal is {{goal.weightGoal}}kg </h3> 
+        <div style="margin-top:5px;margin-bottom:20px;" >
+          <h3  :key="weightGoal_key" style="font-size: 1.17em;"> Your current weight goal is {{goal.weightGoal}}kg </h3> 
         </div>
         <div>
           <form class="">
             <span style="font-size:18px;"> Set a weight goal: </span> &nbsp; &nbsp; 
             <input type="text" v-model="weightGoal" id="weightGoal" /> &nbsp; &nbsp; 
-            <button @click.prevent="goalWeight()">Submit</button>
+            <button v-on:click="goalWeight()">Submit</button>
           </form>
         </div>
 
-        <div>
+        <div style="margin-top:15px;" >
+          <button>
           <router-link to="./goalStep1" class="new-btn">Reset Profile</router-link>
+          </button>
         </div>
       </div>
     </div>
@@ -93,6 +95,7 @@ export default {
       calorie: null,
       bmr: null,
       weightGoal: null,
+      weightGoal_key: 0,
     };
   },
   methods: {
@@ -116,15 +119,18 @@ export default {
           return false;
         }
         let profile = doc(db, String(this.fbuser), 'profile');
-        let weightdb = await updateDoc(
+        console.log(profile);
+        console.log(weightGoal);
+        await updateDoc(
           profile,
           {
             weightGoal: weightGoal,
           },
           { merge: true }
         );
-
-        console.log(weightdb);
+        this.weightGoal_key += 1;
+        console.log(this.weightGoal_key)
+        
       } catch (error) {
         console.log(error);
       }
@@ -172,14 +178,14 @@ export default {
 }
 .new-btn {
   display: inline-block;
-  background: #d9d9d9;
-  padding: 5px 25px;
+  // background: #d9d9d9;
+  // padding: 5px 25px;
   border-radius: 3px;
   text-decoration: none;
-  font-weight: 600;
+  // font-weight: 600;
   color: #1e2240;
-  margin-top: 10px;
-  font-size: 15px;
+  margin: auto;
+  // font-size: 15px;
 }
 .mb-a {
   margin-top: 7px;

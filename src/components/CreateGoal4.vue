@@ -32,22 +32,22 @@
 </template>
 
 <script>
-// import firebaseApp from '../firebase.js÷';
-// import { getFirestore, setDoc } from 'firebase/firestore';
-// import { doc } from 'firebase/firestore';
-
-// import { getAuth, onAuthStateChanged } from 'firebase/auth';
-// const db = getFirestore(firebaseApp);
+import firebaseApp from '../firebase.js';
+import { getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { doc } from 'firebase/firestore';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+const db = getFirestore(firebaseApp);
 
 export default {
   components: {},
   mounted() {
-    // const auth = getAuth();
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     this.user = user;
-    //   }
-    // });
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        this.user = user;
+        this.fbuser = auth.currentUser.email;
+      }
+    });
   },
   methods: {
     async setActivity(activity) {
@@ -60,6 +60,80 @@ export default {
 
       try {
         this.$store.commit('setActivity', activity);
+
+        let goal = this.$store.getters.getGoal;
+        let bmr, risk, diagnosis, multiplier, calorie, bmi;
+
+        // Calculate BMI
+        var weight = parseInt(goal.weight);
+        var height = parseInt(goal.height) / 100;
+        bmi = (weight / (height * height)).toFixed(1);
+
+        // calculate BMR
+        if (goal.gender === 'Boy') {
+          // bmr = (goal.height + goal.weight) - 120
+          bmr = 6.25 * goal.height + 10 * goal.weight - 120;
+        } else {
+          // bmr = (goal.height + goal.weight) - 270
+          bmr = 6.25 * goal.height + 10 * goal.weight - 270;
+        }
+
+        // Calculate Risk
+        if (bmi < 18.6) {
+          risk =
+            'AT LOW RISK* for obesity-related diseases *But increased risk of other clinical problems';
+          diagnosis =
+            'AT RISK of nutritional deficiency and osteoporosis. You are encouraged to eat a balanced meal and to seek medical advice if necessary.';
+        } else if (bmi < 23) {
+          risk = 'Low Risk';
+          diagnosis =
+            'Achieve a healthy weight by balancing your caloric input (diet) and output (physical activity).';
+        } else if (bmi < 27.9) {
+          risk = 'Moderate Risk';
+          diagnosis =
+            'Aim to lose 5% to 10% of your body weight over 6 to 12 months by increasing physical activity and reducing caloric intake';
+        } else if (bmi > 27.9) {
+          risk = 'High Risk';
+          diagnosis =
+            'Aim to lose 5% to 10% of your body weight over 6 to 12 months by increasing physical activity and reducing caloric intake. ';
+        }
+
+        // Calculate Multiplier
+        if (goal.activity === 'activity1') {
+          multiplier = 1;
+        } else if (goal.activity === 'activity2') {
+          multiplier = 1.2;
+        } else if (goal.activity === 'activity3') {
+          multiplier = 1.375;
+        } else if (goal.activity === 'activity4') {
+          multiplier = 1.5;
+        }
+
+        // Calculate Calorie
+        calorie = parseInt(bmr * multiplier).toFixed(1);
+
+        const goalData = {
+          bmi: bmi,
+          risk: risk,
+          diagnosis: diagnosis,
+          calorie: calorie,
+          height: goal.height,
+          weight: goal.weight,
+          gender: goal.gender,
+          weightGoal: goal.weight,
+        };
+
+        var a = doc(db, String(this.fbuser), 'profile');
+        var b = await getDoc(a);
+        console.log(b);
+        if (b == undefined) {
+          console.log('undefined');
+          await setDoc(doc(db, String(this.fbuser), 'profile'), goalData);
+        } else {
+          console.log(String(this.fbuser));
+          await setDoc(doc(db, String(this.fbuser), 'profile'), goalData);
+        }
+
         this.$router.push('./myGoals');
 
         // await setDoc(doc(db, 'profile', this.user.uid), {

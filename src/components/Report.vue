@@ -29,9 +29,16 @@
           {{ goal.diagnosis }}
           <br />
           <strong>Recommended Calorie Intake: {{ goal.calorie }} Kcal</strong>
-          <div>
-            <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
-          </div>
+        </div>
+        <div>
+          <form class="">
+            <label for="height">My weight (kg) is</label>
+            <input type="text" v-model="weightGoal" id="weightGoal" />
+            <button @click.prevent="goalWeight()">Submit</button>
+          </form>
+        </div>
+        <div>
+          <router-link to="./goalStep1" class="new-btn">New Goal</router-link>
         </div>
       </div>
     </div>
@@ -40,7 +47,13 @@
 
 <script>
 import firebaseApp from '../firebase.js';
-import { setDoc, doc, getFirestore } from 'firebase/firestore';
+import {
+  // setDoc,
+  doc,
+  getFirestore,
+  updateDoc,
+  // getDoc,
+} from 'firebase/firestore';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 const db = getFirestore(firebaseApp);
 
@@ -58,6 +71,7 @@ export default {
       diagnosis: null,
       calorie: null,
       bmr: null,
+      weightGoal: null,
     };
   },
 
@@ -84,7 +98,6 @@ export default {
     async showReport() {
       let goal = this.$store.getters.getGoal;
       let bmr, risk, diagnosis, multiplier, calorie, bmi;
-      let user = this.user;
 
       // Calculate BMI
       var weight = parseInt(goal.weight);
@@ -149,11 +162,47 @@ export default {
           height: goal.height,
           weight: goal.weight,
           gender: goal.gender,
+          weightGoal: goal.weight,
         };
 
-        await setDoc(doc(db, user.email, 'profile'), goalData);
+        // let profile = doc(db, String(this.fbuser), 'profile');
+        // let profiledb = await getDoc(profile);
+        // console.log(profile);
+        // console.log(profiledb);
+        // if (profiledb.data() == undefined) {
+        //   console.log('undefined');
+        //   await setDoc(doc(db, String(this.fbuser), 'profile'), goalData);
+        // } else {
+        //   console.log('undefined');
+        //   await updateDoc(doc(db, String(this.fbuser), 'profile'), goalData);
+        // }
 
         this.$store.commit('ADD_GOAL', goalData);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async goalWeight() {
+      try {
+        var weightGoal = this.weightGoal;
+
+        if (weightGoal < 5) {
+          alert('Please enter a correct weight in KG');
+          return false;
+        }
+
+        console.log('waht');
+
+        let profile = doc(db, String(this.fbuser), 'profile');
+        let weightdb = await updateDoc(
+          profile,
+          {
+            [this.weightGoal]: weightGoal,
+          },
+          { merge: true }
+        );
+
+        console.log(weightdb);
       } catch (error) {
         console.log(error);
       }

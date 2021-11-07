@@ -10,7 +10,7 @@
     </div>
     <form class="right">
       <label for="height">My height (cm) is</label>
-      <input type="text" v-model="height" id="height" />
+      <input type="number" v-model="height" id="height" />
       <button @click.prevent="step2()">Next</button>
     </form>
     </div>

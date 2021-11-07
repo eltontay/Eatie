@@ -89,6 +89,7 @@
     background-color: rgba(17, 94, 17, 0.603);
     color: white;
     box-shadow: 3px 3px grey;
+    cursor: pointer;
   }
 
   .redButton {
@@ -100,6 +101,7 @@
     background-color: rgba(172, 37, 37, 0.863);
     color: white;
     box-shadow: 3px 3px grey;
+    cursor: pointer;
   }
 
   #logo {

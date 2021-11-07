@@ -18,12 +18,21 @@
       />
     </div>
     <div v-show="haveRecipe">
-      <h3>{{ foodName }}</h3>
-
-      <button class="redButton" type="button" v-on:click="returnToCalc">
+      <button
+        class="redButton"
+        id="foodDetailedBtn"
+        type="button"
+        v-on:click="returnToCalc"
+      >
         Back
-      </button> <br><br>
-
+      </button>
+      <br /><br />
+      <h3>{{ foodName }}</h3>
+      <br />
+      <div id="detailFoodImgDiv" @click ="openURL">
+        <img id="detailFoodImg" :src="detailFoodImage" alt="" />
+        <div id="linkOverlay">Click for more details</div>
+      </div>
       <table id="detailedFoodTable" style="width: 50%; margin-left: 25%">
         <tr>
           <th>Nutrient</th>
@@ -33,9 +42,8 @@
       </table>
 
       <br /><br />
-
-      <button class="redButton" type="button" v-on:click="returnToCalc">
-        Back
+      <button type="button" id="foodDetailedBtn" v-on:click="scrollToTop">
+        Back to top
       </button>
     </div>
   </div>
@@ -50,6 +58,8 @@
       return {
         haveRecipe: false,
         foodName: "",
+        detailFoodImage: "",
+        url: "",
       };
     },
     mounted() {
@@ -74,11 +84,20 @@
         });
         this.haveRecipe = true;
         this.foodName = recipe["label"];
+        this.detailFoodImage = recipe["image"];
+        this.url = recipe["url"];
         ind++;
       },
       returnToCalc() {
         this.haveRecipe = false;
       },
+      scrollToTop() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      },
+      openURL() {
+        window.open(this.url, '_blank').focus();
+      }
     },
   };
 </script>
@@ -90,5 +109,54 @@
     margin-right: 10%;
     display: flex;
     justify-content: center;
+  }
+
+  #detailedFoodTable th {
+    border: 3px solid black;
+    text-align: center;
+    background-color: #575454;
+    color: white;
+  }
+
+  #foodDetailedBtn {
+    width: 10%;
+    border-radius: 5px;
+  }
+
+  #detailFoodImgDiv {
+    width: 300px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+  }
+
+  #detailFoodImg {
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  #linkOverlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: rgb(41, 83, 41);
+    text-align: center;
+    line-height: 300px;
+    font-size: 120%;
+    color: white;
+  }
+
+  #linkOverlay:hover {
+    opacity: 0.8;
+    cursor: pointer;
   }
 </style>

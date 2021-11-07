@@ -3,15 +3,20 @@
     <h2>My Journey</h2>
     <div id="myJourney">
       <div id="halfMyJourney">
-        <line-chart
-          v-bind:min="minWeight"
-          v-bind:max="maxWeight"
-          :data="weeklyWeightLineData"
-        ></line-chart>
+        <LineChart 
+          id="charts1"
+          v-if = "loaded"
+          v-bind:chartData="weight_linechart"
+          v-bind:maxWeight="maxWeight"
+          v-bind:minWeight="minWeight"
+        ></LineChart >
         <h3>My Weight Journey</h3>
       </div>
       <div id="halfMyJourney">
-        <column-chart :data="weeklyNutrientDistribution"></column-chart>
+        <column-chart
+          id="charts2"
+          :colors="['rgb(7, 4, 155)', 'rgb(5, 52, 155)', 'rgb(36, 105, 255)']"
+          :data="weeklyNutrientDistribution"></column-chart>
         <h3>Weekly Nutrient Distribution</h3>
       </div>
     </div>
@@ -24,41 +29,61 @@
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import firebaseApp from "../firebase.js";
   import { getDoc, getFirestore } from "firebase/firestore";
-  import { doc } from "firebase/firestore";
+  import { doc } from "firebase/firestore";  
+  import LineChart from './LineChart.vue'
+  // import Bar from './Bar.vue'
   const db = getFirestore(firebaseApp);
 
   export default {
+    components: {
+      LineChart,
+      // Bar
+    },
     data() {
       return {
         myJourneyDiagnosis: "Diagnosis Message",
-        weeklyWeightLineData: {}, //change value
+        weeklyWeightLineData: [{},{}], //change value
+        weight_linechart:null,
+        weightlist:[],
         weeklyFat: 0,
         weeklyProtein: 0,
         weeklyCarb: 0,
+        refresh:0,
+        loaded: false,
+        loaded2: false,
+        
       };
     },
     computed: {
       weeklyNutrientDistribution() {
+        // this.loaded2= true;
         return {
-          carbohydrates: this.weeklyCarb,
-          fat: this.weeklyFat,
-          protein: this.weeklyProtein,
+          // labels: ['Carbohydrates', 'Fat', 'Protein'],
+          // datasets: [{
+          //   label:"Data One",
+          //   data: [this.weeklyCarb, this.weeklyFat, this.weeklyProtein],
+          //   backgroundColor: ["#62BEB6", "#077368", "#002B24"]
+          // }]
+          Carbohydrates: this.weeklyCarb,
+          Fat: this.weeklyFat,
+          Protein: this.weeklyProtein,
         };
       },
       maxWeight() {
         let maxValue = 0;
-        for (const val of Object.entries(this.weeklyWeightLineData)) {
-          if (val[1] > maxValue) {
-            maxValue = val[1];
+        for (const val of (this.weightlist)) {
+          if (val > maxValue) {
+            maxValue = val;
           }
         }
         return maxValue + 5;
       },
       minWeight() {
         let minValue = 1000;
-        for (const val of Object.entries(this.weeklyWeightLineData)) {
-          if (val[1] < minValue) {
-            minValue = val[1];
+
+        for (const val of (this.weightlist)) {
+          if (val < minValue) {
+            minValue = val;
           }
         }
         if (minValue - 5 < 0) {
@@ -88,15 +113,15 @@
     },
     mounted() {
       const auth = getAuth();
-      onAuthStateChanged(auth, (user) => {
+      onAuthStateChanged(auth, async (user) => {
         if (user) {
           this.user = user;
           this.fbuser = auth.currentUser.email;
+          await this.createLineChart();
           this.findWeeklyNutrient("Breakfast");
           this.findWeeklyNutrient("Lunch");
           this.findWeeklyNutrient("Dinner");
           this.findWeeklyNutrient("Snack");
-          this.findWeeklyWeight();
         }
       });
     },
@@ -163,19 +188,18 @@
 
         if (cur_weight.data() != undefined) {
           let availkeys = Object.keys(cur_weight.data()).sort();
-          console.log(availkeys);
 
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);
 
             if (cur_weight.data()[cur_date] != undefined) {
-              this.weeklyWeightLineData[cur_date] = cur_weight.data()[cur_date];
+              this.weeklyWeightLineData[0][cur_date] = cur_weight.data()[cur_date];
             } else {
               availdate = this.lastestWeight(availkeys, cur_date);
               if (cur_weight.data()[availdate] == undefined) {
-                this.weeklyWeightLineData[cur_date] = 0;
+                this.weeklyWeightLineData[0][cur_date] = 0;
               } else {
-                this.weeklyWeightLineData[cur_date] = cur_weight.data()[
+                this.weeklyWeightLineData[0][cur_date] = cur_weight.data()[
                   availdate
                 ];
               }
@@ -184,22 +208,96 @@
         } else {
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);
-            this.weeklyWeightLineData[cur_date] = availdate;
+            this.weeklyWeightLineData[0][cur_date] = availdate;
           }
         }
+        this.weightlist = Object.values(this.weeklyWeightLineData[0]);
         // console.log(this.weeklyWeightLineData)
       },
-    },
+
+      async findWeeklyGoal() {
+        let goal_weight = await getDoc(doc(db, this.fbuser, "profile"));
+        
+
+        if (goal_weight.data() != undefined) {
+          this.myJourneyDiagnosis = await goal_weight.data()["diagnosis"];
+          let ideal_weight = await parseInt(goal_weight.data()["weightGoal"]);
+          
+          for (let i = 0; i < 29; i++) {
+            let cur_date = this.currentDate(i);
+            this.weeklyWeightLineData[1][cur_date] = ideal_weight;
+          }
+        } else {
+          for (let i = 0; i < 29; i++) {
+            let cur_date = this.currentDate(i);
+            this.weeklyWeightLineData[1][cur_date] = 0;
+          }
+        }
+        // console.log(this.weeklyWeightLineData);
+      },
+
+      async createLineChart() {
+        try{
+        await this.findWeeklyWeight()
+        await this.findWeeklyGoal()
+        } catch(e) {
+          console.log(e)
+        }
+
+        this.weight_linechart = {
+          labels: Object.keys(this.weeklyWeightLineData[0]).reverse(),
+          datasets: [
+            {
+              label:'Weight',
+              data:Object.values(this.weeklyWeightLineData[0]).reverse(),
+              borderColor: "rgb(9,163,148)",
+              fill: false,
+            } , {
+              label:'Goal',
+              data:Object.values(this.weeklyWeightLineData[1]).reverse(),
+              borderColor: "rgb(255,0,0)",
+              fill: false,
+              pointRadius: 0,
+
+            }
+          ]
+        }
+        // console.log(this.weight_linechart)
+        this.loaded = true;
+        // console.log("it has been assigned")
+      }
+  },
+
   };
 </script>
 
 <style>
   #myJourney {
     display: flex;
+    height: 550px;
+    width: inherit;
   }
   #halfMyJourney {
-    width: 40%;
+    width: 50%;
     margin: 0% 5% 0% 5%;
     justify-content: center;
+    object-fit: contain;
+  }
+
+  #charts1 {
+    object-fit: contain;
+    height:90% !important;
+    width:100% !important;
+  }
+  #charts2 {
+    object-fit: contain;
+    height:90% !important;
+    width:100% !important;
+     
+  }
+
+  canvas {
+    width: 100%  !important;
+    height: 100% !important;
   }
 </style>

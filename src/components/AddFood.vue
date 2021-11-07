@@ -3,22 +3,18 @@
     <h3>{{ mealType }}</h3>
 
     <div id="mealInfo" v-show="displayFoodInfo">
-      <div style="width: 20%">
-        <img id="foodImageID" v-bind:src="imageSource"/>
+      <div id="foodImageContainer" @click="imageChange">
+        <img id="foodImageID" v-bind:src="imageSource" />
         <input
-          v-if="!haveImage"
           type="file"
           accept="image/*"
-          @change="imageChange"
-        /><br /><br />
-        <button
-          v-if="!haveImage"
-          type="button"
-          id="addImageButton"
-          v-on:click="uploadImage"
-        >
-          Upload Image
-        </button>
+          ref="fileInput"
+          style="display: none"
+          @change="uploadImage"
+        />
+        <div class="foodOverlay">
+          Change image
+        </div>
       </div>
       <div id="mealNutrient">
         <table class="mealTable" :id="mealTableID">
@@ -33,11 +29,17 @@
         </table>
 
         <br /><br />
-        <button type="button" id="addFoodButton" v-on:click="deleteMeal">
+        <button
+          class="redButton"
+          type="button"
+          id="addFoodButton"
+          v-on:click="deleteMeal"
+        >
           Delete meal
         </button>
       </div>
     </div>
+    <br /><br />
 
     <button
       v-show="!displayTable"
@@ -49,17 +51,9 @@
     </button>
     <div v-show="displayTable">
       <div id="APIQueryDiv">
-        <APIQuery @chosenFood="foodChosen($event)" :foodTableID="mealType" />
+        <APIQuery @chosenFood="submitToFS($event)" :foodTableID="mealType" />
       </div>
       <br /><br />
-      <div v-if="recipe">Current food selected: {{ recipe["label"] }}</div>
-      <div v-else>Select a food!</div>
-      <br /><br />
-      <div>Add a picture of your meal:</div>
-      <input type="file" accept="image/*" @change="imageChange" />
-      <button type="button" id="addFoodButton" v-on:click="submitToFS()">
-        Submit
-      </button>
     </div>
   </div>
 </template>
@@ -84,17 +78,14 @@
     getDownloadURL,
     deleteObject,
   } from "firebase/storage";
-  import no_image_loaded from "@/assets/no_image_uploaded.png";
   const db = getFirestore(firebaseApp);
   export default {
     data() {
       return {
         displayTable: false,
         displayFoodInfo: false,
-        recipe: null,
-        currUploadedImage: null,
         haveImage: false,
-        imageSource: no_image_loaded,
+        imageSource: null,
         mealDetail: {},
         refreshCounter: 0,
       };
@@ -131,21 +122,11 @@
       async displayCalc() {
         this.displayTable = !this.displayTable;
       },
-      async foodChosen(recipe) {
-        this.recipe = recipe;
+      imageChange() {
+        this.$refs.fileInput.click();
       },
-      imageChange(e) {
-        this.currUploadedImage = e;
-      },
-      async uploadImage() {
-        if (this.currUploadedImage == null) {
-          // alert("Choose a picture");
-          return;
-        }
-        await uploadBytes(
-          this.storageRef,
-          this.currUploadedImage.target.files[0]
-        );
+      async uploadImage(e) {
+        await uploadBytes(this.storageRef, e.target.files[0]);
         await this.loadImage();
       },
       async loadImage() {
@@ -166,7 +147,9 @@
                     "default_image"
                   )
                 ).then((a) => {
-                  this.imageSource = a.data()[this.mealType][Object.keys(a.data()[this.mealType])[0]];
+                  this.imageSource = a.data()[this.mealType][
+                    Object.keys(a.data()[this.mealType])[0]
+                  ];
                 });
                 break;
               case "storage/unknown":
@@ -176,11 +159,7 @@
           });
         this.refreshCounter++;
       },
-      async submitToFS() {
-        if (this.recipe == null) {
-          alert("Select a meal!");
-          return;
-        }
+      async submitToFS(recipe) {
         try {
           setDoc(
             doc(
@@ -189,21 +168,18 @@
               this.mealType
             ),
             {
-              [this.recipe["label"]]: {
-                calorie: Math.round(
-                  this.recipe["calories"] / this.recipe["yield"]
-                ),
+              [recipe["label"]]: {
+                calorie: Math.round(recipe["calories"] / recipe["yield"]),
                 fat: Math.round(
-                  this.recipe["totalNutrients"]["FAT"]["quantity"] /
-                    this.recipe["yield"]
+                  recipe["totalNutrients"]["FAT"]["quantity"] / recipe["yield"]
                 ),
                 protein: Math.round(
-                  this.recipe["totalNutrients"]["PROCNT"]["quantity"] /
-                    this.recipe["yield"]
+                  recipe["totalNutrients"]["PROCNT"]["quantity"] /
+                    recipe["yield"]
                 ),
                 carbohydrates: Math.round(
-                  this.recipe["totalNutrients"]["CHOCDF"]["quantity"] /
-                    this.recipe["yield"]
+                  recipe["totalNutrients"]["CHOCDF"]["quantity"] /
+                    recipe["yield"]
                 ),
               },
             },
@@ -217,15 +193,14 @@
             ),
             {
               [this.mealType]: {
-                [this.recipe["label"]]: this.recipe["image"],
-              }
+                [recipe["label"]]: recipe["image"],
+              },
             },
             { merge: true }
           );
         } catch (error) {
           console.error("Error adding document: ", error);
         }
-        this.uploadImage();
         this.displayTable = false;
         this.getFoodData();
       },
@@ -272,6 +247,7 @@
           row.insertCell(3).innerHTML = entry[1]["protein"];
           row.insertCell(4).innerHTML = entry[1]["carbohydrates"];
           let bu = document.createElement("button");
+          bu.class = "redButton";
           bu.id = "deleteFoodButton";
           bu.type = "button";
           bu.innerHTML = "Delete";
@@ -280,7 +256,7 @@
           ind++;
         });
         if (ind == 1) {
-          this.deleteMeal()
+          this.deleteMeal();
         } else {
           this.displayFoodInfo = true;
         }
@@ -303,8 +279,18 @@
             error;
             // Uh-oh, an error occurred!
           });
+        updateDoc(
+          doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            "default_image"
+          ),
+          {
+            [this.mealType]: deleteField(),
+          }
+        );
         this.displayFoodInfo = false;
-        this.imageSource = no_image_loaded;
+        this.imageSource = null;
         this.haveImage = false;
       },
       async deleteFood(foodName) {
@@ -317,6 +303,23 @@
           {
             [foodName]: deleteField(),
           }
+        );
+        var a = await getDoc(
+          doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            "default_image"
+          )
+        );
+        var b = a.data();
+        delete b[this.mealType][foodName];
+        updateDoc(
+          doc(
+            doc(db, String(this.fbuser), "daily_nutrient"),
+            this.mealDate,
+            "default_image"
+          ),
+          b
         );
         this.getFoodData();
       },
@@ -340,9 +343,34 @@
     width: 80%;
     height: 100%;
   }
+  #foodImageContainer {
+    width: 200px;
+    position: relative;
+  }
   #foodImageID {
-    width: 100%;
+    width: 200px;
+    height: 200px;
     border-radius: 20px;
+    background-size: cover;
+    background-position: center;
+  }
+  .foodOverlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: 0.3s ease;
+    background-color: rgb(41, 83, 41);
+    text-align: center;
+    line-height: 200px;
+    font-size: 120%;
+    color: white;
+  }
+  .foodOverlay:hover {
+    opacity: 0.8;
   }
   #addFoodButton {
     width: 15%;
@@ -352,6 +380,12 @@
   #deleteFoodButton {
     width: 80%;
     border-radius: 5px;
+    color: rgba(172, 37, 37, 0.863);
+    border: 2px solid rgba(172, 37, 37, 0.863);
+  }
+  #deleteFoodButton:hover {
+    background-color: rgba(172, 37, 37, 0.863);
+    color: white;
   }
   .mealTable {
     font-family: arial, sans-serif;

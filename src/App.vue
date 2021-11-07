@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div style="width: 50%">
+    <div id="logoDiv">
       <img
         id="logo"
         src="@/assets/Eatie_logo.png"
@@ -8,9 +8,11 @@
         @click="$router.push('/')"
       />
     </div>
-    <NavBar />
+    <div id="navbarDiv">
+      <NavBar />
+    </div>
   </header>
-  <hr />
+  <div style="height: 10vh"></div>
   <body>
     <router-view />
   </body>
@@ -41,16 +43,20 @@
   }
 
   header {
-    width: 80%;
-    height: 100px;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: 100%;
+    height: 10vh;
     text-align: right;
     display: flex;
+    background-color: rgb(19, 43, 34);
+    top: 0;
+    left: 0;
+    position: fixed;
+    z-index: 1;
+    border: 5px solid black;
   }
 
   body {
-    min-height: 70vh;
+    min-height: 80vh;
   }
 
   footer {
@@ -75,11 +81,48 @@
   button {
     width: 30%;
     border-radius: 10px;
+    color: rgba(17, 94, 17, 0.603);
+    border: 2px solid rgba(17, 94, 17, 0.603);
+  }
+
+  button:hover {
+    background-color: rgba(17, 94, 17, 0.603);
+    color: white;
+    box-shadow: 3px 3px grey;
+  }
+
+  .redButton {
+    color: rgba(172, 37, 37, 0.863);
+    border: 2px solid rgba(172, 37, 37, 0.863);
+  }
+
+  .redButton:hover {
+    background-color: rgba(172, 37, 37, 0.863);
+    color: white;
+    box-shadow: 3px 3px grey;
   }
 
   #logo {
     float: left;
-    height: 100px;
+    height: 80%;
+    cursor: pointer;
+  }
+
+  #logo:hover {
+    cursor: pointer;
+  }
+
+  #logoDiv {
+    width: 20%;
+    margin-left: 10%;
+    margin-right: 0%;
+  }
+
+  #navbarDiv {
+    width: 50%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 20px;
   }
 
   #flex-container {
@@ -104,7 +147,7 @@
   }
 
   .container {
-    background-color: rgb(162, 180, 199);
+    background-color: rgb(150, 180, 169);
     box-shadow: 10px 10px;
     margin: 0px 150px 150px 150px;
     padding: 20px;

@@ -20,7 +20,7 @@
     <div v-show="haveRecipe">
       <h3>{{ foodName }}</h3>
 
-      <button type="button" v-on:click="returnToCalc">
+      <button class="redButton" type="button" v-on:click="returnToCalc">
         Back
       </button> <br><br>
 
@@ -34,7 +34,7 @@
 
       <br /><br />
 
-      <button type="button" v-on:click="returnToCalc">
+      <button class="redButton" type="button" v-on:click="returnToCalc">
         Back
       </button>
     </div>

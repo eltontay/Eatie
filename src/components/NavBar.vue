@@ -1,11 +1,11 @@
 <template>
   <div id="nav" v-if="user">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/foodCalculator">Food Calculator</router-link> |
-    <router-link to="/myJournal">My Journal</router-link> |
-    <router-link to="/mygoals">My Goals</router-link> |
-    <router-link to="/myProgress">My Progress</router-link> |
-    <router-link to="/Profile">Profile</router-link>
+    <router-link to="/"><fa icon="home" /> Home</router-link> |
+    <router-link to="/foodCalculator"><fa icon="calculator" /> Food Calculator</router-link> |
+    <router-link to="/myJournal"><fa icon="book" /> My Journal</router-link> |
+    <router-link to="/mygoals"><fa icon="bullseye" /> My Goals</router-link> |
+    <router-link to="/myProgress"><fa icon="chart-line" /> My Progress</router-link> |
+    <router-link to="/Profile"><fa icon="user-circle" /> Profile</router-link>
   </div>
   <div id="nav" v-if="!user">
     <router-link to="/SignIn">Sign In</router-link>
@@ -37,16 +37,15 @@
 
 <style scoped>
   #nav {
-    width: 50%;
     text-align: right;
   }
 
   #nav a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #8a97a3;
   }
 
   #nav a.router-link-exact-active {
-    color: #42b983;
+    color: #dcdddd;
   }
 </style>

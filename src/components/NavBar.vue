@@ -37,7 +37,6 @@
 
 <style scoped>
   #nav {
-    width: 50%;
     text-align: right;
   }
 

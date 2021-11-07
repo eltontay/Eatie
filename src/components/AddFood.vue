@@ -84,7 +84,6 @@
     getDownloadURL,
     deleteObject,
   } from "firebase/storage";
-  import no_image_loaded from "@/assets/no_image_uploaded.png";
   const db = getFirestore(firebaseApp);
   export default {
     data() {
@@ -94,7 +93,7 @@
         recipe: null,
         currUploadedImage: null,
         haveImage: false,
-        imageSource: no_image_loaded,
+        imageSource: null,
         mealDetail: {},
         refreshCounter: 0,
       };
@@ -304,7 +303,7 @@
             // Uh-oh, an error occurred!
           });
         this.displayFoodInfo = false;
-        this.imageSource = no_image_loaded;
+        this.imageSource = null;
         this.haveImage = false;
       },
       async deleteFood(foodName) {

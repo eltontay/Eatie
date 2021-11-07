@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div style="width: 50%">
+    <div id="logoDiv">
       <img
         id="logo"
         src="@/assets/Eatie_logo.png"
@@ -8,9 +8,10 @@
         @click="$router.push('/')"
       />
     </div>
-    <NavBar />
+    <div id="navbarDiv">
+      <NavBar />
+    </div>
   </header>
-  <hr />
   <body>
     <router-view />
   </body>
@@ -40,16 +41,24 @@
     color: #2c3e50;
   }
 
+  /* html {
+    background-color: rgb(150, 180, 169);
+  } */
+
   header {
-    width: 80%;
-    height: 100px;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: 100%;
+    height: 120px;
     text-align: right;
     display: flex;
+    background-color: rgb(150, 180, 169);
+    top: 0;
+    left: 0;
+    position: fixed;
+    border: 5px solid black;
   }
 
   body {
+    margin-top: 150px;
     min-height: 70vh;
   }
 
@@ -79,7 +88,25 @@
 
   #logo {
     float: left;
-    height: 100px;
+    height: 80%;
+    cursor: pointer;
+  }
+
+  #logo:hover {
+    cursor: pointer;
+  }
+
+  #logoDiv {
+    width: 30%;
+    margin-left: 10%;
+    margin-right: 0%;
+  }
+
+  #navbarDiv {
+    width: 40%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 20px;
   }
 
   #flex-container {

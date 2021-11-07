@@ -220,8 +220,8 @@
         
 
         if (goal_weight.data() != undefined) {
+          this.myJourneyDiagnosis = await goal_weight.data()["diagnosis"];
           let ideal_weight = await parseInt(goal_weight.data()["weightGoal"]);
-          console.log("My weight goal: " + ideal_weight)
           
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);
@@ -233,7 +233,7 @@
             this.weeklyWeightLineData[1][cur_date] = 0;
           }
         }
-        console.log(this.weeklyWeightLineData);
+        // console.log(this.weeklyWeightLineData);
       },
 
       async createLineChart() {
@@ -262,12 +262,11 @@
             }
           ]
         }
-        // this.chartOptions = 
-        console.log(this.weight_linechart)
+        // console.log(this.weight_linechart)
         this.loaded = true;
-        console.log("it has been assigned")
+        // console.log("it has been assigned")
       }
-  }
+  },
 
   };
 </script>

@@ -21,6 +21,7 @@ export default {
     return {
       chartOptions: {
           responsive: true,
+          maintainAspectRatio: false,
           scales: {
             yAxes: [{
               display: true,

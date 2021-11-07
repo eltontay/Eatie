@@ -4,6 +4,7 @@
     <div id="myJourney">
       <div id="halfMyJourney">
         <LineChart 
+          id="charts1"
           v-if = "loaded"
           v-bind:chartData="weight_linechart"
           v-bind:maxWeight="maxWeight"
@@ -12,7 +13,10 @@
         <h3>My Weight Journey</h3>
       </div>
       <div id="halfMyJourney">
-        <column-chart :data="weeklyNutrientDistribution"></column-chart>
+        <column-chart
+          id="charts2"
+          :colors="['rgb(7, 4, 155)', 'rgb(5, 52, 155)', 'rgb(36, 105, 255)']"
+          :data="weeklyNutrientDistribution"></column-chart>
         <h3>Weekly Nutrient Distribution</h3>
       </div>
     </div>
@@ -27,11 +31,13 @@
   import { getDoc, getFirestore } from "firebase/firestore";
   import { doc } from "firebase/firestore";  
   import LineChart from './LineChart.vue'
+  // import Bar from './Bar.vue'
   const db = getFirestore(firebaseApp);
 
   export default {
     components: {
-      LineChart
+      LineChart,
+      // Bar
     },
     data() {
       return {
@@ -44,15 +50,23 @@
         weeklyCarb: 0,
         refresh:0,
         loaded: false,
+        loaded2: false,
         
       };
     },
     computed: {
       weeklyNutrientDistribution() {
+        // this.loaded2= true;
         return {
-          carbohydrates: this.weeklyCarb,
-          fat: this.weeklyFat,
-          protein: this.weeklyProtein,
+          // labels: ['Carbohydrates', 'Fat', 'Protein'],
+          // datasets: [{
+          //   label:"Data One",
+          //   data: [this.weeklyCarb, this.weeklyFat, this.weeklyProtein],
+          //   backgroundColor: ["#62BEB6", "#077368", "#002B24"]
+          // }]
+          Carbohydrates: this.weeklyCarb,
+          Fat: this.weeklyFat,
+          Protein: this.weeklyProtein,
         };
       },
       maxWeight() {
@@ -236,7 +250,7 @@
             {
               label:'Weight',
               data:Object.values(this.weeklyWeightLineData[0]).reverse(),
-              borderColor: "rgb(0,168,0)",
+              borderColor: "rgb(9,163,148)",
               fill: false,
             } , {
               label:'Goal',
@@ -261,10 +275,30 @@
 <style>
   #myJourney {
     display: flex;
+    height: 550px;
+    width: inherit;
   }
   #halfMyJourney {
-    width: 40%;
+    width: 50%;
     margin: 0% 5% 0% 5%;
     justify-content: center;
+    object-fit: contain;
+  }
+
+  #charts1 {
+    object-fit: contain;
+    height:90% !important;
+    width:100% !important;
+  }
+  #charts2 {
+    object-fit: contain;
+    height:90% !important;
+    width:100% !important;
+     
+  }
+
+  canvas {
+    width: 100%  !important;
+    height: 100% !important;
   }
 </style>

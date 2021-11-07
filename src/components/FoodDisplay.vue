@@ -52,7 +52,6 @@
 
   import { getAuth, onAuthStateChanged } from "firebase/auth";
   import { getStorage, ref, getDownloadURL } from "firebase/storage";
-  import no_image_loaded from "@/assets/no_image_uploaded.png";
   const db = getFirestore(firebaseApp);
 
   export default {
@@ -66,10 +65,10 @@
           Snack: new Array(),
         },
         mealImg: {
-          Breakfast: no_image_loaded,
-          Lunch: no_image_loaded,
-          Dinner: no_image_loaded,
-          Snack: no_image_loaded,
+          Breakfast: null,
+          Lunch: null,
+          Dinner: null,
+          Snack: null,
         },
         haveMeal: {
           Breakfast: false,
@@ -127,6 +126,15 @@
             switch (error.code) {
               case "storage/object-not-found":
                 // File doesn't exist
+                getDoc(
+                  doc(
+                    doc(db, String(this.fbuser), "daily_nutrient"),
+                    this.date,
+                    "default_image"
+                  )
+                ).then((a) => {
+                  this.mealImg[mealType] = a.data()[mealType][Object.keys(a.data()[mealType])[0]];
+                });
                 break;
               case "storage/unknown":
                 // Unknown error occurred, inspect the server response
@@ -154,5 +162,6 @@
 
   #homeFoodIcon {
     width: 100%;
+    border-radius: 20px;
   }
 </style>

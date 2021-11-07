@@ -1,33 +1,40 @@
 <template>
-  <div class="container">
-    <h2>Daily Summary</h2>
+  <div class="container" style="margin-bottom:30px">
+    <div id="dailySummaryHeader">
+      <img class="foodIcon" src="@/assets/progress1.png" alt="" /> &nbsp; &nbsp; &nbsp;
+      <div><h2>Daily Summary</h2></div> &nbsp; &nbsp; &nbsp;
+      <img class="foodIcon" src="@/assets/progress2.png" alt="" />
+    </div>
     <div id="dailySummary">
       <div id="halfDailySummary1">
         <h3>{{ calorieGoalRecommendation }}</h3>
         <br />
         <div id="dailySummary">
           <div id="halfDailySummary1">
-            <div style="font-size: 120%;">
-              Calories Goal: <strong>{{ goalValue }}</strong>
-            </div>
-            <div style="font-size: 120%;">
-              Calories Consumed:
-              <strong style="color: green">{{ consumedValue }}</strong>
-            </div>
-            <div style="font-size: 120%;">
-              Calories Remaining:
-              <strong style="color: red">{{ remainingValue }}</strong>
+            <div id="calorieSummary">
+              <div style="font-size: 120%;">
+                Calories Goal: <strong>{{ goalValue }}</strong>
+              </div>
+              <div style="font-size: 120%;">
+                Calories Consumed:
+                <strong style="color: green">{{ consumedValue }}</strong>
+              </div>
+              <div style="font-size: 120%;">
+                Calories Remaining:
+                <strong style="color: red">{{ remainingValue }}</strong>
+              </div>
             </div>
           </div>
           <div id="halfDailySummary2">
             <pie-chart
+              id="piechart" 
               :colors="['rgb(17, 207, 255)', 'rgb(1, 40, 49)']"
               donut="true"
               height="50%"
               legend="hide"
               :data="dailyCaloriePieData"
             ></pie-chart>
-            <h3>{{ percentageCalorie }}%</h3>
+            <h3 padding="0">{{ percentageCalorie }}%</h3>
           </div>
         </div>
         <h3>
@@ -41,23 +48,25 @@
           height="300px"
           :data="dailyNutrientPieData"
         ></pie-chart>
-        <h3 v-if="carbohydratesLower">
-          You should increase your consumption of carbohydrates!
-        </h3>
-        <h3 v-if="carbohydratesUpper">
-          You should reduce your consumption of carbohydrates!
-        </h3>
-        <h3 v-if="fatLower">You should increase your consumption of fat!</h3>
-        <h3 v-if="fatUpper">You should reduce your consumption of fat!</h3>
-        <h3 v-if="proteinLower">
-          You should increase your consumption of protein!
-        </h3>
-        <h3 v-if="proteinUpper">
-          You should reduce your consumption of protein!
-        </h3>
-        <h3 v-if="nutrientRecommendation">
-          Your nutrient breakdown is within recommendation!
-        </h3>
+        <div style="margin-top:20px;">
+          <h3 v-if="carbohydratesLower">
+            You should increase your consumption of carbohydrates!
+          </h3>
+          <h3 v-if="carbohydratesUpper">
+            You should reduce your consumption of carbohydrates!
+          </h3>
+          <h3 v-if="fatLower">You should increase your consumption of fat!</h3>
+          <h3 v-if="fatUpper">You should reduce your consumption of fat!</h3>
+          <h3 v-if="proteinLower">
+            You should increase your consumption of protein!
+          </h3>
+          <h3 v-if="proteinUpper">
+            You should reduce your consumption of protein!
+          </h3>
+          <h3 v-if="nutrientRecommendation">
+            Your nutrient breakdown is within recommendation!
+          </h3>
+          </div>
       </div>
     </div>
   </div>
@@ -237,6 +246,8 @@
     width: 40%;
     margin: 0% 5% 0% 5%;
     text-align: left;
+    vertical-align: middle;
+ 
   }
   #halfDailySummary2 {
     width: 40%;
@@ -247,4 +258,33 @@
     width: 5px;
     background-color: rgb(1, 40, 49);
   }
+
+  #piechart {
+    height: 85% !important;
+  }
+
+  canvas {
+    width: 100%  !important;
+    height: 100% !important;
+  }
+
+  h3 {
+    margin-bottom: 2px;
+    margin-top: 10px;
+  }
+
+  #calorieSummary {
+    margin-top: 10%;
+    margin-bottom: 40%;     
+  }
+
+  #dailySummaryHeader {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-bottom:10px;
+    display: flex;
+    justify-content: center;
+  }
+
 </style>

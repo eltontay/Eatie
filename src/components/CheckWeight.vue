@@ -1,9 +1,11 @@
 <template>
-    <div v-if = "!flag">
-        <h3>You have not updated your weight this week! Go to <router-link to="/WeightUpdate">Weight Update</router-link> now!</h3>
-    </div>
-    <div v-else>
-        <h3>If you would like to update your weight today, click <router-link to="/WeightUpdate">Weight Update</router-link></h3>
+    <div style="margin-bottom:20px">
+        <div v-if = "!flag">
+            <h3>You have not updated your weight this week! Go to <router-link to="/WeightUpdate">Weight Update</router-link> now!</h3>
+        </div>
+        <div v-else>
+            <h3>If you would like to update your weight today, click <router-link to="/WeightUpdate">Weight Update</router-link></h3>
+        </div>
     </div>
 </template>
 
@@ -47,7 +49,6 @@ export default {
             if (cur_weight.data() != undefined) {
                 for (let i = 0; i < 7; i++) {
                     let cur_date = this.currentDate(i);
-                    console.log(cur_date)
                     if (cur_weight.data()[cur_date] != undefined) {
                         console.log("updated liao")
                         this.flag = true;

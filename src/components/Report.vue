@@ -98,15 +98,6 @@ export default {
         return '#db2518';
       }
     },
-    // async showReport() {
-    //   try {
-    //     var a = doc(db, String(this.fbuser), 'profile');
-    //     var b = await getDoc(a);
-    //     this.calorie = Math.round(b.data()['calorie']);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
     async goalWeight() {
       try {
         var weightGoal = this.weightGoal;
@@ -115,9 +106,6 @@ export default {
           alert('Please enter a correct weight in KG');
           return false;
         }
-
-        console.log('waht');
-
         let profile = doc(db, String(this.fbuser), 'profile');
         let weightdb = await updateDoc(
           profile,

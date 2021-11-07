@@ -12,7 +12,7 @@
       <NavBar />
     </div>
   </header>
-  <div style="height: 120px"></div>
+  <div style="height: 10vh"></div>
   <body>
     <router-view />
   </body>
@@ -44,7 +44,7 @@
 
   header {
     width: 100%;
-    height: 120px;
+    height: 10vh;
     text-align: right;
     display: flex;
     background-color: rgb(19, 43, 34);
@@ -113,13 +113,13 @@
   }
 
   #logoDiv {
-    width: 30%;
+    width: 20%;
     margin-left: 10%;
     margin-right: 0%;
   }
 
   #navbarDiv {
-    width: 40%;
+    width: 50%;
     margin-left: 10%;
     margin-right: 10%;
     margin-top: 20px;

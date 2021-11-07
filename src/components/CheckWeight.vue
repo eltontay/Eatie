@@ -47,7 +47,6 @@ export default {
             if (cur_weight.data() != undefined) {
                 for (let i = 0; i < 7; i++) {
                     let cur_date = this.currentDate(i);
-                    console.log(cur_date)
                     if (cur_weight.data()[cur_date] != undefined) {
                         console.log("updated liao")
                         this.flag = true;

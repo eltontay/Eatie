@@ -29,6 +29,13 @@ export default {
                 max: this.maxWeight
               }
             }],
+            xAxes: [{
+              display: true,
+              ticks: {
+                  autoSkip: true,
+                  maxTicksLimit: 5
+              }
+            }]
           }
         }}
   },

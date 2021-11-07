@@ -207,6 +207,7 @@
 
         if (goal_weight.data() != undefined) {
           let ideal_weight = await parseInt(goal_weight.data()["weightGoal"]);
+          console.log("My weight goal: " + ideal_weight)
           
           for (let i = 0; i < 29; i++) {
             let cur_date = this.currentDate(i);
@@ -235,13 +236,15 @@
             {
               label:'Weight',
               data:Object.values(this.weeklyWeightLineData[0]).reverse(),
-              backgroundColor: ["rgba(255, 206, 86, 0.8)"],
-              fill: false
+              borderColor: "rgb(0,168,0)",
+              fill: false,
             } , {
               label:'Goal',
               data:Object.values(this.weeklyWeightLineData[1]).reverse(),
-              backgroundColor: ["rgba(255, 206, 86, 0.8)"],
-              fill: false
+              borderColor: "rgb(255,0,0)",
+              fill: false,
+              pointRadius: 0,
+
             }
           ]
         }

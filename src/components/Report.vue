@@ -110,7 +110,7 @@ export default {
       } else if (this.bmi < 23) {
         return '#1a40ff';
       } else if (this.bmi < 27.9) {
-        return '#ebeb14';
+        return '#ff8c00';
       } else if (this.bmi > 27.9) {
         return '#db2518';
       }

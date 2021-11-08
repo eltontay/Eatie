@@ -12,7 +12,7 @@
           placeholder="e.g. durian, french fries"
         />
         <button type="button" id="searchButton" v-on:click="searchFood">
-          Search
+          Search <fa icon="search" />
         </button>
       </form>
       <br /><br />

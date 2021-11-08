@@ -1,5 +1,5 @@
 <template>
-  <h2>{{ date }}</h2>
+  <h2>{{ date }} ({{day}})</h2>
   <hr />
   <div id="foodDisplay">
     <div id="mealDisplay" :key="haveMeal">
@@ -80,6 +80,19 @@
     },
     props: {
       date: String,
+    },
+    computed: {
+      day() {
+        var a = new Date(this.date).getDay();
+        if (a==0) return "Sunday";
+        if (a==1) return "Monday";
+        if (a==2) return "Tuesday";
+        if (a==3) return "Wednesday";
+        if (a==4) return "Thursday";
+        if (a==5) return "Friday";
+        if (a==6) return "Saturday";
+        return null;
+      }
     },
     mounted() {
       const auth = getAuth();

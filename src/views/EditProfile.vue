@@ -45,7 +45,7 @@
       />
       <br /><br />
       <button type="button" id="submitButton" v-on:click="updateProf()">
-        Submit
+        Submit <fa icon="upload" />
       </button>
     </form>
   </div>
@@ -219,10 +219,10 @@
   }
 
   #submitButton {
-    width: 25%;
+    width: 30%;
     height: 30px;
-    margin-left: 12.5%;
-    margin-right: 12.5%;
+    margin-left: 10%;
+    margin-right: 10%;
     border-radius: 10px;
   }
 

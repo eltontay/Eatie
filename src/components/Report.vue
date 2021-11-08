@@ -42,7 +42,7 @@
           <form v-on:submit="goalWeight">
             <label style="font-size:18px;"> Set a weight goal: </label> &nbsp; &nbsp; 
             <input type="number" v-model="weightGoal" name="weightGoal" /> &nbsp; &nbsp; 
-            <button type="submit" class ="Btn">Submit</button>
+            <button type="submit" class ="Btn">Submit <fa icon="upload" /></button>
           </form>
         </div>
 

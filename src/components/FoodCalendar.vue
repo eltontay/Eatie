@@ -7,6 +7,9 @@
     <FoodDisplay :date="date[4]" />
     <FoodDisplay :date="date[5]" />
     <FoodDisplay :date="date[6]" />
+    <button type="button" id="backTopBtn" v-on:click="scrollToTop">
+      Back to top
+    </button>
   </div>
 </template>
 
@@ -38,8 +41,17 @@
           String(date.getDate()).padStart(2, "0")
         );
       },
+      scrollToTop() {
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+      },
     },
   };
 </script>
 
-<style></style>
+<style>
+  #backTopBtn {
+    width: 10%;
+    border-radius: 5px;
+  }
+</style>

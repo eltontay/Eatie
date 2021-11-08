@@ -35,7 +35,7 @@
           id="addFoodButton"
           v-on:click="deleteMeal"
         >
-          Delete meal
+          Delete meal <fa icon="trash-alt" />
         </button>
       </div>
     </div>
@@ -47,7 +47,7 @@
       id="addFoodButton"
       v-on:click="displayCalc()"
     >
-      Add Food
+      Add Food <fa icon="plus" />
     </button>
     <div v-show="displayTable">
       <div id="APIQueryDiv">

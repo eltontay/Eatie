@@ -10,7 +10,7 @@
           id="profileButton"
           @click="$router.push('/editProfile')"
         >
-          Edit Profile
+          Edit Profile <fa icon="edit" />
         </button>
       </div>
     </div>

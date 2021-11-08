@@ -4,8 +4,9 @@
     <h2>Food history for the past week</h2>
     <FoodCalendar />
   </div>
-  <div v-if="!user">
-    <About style="margin-top:150px;" />
+  <div v-if="!user" style="padding-top: 15vh">
+    <About />
+    <br><br>
     <h2>
       <router-link to="/SignIn">Sign in</router-link> to enjoy the full feature
       of our app!

@@ -12,11 +12,11 @@
       <NavBar />
     </div>
   </header>
-  <div style="height: 5vh"></div>
+  <div v-if="user" style="height: 5vh"></div>
   <p id="body1">
     <router-view />
   </p>
-  <footer>
+  <footer v-if="user">
     <hr />
     &copy;2021 Eatie
   </footer>
@@ -80,7 +80,7 @@
   }
 
   #body1 {
-    min-height: 80vh;
+    min-height: 75vh;
   }
 
   body {
@@ -95,7 +95,7 @@
   }
 
   footer {
-    margin-top: auto;
+    margin-top: 5vh;
   }
 
   hr {
@@ -189,7 +189,7 @@
     background-color: rgb(170, 226, 205);
     /* background-color: rgb(150, 180, 169); */
     box-shadow: 8px 8px;
-    margin: 0px 150px 150px 150px;
+    margin: 0px 150px 0px 150px;
     padding: 20px;
     border: 2.5px solid #858484;
     opacity: 0.9;

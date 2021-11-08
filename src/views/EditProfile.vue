@@ -3,7 +3,7 @@
     <h2>Edit Profile</h2>
     <div id="displayPictureContainer" @click="uploadImage">
       <img :src="profileImg" id="displayPic" />
-      <div id="dpOverlay">Upload Profile Picture</div>
+      <div id="dpOverlay"><fa icon="pencil-alt" /> Upload Profile Picture</div>
       <input
         type="file"
         accept="image/*"
@@ -254,8 +254,8 @@
     transition: 0.3s ease;
     background-color: rgb(41, 83, 41);
     text-align: center;
-    line-height: 250px;
-    font-size: 120%;
+    line-height: 300px;
+    font-size: 130%;
     color: white;
   }
 

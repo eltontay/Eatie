@@ -138,6 +138,7 @@
     border: 3px solid black;
     margin-left: 10%;
     margin-right: 10%;
+    border-radius: 10%;
   }
 
   tr:nth-child(even) {

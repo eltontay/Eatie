@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header v-show="user">
     <div id="logoDiv">
       <img
         id="logo"
@@ -20,15 +20,35 @@
     <hr />
     &copy;2021 Eatie
   </footer>
+  <img
+  v-if="!user"
+    id="notSignedInBackground"
+    src="~@/assets/sign-out-background.jpg"
+    alt=""
+  />
 </template>
 
 <script>
   import NavBar from "./components/NavBar.vue";
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
 
   export default {
     name: "App",
     components: {
       NavBar,
+    },
+    data() {
+      return {
+        user: false,
+      };
+    },
+    mounted() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.user = user;
+        }
+      });
     },
   };
 </script>
@@ -53,7 +73,7 @@
     position: fixed;
     z-index: 1;
     /* background-image: url('~@/assets/food-background.png'); */
-    background-image: url('~@/assets/food-backgrounds.jpg');
+    background-image: url("~@/assets/food-backgrounds.jpg");
     border-bottom: 2px solid rgb(228, 228, 228);
     /* background-image: url(https://assets.loseit.com/website/home/Wave.png), linear-gradient(280deg, rgb(150, 180, 169) 0, rgb(150, 180, 169) 100%); */
     /* background-size: 100% 100%; */
@@ -63,7 +83,7 @@
     min-height: 80vh;
   }
 
-  body {    
+  body {
     background-color: #f1f1f1;
     /* background-color: rgb(170,226,205); */
     /* background-image: url(https://assets.loseit.com/website/home/Wave.png), linear-gradient(60deg, rgb(150, 180, 169) 0, rgba(246, 146, 29, 1) 100%); */
@@ -166,17 +186,30 @@
 
   .container {
     /* background-color: #f1f1f1; */
-    background-color: rgb(170,226,205);
+    background-color: rgb(170, 226, 205);
     /* background-color: rgb(150, 180, 169); */
     box-shadow: 8px 8px;
     margin: 0px 150px 150px 150px;
     padding: 20px;
     border: 2.5px solid #858484;
-    opacity: 0.90;
+    opacity: 0.9;
   }
 
   .foodIcon {
     width: 70px;
     height: 70px;
+  }
+
+  #notSignedInBackground {
+    /* opacity: 0.5; */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>

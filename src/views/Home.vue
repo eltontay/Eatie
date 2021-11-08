@@ -1,11 +1,15 @@
 <template>
-  <About style="margin-bottom:40px;"/>
   <div v-if="user">
+    <About style="margin-bottom:40px;" />
     <h2>Food history for the past week</h2>
     <FoodCalendar />
   </div>
   <div v-if="!user">
-    <h3><router-link to="/SignIn">Sign in</router-link> to enjoy the full feature of our app!</h3>
+    <About style="margin-top:150px;" />
+    <h2>
+      <router-link to="/SignIn">Sign in</router-link> to enjoy the full feature
+      of our app!
+    </h2>
   </div>
 </template>
 

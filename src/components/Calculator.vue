@@ -29,10 +29,13 @@
       <br /><br />
       <h3>{{ foodName }}</h3>
       <br />
-      <div id="detailFoodImgDiv" @click ="openURL">
+      <div id="detailFoodImgDiv" @click="openURL">
         <img id="detailFoodImg" :src="detailFoodImage" alt="" />
-        <div id="linkOverlay">Click for more details</div>
+        <div id="linkOverlay">
+          <fa icon="info-circle" /> Click for more details
+        </div>
       </div>
+      <br />
       <table id="detailedFoodTable" style="width: 50%; margin-left: 25%">
         <tr>
           <th>Nutrient</th>
@@ -96,8 +99,8 @@
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
       },
       openURL() {
-        window.open(this.url, '_blank').focus();
-      }
+        window.open(this.url, "_blank").focus();
+      },
     },
   };
 </script>
@@ -109,6 +112,16 @@
     margin-right: 10%;
     display: flex;
     justify-content: center;
+  }
+
+  #detailedFoodTable {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+    align-self: center;
+    border: 3px solid black;
+    margin-left: 10%;
+    margin-right: 10%;
   }
 
   #detailedFoodTable th {

@@ -73,8 +73,8 @@
     position: fixed;
     z-index: 1;
     /* background-image: url('~@/assets/food-background.png'); */
-    background-image: url("~@/assets/food-backgrounds.jpg");
-    border-bottom: 2px solid rgb(228, 228, 228);
+    /* background-image: url("~@/assets/food-backgrounds.jpg"); */
+    border-bottom: 5px solid rgb(15, 44, 4);
     /* background-image: url(https://assets.loseit.com/website/home/Wave.png), linear-gradient(280deg, rgb(150, 180, 169) 0, rgb(150, 180, 169) 100%); */
     /* background-size: 100% 100%; */
   }
@@ -88,7 +88,7 @@
     /* background-color: rgb(170,226,205); */
     /* background-image: url(https://assets.loseit.com/website/home/Wave.png), linear-gradient(60deg, rgb(150, 180, 169) 0, rgba(246, 146, 29, 1) 100%); */
     /* background-size: 100% 100%; */
-    /* background-image: url('~@/assets/food-backgrounds.jpg'); */
+    background-image: url('~@/assets/food-backgrounds.jpg');
     /* background-size: auto cover; */
     /* background-repeat: no-repeat;
     background-position: center center; */

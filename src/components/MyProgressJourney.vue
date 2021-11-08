@@ -145,8 +145,7 @@
       async findWeeklyNutrient(mealType) {
         let a = doc(db, String(this.fbuser), "daily_nutrient");
         let currDate = new Date();
-        let i = currDate.getDay();
-        while (i >= 0) {
+        for (var i=0; i < 7; i++ ) {
           let meal = await getDoc(
             doc(a, this.convertToDateString(currDate), mealType)
           );
@@ -158,7 +157,6 @@
             });
           }
           currDate.setDate(currDate.getDate() - 1);
-          i--;
         }
       },
       currentDate(num) {

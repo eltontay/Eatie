@@ -1,5 +1,5 @@
 <template>
-<button class="redButton" id = "btn" @click="signOut()" v-if="user">Logout</button>
+<button class="redButton" id = "btn" @click="signOut()" v-if="user">Logout <fa icon="sign-out-alt" /></button>
 </template>
 
 <script>

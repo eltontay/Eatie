@@ -13,7 +13,7 @@
           @change="uploadImage"
         />
         <div class="foodOverlay">
-          Change image
+          <fa icon="pencil-alt" /> Change image
         </div>
       </div>
       <div id="mealNutrient">
@@ -351,6 +351,7 @@
     width: 200px;
     height: 200px;
     border-radius: 20px;
+    object-fit: cover;
     background-size: cover;
     background-position: center;
   }
@@ -405,7 +406,7 @@
   }
 
   #APIQueryDiv {
-    background-color: rgb(115, 135, 190);
+    background-color: rgb(127, 179, 149);
     padding-top: 2%;
     padding-bottom: 2%;
     border-radius: 20px;

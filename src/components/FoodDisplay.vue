@@ -133,7 +133,9 @@
                     "default_image"
                   )
                 ).then((a) => {
-                  this.mealImg[mealType] = a.data()[mealType][Object.keys(a.data()[mealType])[0]];
+                  this.mealImg[mealType] = a.data()[mealType][
+                    Object.keys(a.data()[mealType])[0]
+                  ];
                 });
                 break;
               case "storage/unknown":
@@ -155,13 +157,17 @@
   }
 
   #mealDisplay {
-    width: 15%;
-    margin-left: 5%;
-    margin-right: 5%;
+    width: 25%;
   }
 
   #homeFoodIcon {
-    width: 100%;
+    width: 200px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: cover;
+    background-size: cover;
+    background-position: center;
     border-radius: 20px;
   }
 </style>

@@ -1,19 +1,19 @@
  <template>
  <div class="container">
  
-   <h3>What is your current weight?</h3>
+   <h3 style="margin-bottom:8px;">What is your current weight?</h3>
    <input id="dateInput" type="date" v-model="weightDate"/>
    <br/> <br/>
  
    <div id="flex-container">
  
-     <div id="flex-child">
+     <div id="flex-child" style="margin-right:0px;">
        <img src="@/assets/weight.png" alt="" class="" />
      </div>
         
      <form id="flex-child" class="form" v-on:submit= "updateweight">   
-       <label for="weight">My weight (kg) is</label>    
-       <input type="text" id="weight" placeholder="ph" name="weight" pattern="\d{2,3}(\.\d{0,2})?" title="Please input weight up to 2 decimals" required>
+       <label for="weight">My weight (kg) is  </label> &nbsp; &nbsp; &nbsp; 
+       <input type="text" id="weight" name="weight" pattern="\d{2,3}(\.\d{0,2})?" title="Please input weight up to 2 decimals" required> &nbsp; &nbsp; &nbsp; 
        <button type="submit" class ="Btn">Enter</button>
      </form>
    </div>
@@ -86,5 +86,9 @@ export default {
 </script>
 
 <style>
+
+#flex-child{
+  display: flex;
+}
 
 </style>

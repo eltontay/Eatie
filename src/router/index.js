@@ -82,14 +82,14 @@ const routes = [
     component: EditProfile,
   },
   {
+    path: '/contactUs',
+    name: 'ContactUs',
+    component: ContactUs,
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound,
-  },
-  {
-    path: '/ContactUs',
-    name: 'ContactUs',
-    component: ContactUs,
   },
 ];
 const router = createRouter({

@@ -1,14 +1,14 @@
 <template>
-  <ContactUs/>
+  <Contact />
 </template>
 
 <script>
-import ContactUs from '@/components/ContactUs.vue'
+import Contact from '@/components/ContactUs.vue';
 
 export default {
   name: 'ContactUs',
   components: {
-    ContactUs
-  }
-}
+    Contact,
+  },
+};
 </script>

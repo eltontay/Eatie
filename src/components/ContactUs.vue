@@ -33,6 +33,9 @@ export default {
     return {
       fbuser: '',
       flag: false,
+      name: '',
+      email: '',
+      message: ''
     };
   },
   beforeMount() {
@@ -56,7 +59,7 @@ export default {
           {
             name: this.name,
             email: this.email,
-            message: this.meessage,
+            message: this.message,
           }
         );
         console.log('it works!!!');

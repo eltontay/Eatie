@@ -13,6 +13,7 @@ import AccountProfile from '@/views/AccountProfile.vue';
 import WeightUpdate from '@/views/WeightUpdate.vue';
 import EditProfile from '@/views/EditProfile.vue';
 import NotFound from '@/views/NotFound.vue';
+import ContactUs from '@/views/ContactUs.vue';
 
 const routes = [
   {
@@ -84,6 +85,11 @@ const routes = [
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound,
+  },
+  {
+    path: '/ContactUs',
+    name: 'ContactUs',
+    component: ContactUs,
   },
 ];
 const router = createRouter({

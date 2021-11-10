@@ -5,6 +5,7 @@
     <router-link to="/myJournal"><fa icon="book" /> My Journal</router-link> |
     <router-link to="/mygoals"><fa icon="bullseye" /> My Goals</router-link> |
     <router-link to="/myProgress"><fa icon="chart-line" /> My Progress</router-link> |
+    <router-link to="/ContactUs"><fa icon="comments" /> Contact Us</router-link> |
     <router-link to="/Profile"><fa icon="user-circle" /> Profile</router-link>
   </div>
   <div id="nav" v-if="!user">

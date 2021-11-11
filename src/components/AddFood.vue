@@ -1,7 +1,5 @@
 <template>
   <div id="addFood">
-    <h3>{{ mealType }}</h3>
-
     <div id="mealInfo" v-show="displayFoodInfo">
       <div id="foodImageContainer" @click="imageChange">
         <img id="foodImageID" v-bind:src="imageSource" />
@@ -32,7 +30,7 @@
         <button
           class="redButton"
           type="button"
-          id="addFoodButton"
+          id="deleteMealButton"
           v-on:click="deleteMeal"
         >
           Delete meal <fa icon="trash-alt" />
@@ -329,9 +327,9 @@
 
 <style>
   #addFood {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
     text-align: left;
   }
   #mealInfo {
@@ -344,12 +342,12 @@
     height: 100%;
   }
   #foodImageContainer {
-    width: 200px;
+    width: 300px;
     position: relative;
   }
   #foodImageID {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     border-radius: 20px;
     object-fit: cover;
     background-size: cover;
@@ -359,14 +357,14 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     border-radius: 20px;
     opacity: 0;
     transition: 0.3s ease;
     background-color: rgb(41, 83, 41);
     text-align: center;
-    line-height: 200px;
+    line-height: 300px;
     font-size: 120%;
     color: white;
   }
@@ -374,8 +372,15 @@
     opacity: 0.8;
     cursor: pointer;
   }
-  #addFoodButton {
+  #deleteMealButton {
     width: 15%;
+    height: 30px;
+    border-radius: 5px;
+  }
+  #addFoodButton {
+    width: 20%;
+    margin-left: 40%;
+    margin-right: 40%;
     height: 30px;
     border-radius: 5px;
   }

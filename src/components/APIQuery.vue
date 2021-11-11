@@ -6,7 +6,7 @@
         <input
           type="text"
           class="foodSearch"
-          :id="foodSearchID"
+          id="foodSearchID"
           required=""
           v-on:keyup.enter="searchFood"
           placeholder="e.g. durian, french fries"
@@ -17,7 +17,7 @@
       </form>
       <br /><br />
     </div>
-    <table class="foodTable" :id="foodTableID">
+    <table class="foodTable" id="foodTableID">
       <tr>
         <th>Food item</th>
         <th>Calorie</th>
@@ -33,14 +33,6 @@
   import { getAuth, onAuthStateChanged } from "firebase/auth";
 
   export default {
-    props: {
-      foodTableID: String,
-    },
-    computed: {
-      foodSearchID() {
-        return this.foodTableID + "search";
-      }
-    },
     mounted() {
       const auth = getAuth();
       onAuthStateChanged(auth, (user) => {
@@ -51,16 +43,16 @@
     },
     methods: {
       async searchFood() {
-        var foodName = String(document.getElementById(this.foodSearchID).value);
+        var foodName = String(document.getElementById("foodSearchID").value);
         if (foodName == "") {
           alert("Fill in something!");
         } else {
           for (
-            var i = document.getElementById(this.foodTableID).rows.length;
+            var i = document.getElementById("foodTableID").rows.length;
             i > 1;
             i--
           ) {
-            document.getElementById(this.foodTableID).deleteRow(i - 1);
+            document.getElementById("foodTableID").deleteRow(i - 1);
           }
           var axios = require("axios").default;
           let auth = require("../dbconfig.json");
@@ -81,7 +73,7 @@
           results.forEach((doc) => {
             var recipe = doc["recipe"];
             var y = recipe["yield"];
-            var row = document.getElementById(this.foodTableID).insertRow(ind);
+            var row = document.getElementById("foodTableID").insertRow(ind);
             let bu = document.createElement("button");
             bu.id = "foodNameButton";
             bu.type = "button";

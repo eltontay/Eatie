@@ -14,7 +14,6 @@
     <div v-show="!haveRecipe">
       <APIQuery
         @chosenFood="foodDetailedDisplay($event)"
-        foodTableID="foodCalculator"
       />
     </div>
     <div v-show="haveRecipe">

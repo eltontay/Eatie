@@ -49,7 +49,7 @@
     </button>
     <div v-show="displayTable">
       <div id="APIQueryDiv">
-        <APIQuery @chosenFood="submitToFS($event)" :foodTableID="mealType" />
+        <APIQueryPicture :foodSearchPic="mealType" @chosenFood="submitToFS($event)"/>
       </div>
       <br /><br />
     </div>
@@ -68,7 +68,7 @@
   } from "firebase/firestore";
   import { doc } from "firebase/firestore";
   import { getAuth, onAuthStateChanged } from "firebase/auth";
-  import APIQuery from "./APIQuery.vue";
+  import APIQueryPicture from "./APIQueryPicture.vue";
   import {
     getStorage,
     ref,
@@ -110,7 +110,7 @@
       });
     },
     components: {
-      APIQuery,
+      APIQueryPicture,
     },
     props: {
       mealType: String,

@@ -159,7 +159,7 @@
     width: 50%;
     margin-left: 10%;
     /* margin-right: 5%; */
-    margin-top: 25px;
+    margin-top: 15px;
     align-content: right;
   }
 
@@ -193,6 +193,7 @@
     padding: 20px;
     border: 2.5px solid #858484;
     opacity: 0.9;
+    border-radius: 50px;
   }
 
   .foodIcon {

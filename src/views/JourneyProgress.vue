@@ -1,0 +1,52 @@
+<template>
+  <div v-if="goalSet">
+    <CheckWeight />
+    <MyProgressJourney />
+  </div>
+  <div v-else>
+    <h3>Set your goals <router-link to="/MyGoals">here</router-link>!</h3>
+  </div>
+</template>
+
+<script>
+  import firebaseApp from "../firebase.js";
+  import { getDoc, getFirestore, doc } from "firebase/firestore";
+  import { getAuth, onAuthStateChanged } from "firebase/auth";
+
+  import MyProgressJourney from "@/components/MyProgressJourney.vue";
+  import CheckWeight from "@/components/CheckWeight.vue";
+
+  const db = getFirestore(firebaseApp);
+
+  export default {
+    name: "JourneyProgress",
+    components: {
+      MyProgressJourney,
+      CheckWeight,
+    },
+    data() {
+      return {
+        goalSet: false,
+      };
+    },
+    mounted() {
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        if (user) {
+          this.user = user;
+          this.fbuser = auth.currentUser.email;
+          this.goalIdSet();
+        }
+      });
+    },
+    methods: {
+      async goalIdSet() {
+        var a = doc(db, String(this.fbuser), "profile");
+        var b = await getDoc(a);
+        this.goalSet = b.data() != undefined;
+      },
+    },
+  };
+</script>
+
+<style></style>

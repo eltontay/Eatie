@@ -1,12 +1,9 @@
 <template>
-  <!-- <h2>My Progress</h2> -->
   <div v-if="goalSet">
     <MyProgressDaily />
-    <CheckWeight />
-    <MyProgressJourney />
   </div>
   <div v-else>
-    <h3>Set your goals <router-link to="/myGoals">here</router-link>!</h3>
+    <h3>Set your goals <router-link to="/MyGoals">here</router-link>!</h3>
   </div>
 </template>
 
@@ -16,17 +13,13 @@
   import { getAuth, onAuthStateChanged } from "firebase/auth";
 
   import MyProgressDaily from "@/components/MyProgressDaily.vue";
-  import MyProgressJourney from "@/components/MyProgressJourney.vue";
-  import CheckWeight from "@/components/CheckWeight.vue";
 
   const db = getFirestore(firebaseApp);
 
   export default {
-    name: "MyProgress",
+    name: "DailyProgress",
     components: {
       MyProgressDaily,
-      MyProgressJourney,
-      CheckWeight,
     },
     data() {
       return {

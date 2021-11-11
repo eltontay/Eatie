@@ -62,7 +62,6 @@ export default {
             message: this.message,
           }
         );
-        console.log('it works!!!');
       } catch (error) {
         console.log({ error });
       }

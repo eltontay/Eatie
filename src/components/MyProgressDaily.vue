@@ -39,7 +39,7 @@
         </div>
         <h3>
           Just had a meal? Add it to
-          <router-link to="/myJournal">My Journal</router-link> now!
+          <router-link to="/MyJournal">My Journal</router-link> now!
         </h3>
       </div>
       <div id="halfDailySummary2">

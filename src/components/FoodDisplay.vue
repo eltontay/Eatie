@@ -12,7 +12,7 @@
       <div v-if="haveMeal['Breakfast']">
         <h4 :key="item" v-for="item in mealName['Breakfast']">{{ item }}</h4>
       </div>
-      <router-link to="/myJournal" v-else>Add a meal</router-link>
+      <router-link to="/MyJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Lunch</h3>
@@ -20,7 +20,7 @@
       <div v-if="haveMeal['Lunch']">
         <h4 :key="item" v-for="item in mealName['Lunch']">{{ item }}</h4>
       </div>
-      <router-link to="/myJournal" v-else>Add a meal</router-link>
+      <router-link to="/MyJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Dinner</h3>
@@ -32,7 +32,7 @@
       <div v-if="haveMeal['Dinner']">
         <h4 :key="item" v-for="item in mealName['Dinner']">{{ item }}</h4>
       </div>
-      <router-link to="/myJournal" v-else>Add a meal</router-link>
+      <router-link to="/MyJournal" v-else>Add a meal</router-link>
     </div>
     <div id="mealDisplay" :key="haveMeal">
       <h3>Snack</h3>
@@ -40,7 +40,7 @@
       <div v-if="haveMeal['Snack']">
         <h4 :key="item" v-for="item in mealName['Snack']">{{ item }}</h4>
       </div>
-      <router-link to="/myJournal" v-else>Add a meal</router-link>
+      <router-link to="/MyJournal" v-else>Add a meal</router-link>
     </div>
   </div>
 </template>

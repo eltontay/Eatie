@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import FoodCalculator from '@/views/FoodCalculator.vue';
+import CalendarView from '@/views/CalendarView.vue';
 import MyJournal from '@/views/MyJournal.vue';
 import MyGoals from '@/views/MyGoals.vue';
 import Goal1 from '@/views/GoalStep1.vue';
@@ -8,7 +9,8 @@ import Goal2 from '@/views/GoalStep2.vue';
 import Goal3 from '@/views/GoalStep3.vue';
 import Goal4 from '@/views/GoalStep4.vue';
 import SignIn from '@/views/SignUpPage.vue';
-import Myprogress from '@/views/MyProgress.vue';
+import JourneyProgress from '@/views/JourneyProgress.vue';
+import DailyProgress from '@/views/DailyProgress.vue';
 import AccountProfile from '@/views/AccountProfile.vue';
 import WeightUpdate from '@/views/WeightUpdate.vue';
 import EditProfile from '@/views/EditProfile.vue';
@@ -22,17 +24,22 @@ const routes = [
     component: Home,
   },
   {
-    path: '/foodCalculator',
+    path: '/FoodCalculator',
     name: 'FoodCalculator',
     component: FoodCalculator,
   },
   {
-    path: '/myJournal',
+    path: '/CalendarView',
+    name: 'CalendarView',
+    component: CalendarView,
+  },
+  {
+    path: '/MyJournal',
     name: 'MyJournal',
     component: MyJournal,
   },
   {
-    path: '/myGoals',
+    path: '/MyGoals',
     name: 'MyGoals',
     component: MyGoals,
   },
@@ -57,9 +64,14 @@ const routes = [
     component: Goal4,
   },
   {
-    path: '/myProgress',
-    name: 'MyProgress',
-    component: Myprogress,
+    path: '/DailyProgress',
+    name: 'DailyProgress',
+    component: DailyProgress,
+  },
+  {
+    path: '/JourneyProgress',
+    name: 'JourneyProgress',
+    component: JourneyProgress,
   },
   {
     path: '/SignIn',
@@ -77,12 +89,12 @@ const routes = [
     component: WeightUpdate,
   },
   {
-    path: '/editProfile',
+    path: '/EditProfile',
     name: 'EditProfile',
     component: EditProfile,
   },
   {
-    path: '/contactUs',
+    path: '/ContactUs',
     name: 'ContactUs',
     component: ContactUs,
   },

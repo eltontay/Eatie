@@ -7,24 +7,24 @@
           <router-link to="/"><fa icon="home" /> Home</router-link>
         </li>
         <li>
-          <router-link to="/myJournal"><fa icon="book" /> My Journal</router-link>
+          <router-link to="/MyJournal"><fa icon="book" /> My Journal</router-link>
           <ul class="sub">
-            <li><router-link to="/myJournal"><fa icon="book" /> My Journal</router-link></li>
-            <li><router-link to="/foodCalculator"><fa icon="calculator" /> Food Calculator</router-link></li>
+            <li><router-link to="/CalendarView"><fa icon="calendar-week" /> My Calendar</router-link></li>
+            <li><router-link to="/FoodCalculator"><fa icon="calculator" /> Food Calculator</router-link></li>
           </ul>
         </li>
         <li>
-          <router-link to="/myProgress"><fa icon="chart-line" /> My Progress</router-link>
+          <router-link to="/DailyProgress"><fa icon="chart-line" /> My Progress</router-link>
           <ul class="sub">
-            <li><router-link to="/mygoals"><fa icon="bullseye" /> My Goals</router-link></li>
-            <li><router-link to="/myProgress"><fa icon="chart-line" /> My Progress</router-link></li>
+            <li><router-link to="/MyGoals"><fa icon="bullseye" /> My Goals</router-link></li>
+            <li><router-link to="/DailyProgress"><fa icon="shoe-prints" /> Daily Progress</router-link></li>
+            <li><router-link to="/JourneyProgress"><fa icon="chart-line" /> Overall Progress</router-link></li>
           </ul>
         </li>
         <li>
           <router-link to="/Profile"><fa icon="user-circle" /> Profile</router-link>
           <ul class="sub">
-            <li><router-link to="/Profile"><fa icon="user-circle" /> Profile</router-link></li>
-            <li><router-link to="/editProfile"><fa icon="user-circle" /> Edit Profile</router-link></li>
+            <li><router-link to="/EditProfile"><fa icon="user-circle" /> Edit Profile</router-link></li>
             <li><router-link to="/ContactUs"><fa icon="comments" /> Contact Us</router-link></li>
           </ul>
         </li>

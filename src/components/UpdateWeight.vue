@@ -74,9 +74,8 @@ export default {
           }, { merge: true }); 
         }
         
-        this.$router.push('./MyProgress');
+        this.$router.push('/JourneyProgress');
       } catch (error) {
-        alert("Hav")
         console.log(error);
       }
     },

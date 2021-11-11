@@ -1,25 +1,16 @@
 <template>
-  <div v-if="user">
-    <About style="margin-bottom:40px;" />
-  </div>
-  <div v-if="!user" style="padding-top: 15vh">
-    <About />
-    <br><br>
-    <h2>
-      <router-link to="/SignIn">Sign in</router-link> to enjoy the full feature
-      of our app!
-    </h2>
-  </div>
+  <h2>Food history for the past week</h2>
+  <FoodCalendar />
 </template>
 
 <script>
   import { getAuth, onAuthStateChanged } from "firebase/auth";
-  import About from "@/components/About.vue";
+  import FoodCalendar from "@/components/FoodCalendar.vue";
 
   export default {
-    name: "App",
+    name: "CalendarView",
     components: {
-      About,
+      FoodCalendar,
     },
     data() {
       return {

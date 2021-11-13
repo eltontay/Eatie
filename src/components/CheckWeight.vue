@@ -50,16 +50,13 @@ export default {
                 for (let i = 0; i < 7; i++) {
                     let cur_date = this.currentDate(i);
                     if (cur_weight.data()[cur_date] != undefined) {
-                        console.log("updated liao")
                         this.flag = true;
                         return ;
                     }
                 }
-                console.log("updated not")
                 this.flag = false;
                 return ;
             }
-            console.log("fbuser not loaded")
             this.flag = false;
             return; 
         },

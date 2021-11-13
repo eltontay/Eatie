@@ -1,9 +1,18 @@
 <template>
-  <div v-if="goalSet">
-    <MyProgressDaily />
+  <div v-if="user">
+    <div v-if="goalSet">
+      <MyProgressDaily />
+    </div>
+    <div v-else>
+      <h3>Set your goals <router-link to="/MyGoals">here</router-link>!</h3>
+    </div>
   </div>
-  <div v-else>
-    <h3>Set your goals <router-link to="/MyGoals">here</router-link>!</h3>
+  <div v-if="!user" style="padding-top: 25vh">
+    <h3>You have not signed in yet</h3>
+    <h4>
+      Please <router-link to="/SignIn">sign in</router-link> to enjoy the full
+      functionality of our application
+    </h4>
   </div>
 </template>
 
@@ -23,6 +32,7 @@
     },
     data() {
       return {
+        user: false,
         goalSet: false,
       };
     },

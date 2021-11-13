@@ -7,25 +7,60 @@
           <router-link to="/"><fa icon="home" /> Home</router-link>
         </li>
         <li>
-          <router-link to="/MyJournal"><fa icon="book" /> My Journal</router-link>
+          <router-link to="/MyJournal"
+            ><fa icon="book" /> My Journal</router-link
+          >
           <ul class="sub">
-            <li><router-link to="/CalendarView"><fa icon="calendar-week" /> My Calendar</router-link></li>
-            <li><router-link to="/FoodCalculator"><fa icon="calculator" /> Food Calculator</router-link></li>
+            <li>
+              <router-link to="/CalendarView"
+                ><fa icon="calendar-week" /> My Calendar</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/FoodCalculator"
+                ><fa icon="calculator" /> Food Calculator</router-link
+              >
+            </li>
           </ul>
         </li>
         <li>
-          <router-link to="/DailyProgress"><fa icon="chart-line" /> My Progress</router-link>
+          <router-link to="/DailyProgress"
+            ><fa icon="chart-line" /> My Progress</router-link
+          >
           <ul class="sub">
-            <li><router-link to="/MyGoals"><fa icon="bullseye" /> My Goals</router-link></li>
-            <li><router-link to="/DailyProgress"><fa icon="shoe-prints" /> Daily Progress</router-link></li>
-            <li><router-link to="/JourneyProgress"><fa icon="chart-line" /> Overall Progress</router-link></li>
+            <li>
+              <router-link to="/MyGoals"
+                ><fa icon="bullseye" /> My Goals</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/DailyProgress"
+                ><fa icon="shoe-prints" /> Daily Progress</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/JourneyProgress"
+                ><fa icon="chart-line" /> Overall Progress</router-link
+              >
+            </li>
           </ul>
         </li>
         <li>
-          <router-link to="/Profile"><fa icon="user-circle" /> Profile</router-link>
+          <router-link to="/Profile"
+            ><fa icon="user-circle" /> Profile</router-link
+          >
           <ul class="sub">
-            <li><router-link to="/EditProfile"><fa icon="user-circle" /> Edit Profile</router-link></li>
-            <li><router-link to="/ContactUs"><fa icon="comments" /> Contact Us</router-link></li>
+            <li>
+              <router-link to="/EditProfile"
+                ><fa icon="user-circle" /> Edit Profile</router-link
+              >
+            </li>
+            <li>
+              <router-link to="/ContactUs"
+                ><fa icon="comments" /> Contact Us</router-link
+              >
+            </li>
+            <a href="" @click="signOut"><fa icon="sign-out-alt" /> Logout</a>
           </ul>
         </li>
       </ul>
@@ -34,7 +69,7 @@
 </template>
 
 <script>
-  import { getAuth, onAuthStateChanged } from "firebase/auth";
+  import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
   export default {
     name: "NavBar",
@@ -53,11 +88,20 @@
         }
       });
     },
+    methods: {
+      async signOut() {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        signOut(auth, user);
+        await this.$router.push({ name: "Home" });
+        window.location.reload();
+      },
+    },
   };
 </script>
 
 <style scoped>
- .wrap {
+  .wrap {
     display: inline-block;
     box-shadow: 0 0 0px #fff;
   }
